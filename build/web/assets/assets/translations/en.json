@@ -1,0 +1,307 @@
+{
+  "welcome_screen": {
+    "title": "Welcome to\nNeverSkip",
+    "text1": "Hey there! I have been working hard to make my dream app for building workout plans and tracking my progress.",
+    "text2": "I hope you will love using NeverSkip to track and plan your perfect workouts.",
+    "button": "Lets go!",
+    "credits": "- Felix"
+  },
+  "home": {
+    "chart": {
+      "title_training_volume_week": "Training volume",
+      "title_muscle_group_volume": "Muscle Group Split",
+      "0week": "Current Week",
+      "1week": "Last Week",
+      "2week": "Two Weeks Ago",
+      "3week": "Three Weeks Ago",
+      "0month": "Current Month",
+      "title_activity_of_last_year": "Active days",
+      "title_progress_chart": "Progress"
+    },
+    "no_active_goals": "You don't have any active goals.\nPress + to add one.",
+    "no_achievements": "You do not have any achievements yet.\nAdd one by completing a goal.",
+    "create_chart_button": "Create a chart display",
+    "title": "Let's find you a Workout!",
+    "subtitle": "Good {}, {}!",
+    "personal_records": "Personal Records",
+    "my_goals": "My Goals",
+    "achievements": "My Achievements",
+    "other": "Other",
+    "history_button": "History",
+    "time_of_day": {
+      "morning": "morning",
+      "day": "day",
+      "afternoon": "afternoon",
+      "evening": "evening"
+    },
+    "navbar": "Home"
+  },
+  "calendar": {
+    "title": "Upcoming Exercises",
+    "subtitle": "Let's get to Work!",
+    "navbar": "Calendar"
+  },
+  "exercises": {
+    "title": "All Exercises",
+    "subtitle": "Find an Exercise",
+    "subtitle_add_progress_monitor": "Select a new personal record display",
+    "featured": "Featured",
+    "muscle_groups": {
+      "title": "Muscle Groups",
+      "all": "All",
+      "arms": "Arms",
+      "chest": "Chest",
+      "back": "Back",
+      "abs": "Abs",
+      "legs": "Legs"
+    },
+    "navbar": "Exercises"
+  },
+  "workouts": {
+    "title": "All Workout Plans",
+    "subtitle": "Find your perfect Workout Plan",
+    "enabled": "Active",
+    "disabled": "Other",
+    "navbar": "Workouts",
+    "delete_text": "Do you want to delete this Workout Plan? This cannot be undone!",
+    "action_the_workout": "{} the workout?",
+    "action_the_workout_long": "Do you want to {} the workout?",
+    "select_another_startdate": "You can modify your starting date if you want.",
+    "not_started": "not started"
+  },
+  "progress": {
+    "add_progress_title": "Exercise Progress",
+    "current_performance": "Current Performance",
+    "previous_performance": "Previous Performance",
+    "smart_suggestions": "Smart Suggestions",
+    "my_last_workout": "My Last Workout",
+    "no_last_workout": "No workouts in the last few days",
+    "total_volume": "Total volume",
+    "current_streak": "Current streak",
+    "duration": "Duration",
+    "date": "Date",
+    "favourites": "Favourites",
+    "other_exercises": "Other Exercises",
+    "repetitions": {
+      "one": "Repetition",
+      "other": "Repetitions"
+    },
+    "weight": "Weight",
+    "reps": {
+      "one": "Rep",
+      "other": "Reps"
+    },
+    "sets": {
+      "one": "Set",
+      "other": "Sets"
+    }
+  },
+  "dates": {
+    "monday": "Monday",
+    "tuesday": "Tuesday",
+    "wednesday": "Wednesday",
+    "thursday": "Thursday",
+    "friday": "Friday",
+    "saturday": "Saturday",
+    "sunday": "Sunday",
+    "short": {
+      "monday": "Mon",
+      "tuesday": "Tue",
+      "wednesday": "Wed",
+      "thursday": "Thu",
+      "friday": "Fri",
+      "saturday": "Sat",
+      "sunday": "Sun"
+    }
+  },
+  "settings": {
+    "title": "Settings",
+    "subtitle": "Make it fit your needs perfectly",
+    "account_subtitle": "Manage your User Account",
+    "account_title": "User Settings",
+    "trial": {
+      "title": "Trial period",
+      "button": "View trial"
+    },
+    "customization": "Customization",
+    "empty": "Empty",
+    "color_theme": {
+      "title": "Color Theme",
+      "changer_title": "Change the Color Theme"
+    },
+    "preferences": "Preferences",
+    "privacy_settings": "Privacy Settings",
+    "share_analytics": "Share Anonymous Analytics",
+    "show_onboarding": "Show Introduction",
+    "actions": "Actions",
+    "reload_caches": {
+      "title": "Reload caches from Database",
+      "reload": "Reload",
+      "done": "Done!",
+      "popup_title": "Reload cached data from the Database?",
+      "popup_description": "Reload if you think the cached data might be corrupted."
+    },
+    "reset_settings": {
+      "title": "Reset Settings",
+      "description": "This will delete all settings and most cached data from your device.\n\nAll data stored in the cloud (sets, exercises, workouts, ...) and your account will not be deleted.\n\nUse this if the App is not behaving correctly.",
+      "button": "Reset"
+    },
+    "feedback": {
+      "title": "Send Feedback",
+      "heading_happiness": "How happy are you with this app?",
+      "heading_text_feedback": "Would you like to give additional feedback?",
+      "thanks": "Thank you! :)"
+    },
+    "user": {
+      "your_data": "Your Data",
+      "name": {
+        "title": "Name",
+        "changer_title": "Change your name"
+      },
+      "picture": {
+        "title": "Profile Picture",
+        "button": "Upload new image",
+        "changer_title": "Upload a new Profile Picture",
+        "description": "Your new profile picture may not be immediately visible in the app. If your profile picture doesn't change within a few seconds you can restart the app."
+      },
+      "date_of_birth": {
+        "title": "Date of Birth",
+        "changer_title": "Update your birthday",
+        "description": "Your birthday is used to calculate your current age."
+      },
+      "email_address_title": "E-Mail Address",
+      "sign_out": {
+        "title": "Sign Out",
+        "text": "Do you want to sign out?"
+      },
+      "disable_analytics_title": "Disable Anonymous Analytics?",
+      "disable_analytics_description": "Analytics are collected anonymously and are not shared with others.\nThey help us provide you a better experience.",
+      "change_password": {
+        "title": "Change Password",
+        "changer_title": "Change your Password",
+        "current": "Current Password",
+        "current_field": "Enter your current password",
+        "new": "New Password",
+        "new_field": "Enter your new password",
+        "repeat": "Repeat new Password",
+        "repeat_field": "Repeat your new password",
+        "button": "Change Password",
+        "success": "Password successfully changed!",
+        "no_user": "User does not exist!",
+        "fill_all_fields": "Please fill out all fields",
+        "no_match": "The passwords to not match",
+        "wrong_password": "Wrong password",
+        "other_error": "Other error {}.",
+        "weak_password": "Weak password!",
+        "invalid_email": "Please enter a valid E-Mail"
+      },
+      "delete_account": {
+        "title": "Delete Account",
+        "changer_title": "Delete Account",
+        "description": "Do you really want to delete your account? This action can not be undone and ALL your data will be lost!",
+        "enter_pw_title": "Enter your password below to make sure its you.",
+        "enter_pw_field": "Enter your password",
+        "reason": {
+          "title": "Please tell us why you want to delete your account.",
+          "complicated": "Its too complicated",
+          "no_need": "I don't need it",
+          "not_enough_features": "It doesn't do everything I need",
+          "not_working_as_expected": "It didn't work as expected",
+          "performance_issues": "Performance issues or lag",
+          "bugs": "Too many errors/bugs"
+        },
+        "optional_feedback": "Optional Feedback",
+        "contact": "If you have any issues of suggestions we would love to hear from you at neverskipfitness@icloud.com.",
+        "button": "Delete account forever"
+      }
+    }
+  },
+  "login": {
+    "title": "Welcome Back",
+    "title_signup": "Create your account",
+    "subtitle": "Sign in and continue so that you can remain healthy by following your daily goals and plans.",
+    "subtitle_signup": "Sign up and create an account so that you can remain healthy by following your daily goals and plans.",
+    "have_account": "Already have an account?",
+    "not_have_account": "Don't have an account?",
+    "log_in": " Log In",
+    "sign_up": " Sign Up",
+    "sign_up_google": "Sign up with Google",
+    "log_in_google": "Log in with Google",
+    "sign_up_email": "Sign up with E-Mail",
+    "log_in_email": "Log in with E-Mail",
+    "password": "Password",
+    "confirm_password": "Confirm password",
+    "forgot_password": "Forgot password?",
+    "agree_tc_1": "I agree to the ",
+    "agree_tc_2": "Terms & Conditions",
+    "agree_tc_3": " of this app.",
+    "need_to_accept_tc": "You need to accept the Terms & Conditions to use this app."
+  },
+  "trial": {
+    "day_remaining": "day remaining",
+    "days_remaining": "days remaining",
+    "purchase_app": "Purchase NeverSkip",
+    "list_item_1": "Plan your workouts",
+    "list_item_2": "See your progress",
+    "list_item_3": "Stay motivated",
+    "discount_description": "If you purchase within the trial period you get a discount!",
+    "purchase_button_discount": "Purchase during trial for {}",
+    "purchase_button_normal": "Purchase after trial for {}",
+    "help_text": "If you have any questions regarding the purchase process feel free to contact me at neverskipfitness@icloud.com.",
+    "purchase_pending_text": "Purchase is pending, please keep the app open until the purchase is completed.",
+    "day_free_trial_text": "{} day free trial",
+    "trial_description": "You get a generous {} day free trial, so you have enough time to test and use all features.\n\nIf you purchase the app within the trial period you get a small discount!",
+    "start_trial_button": "Start your free trial",
+    "trial_over_dialog": {
+      "buy": "Buy",
+      "title": "Trial period over",
+      "description": "Your trial period is over. You have to buy the app in order to use all its features again."
+    }
+  },
+  "misc": {
+    "new_activity": "New exercise",
+    "new_workout": "New workout",
+    "activity_not_found": "Exercise not found",
+    "activity_not_found_description": "Maybe this exercise was deleted",
+    "workout_not_found": "Workout not found",
+    "workout_not_found_description": "Maybe this workout was deleted",
+    "create_workout": "Create Workout",
+    "edit_workout": "Edit Workout",
+    "create_activity": "Create a new Exercise",
+    "edit_activity": "Edit your Exercise",
+    "name": "Name",
+    "description": "Description",
+    "duration": "Duration",
+    "week": "Week",
+    "weeks": "Weeks",
+    "repeating": "Repeating",
+    "number_of_activities": "Number of activities in workout",
+    "start_day": "Start day",
+    "type": "Type",
+    "weighted": "Weighted",
+    "calisthenics": "Calisthenics",
+    "recommended_reps": "Recommended Reps",
+    "recommended_sets": "Recommended Sets",
+    "delete_activity": "Do you want to delete the Exercise? This cannot be undone!",
+    "delete_workout": "Do you want to delete the workout plan? This cannot be undone!",
+    "set_reps_and_sets": "Set the desired number of sets and reps for this exercise."
+  },
+  "sharing": {
+    "share_to": "Share to...",
+    "share_to_instagram_stories": "Instagram Story",
+    "share_to_other": "Other"
+  },
+  "create": "Create",
+  "submit": "Submit",
+  "enable": "Enable",
+  "disable": "Disable",
+  "save": "Save",
+  "okay": "Okay",
+  "confirm": "Confirm",
+  "cancel": "Cancel",
+  "delete": "Delete",
+  "confirm_delete": "Confirm deletion",
+  "close": "Close",
+  "search_field": "Search...",
+  "app_name": "NeverSkip Fitness"
+}
