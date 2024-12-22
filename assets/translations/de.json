@@ -1,0 +1,307 @@
+{
+  "welcome_screen": {
+    "title": "Willkommen bei\nNeverSkip",
+    "text1": "Hallo! Ich habe hart daran gearbeitet, meine Traum-App für die Erstellung von Trainingsplänen und die Verfolgung unserer Fortschritte zu entwickeln.",
+    "text2": "Ich hoffe, dass NeverSkip Ihnen hilft Ihre Trainingseinheiten zu verfolgen und Ihre Ziele zu erreichen.",
+    "button": "Los gehts!",
+    "credits": "- Felix"
+  },
+  "home": {
+    "chart": {
+      "title_training_volume_week": "Trainingsvolumen",
+      "title_muscle_group_volume": "Muskelgruppen",
+      "0week": "Aktuelle Woche",
+      "1week": "Letzte Woche",
+      "2week": "Vor zwei Wochen",
+      "3week": "Vor drei Wochen",
+      "0month": "Aktuelles Monat",
+      "title_activity_of_last_year": "Aktive Tage",
+      "title_progress_chart": "Fortschritt"
+    },
+    "no_active_goals": "Du hast noch keine Ziele eingetragen.\nKlicke das + um eins hinzuzufügen.",
+    "no_achievements": "Du hast noch keine Errungenschaften.\nErreichte Ziele werden hier angezeigt.",
+    "create_chart_button": "Neue Diagrammanzeige erstellen",
+    "title": "An die Arbeit!",
+    "subtitle": "Guten {}, {}!",
+    "personal_records": "Persönliche Bestleistungen",
+    "my_goals": "Meine Ziele",
+    "achievements": "Meine Errungenschaften",
+    "other": "Weitere",
+    "history_button": "Verlauf",
+    "time_of_day": {
+      "morning": "Morgen",
+      "day": "Tag",
+      "afternoon": "Nachmittag",
+      "evening": "Abend"
+    },
+    "navbar": "Home"
+  },
+  "calendar": {
+    "title": "Anstehende Übungen",
+    "subtitle": "Auf Gehts!",
+    "navbar": "Kalender"
+  },
+  "exercises": {
+    "title": "Alle Übungen",
+    "subtitle": "Finde eine Übung",
+    "subtitle_add_progress_monitor": "Wähle eine anzuzeigende Bestleistung",
+    "featured": "Featured",
+    "muscle_groups": {
+      "title": "Muskelgruppen",
+      "all": "Alle",
+      "arms": "Arme",
+      "chest": "Brust",
+      "back": "Rücken",
+      "abs": "Bauch",
+      "legs": "Beine"
+    },
+    "navbar": "Übungen"
+  },
+  "workouts": {
+    "title": "Alle Workoutpläne",
+    "subtitle": "Finde deinen Workoutplan",
+    "enabled": "Aktiv",
+    "disabled": "Andere",
+    "navbar": "Workouts",
+    "delete_text": "Willst du diesen Workoutplan wirklich Löschen?",
+    "action_the_workout": "Workout {}?",
+    "action_the_workout_long": "Willst du das Workout {}?",
+    "select_another_startdate": "Falls nötig, kannst du hier das Startdatum verändern.",
+    "not_started": "noch nicht gestartet"
+  },
+  "progress": {
+    "add_progress_title": "Übungsfortschritt",
+    "current_performance": "Aktuelle Leistung",
+    "previous_performance": "Letzte Leistungen",
+    "smart_suggestions": "Intelligente Vorschläge",
+    "my_last_workout": "Mein letztes Workout",
+    "no_last_workout": "Kein Workout in den letzten Tagen",
+    "total_volume": "Totales Volumen",
+    "current_streak": "Aktueller Streak",
+    "duration": "Dauer",
+    "date": "Datum",
+    "other_exercises": "Andere Übungen",
+    "favourites": "Favoriten",
+    "repetitions": {
+      "one": "Wiederholung",
+      "other": "Wiederholungen"
+    },
+    "weight": "Gewicht",
+    "reps": {
+      "one": "WH",
+      "other": "WH"
+    },
+    "sets": {
+      "one": "Satz",
+      "other": "Sätze"
+    }
+  },
+  "dates": {
+    "monday": "Montag",
+    "tuesday": "Dienstag",
+    "wednesday": "Mittwoch",
+    "thursday": "Donnerstag",
+    "friday": "Freitag",
+    "saturday": "Samstag",
+    "sunday": "Sonntag",
+    "short": {
+      "monday": "Mo",
+      "tuesday": "Di",
+      "wednesday": "Mi",
+      "thursday": "Do",
+      "friday": "Fr",
+      "saturday": "Sa",
+      "sunday": "So"
+    }
+  },
+  "settings": {
+    "title": "Einstellungen",
+    "subtitle": "App Einstellungen und Accountverwaltung",
+    "account_subtitle": "Benutzereinstellungen",
+    "account_title": "Accountverwaltung",
+    "trial": {
+      "title": "Testversion",
+      "button": "Testzeitraum einsehen"
+    },
+    "customization": "Personalisierung",
+    "empty": "Leer",
+    "color_theme": {
+      "title": "Farbschema",
+      "changer_title": "Farbschema ändern"
+    },
+    "preferences": "Einstellungen",
+    "privacy_settings": "Privatsphäre",
+    "share_analytics": "Analytikdaten teilen",
+    "show_onboarding": "Einführung anzeigen",
+    "actions": "Aktionen",
+    "reload_caches": {
+      "title": "Caches neu laden",
+      "reload": "Neu laden",
+      "done": "Fertig!",
+      "popup_title": "Lade die zwischengespeicherten Daten von der Datenbank neu?",
+      "popup_description": "Lade die Daten neu wenn du denkst dass ein Datenfehler aufgetreten ist."
+    },
+    "reset_settings": {
+      "title": "Einstellungen zurücksetzen",
+      "description": "Es werden alle Einstellungen und der Großteil der Caches von deinem Gerät gelöscht.\n\nAlle Daten, welche in der Cloud gespeichert sind (Sätze, Übungen, Workouts, usw.), bleiben bestehen.\n\nBenutze diese Funktion falls die App nicht mehr wie erwartet funktioniert.",
+      "button": "Zurücksetzen"
+    },
+    "feedback": {
+      "title": "Feedback geben",
+      "heading_happiness": "Wie zufrieden bist du mit dieser App?",
+      "heading_text_feedback": "Hast du noch weiteres Feedback?",
+      "thanks": "Danke! :)"
+    },
+    "user": {
+      "your_data": "Deine Daten",
+      "name": {
+        "title": "Name",
+        "changer_title": "Name ändern"
+      },
+      "picture": {
+        "title": "Profilfoto",
+        "button": "Neues Foto wählen",
+        "changer_title": "Neues Profilfoto hochladen",
+        "description": "Dein neues Profilfoto ist vielleicht nicht sofort sichtbar. Falls es nach einigen Sekunden noch nicht da ist, kannst Du die App neustarten."
+      },
+      "date_of_birth": {
+        "title": "Geburtsdatum",
+        "changer_title": "Geburtsdatum ändern",
+        "description": "Mit deinem Geburtsdatum wird dein aktuelles Alter berechnet"
+      },
+      "email_address_title": "E-Mail Adresse",
+      "sign_out": {
+        "title": "Abmelden",
+        "text": "Willst Du Dich abmelden?"
+      },
+      "disable_analytics_title": "Anonyme Analytics deaktivieren?",
+      "disable_analytics_description": "Analytikdaten sind Anonym und werden nie mit Dritten geteilt.\nDie Daten werden Genutzt um die App stets zu verbessern.",
+      "change_password": {
+        "title": "Passwort ändern",
+        "changer_title": "Passwort ändern",
+        "current": "Aktuelles Passwort",
+        "current_field": "Aktuelles Passwort eingeben",
+        "new": "Neues Passwort",
+        "new_field": "Neues Passwort eingeben",
+        "repeat": "Neues Passwort wiederholen",
+        "repeat_field": "Gib das neue Passwort erneut ein",
+        "button": "Passwort ändern",
+        "success": "Dein Passwort wurde geändert!",
+        "no_user": "Benutzer existiert nicht.",
+        "fill_all_fields": "Bitte fülle alle Felder aus.",
+        "no_match": "Die Passwörter stimmen nicht überein.",
+        "wrong_password": "Falsches Passwort.",
+        "other_error": "Anderer Fehler {}.",
+        "weak_password": "Das Passwort ist zu schwach.",
+        "invalid_email": "Die E-Mail ist ungültig."
+      },
+      "delete_account": {
+        "title": "Account löschen",
+        "changer_title": "Account löschen",
+        "description": "Willst du deinen Account wirklich löschen? All deine Daten gehen für immer verloren.",
+        "enter_pw_title": "Gib dein Passwort ein um sicherzugehen, dass Du es bist.",
+        "enter_pw_field": "Passwort eingeben",
+        "reason": {
+          "title": "Bitte sag uns wieso du deinen Account löschen möchtest.",
+          "complicated": "Die App ist zu kompliziert",
+          "no_need": "Ich brauche die App nicht",
+          "not_enough_features": "Die App kann nicht was ich brauche",
+          "not_working_as_expected": "Die App ist nicht wie erwartet",
+          "performance_issues": "Performanceprobleme oder Lag",
+          "bugs": "Zu viele Fehler/Bugs"
+        },
+        "optional_feedback": "Optionales Feedback",
+        "contact": "Wenn du einen Fehler gefunden hast oder sonstige Wünsche hast würden wir uns freuen wenn du uns auf neverskipfitness@icloud.com bescheid gibst :)",
+        "button": "Account für immer löschen"
+      }
+    }
+  },
+  "login": {
+    "title": "Willkommen zurück",
+    "title_signup": "Erstelle deinen Account",
+    "subtitle": "Logge Dich ein und bleib gesund indem du deine Ziele und Pläne verfolgst.",
+    "subtitle_signup": "Melde dich an um Fit und Gesund zu werden, indem du deine Ziele und Pläne verfolgst.",
+    "have_account": "Du hast schon einen Account?",
+    "not_have_account": "Du hast noch keinen Account?",
+    "log_in": " Einloggen",
+    "sign_up": " Anmelden",
+    "sign_up_google": "Mit Google anmelden",
+    "log_in_google": "Mit Google anmelden",
+    "sign_up_email": "Mit E-Mail anmelden",
+    "log_in_email": "Mit E-Mail einloggen",
+    "password": "Passwort",
+    "confirm_password": "Passwort bestätigen",
+    "forgot_password": "Passwort vergessen?",
+    "agree_tc_1": "Ich stimme den ",
+    "agree_tc_2": "Geschäftsbedingungen",
+    "agree_tc_3": " dieser App zu.",
+    "need_to_accept_tc": "Du musst die Geschäftsbedingungen akzeptieren um diese App zu nutzen."
+  },
+  "trial": {
+    "day_remaining": "tag übrig",
+    "days_remaining": "tage übrig",
+    "purchase_app": "NeverSkip kaufen",
+    "list_item_1": "Plane deine Workouts",
+    "list_item_2": "Verfolge deinen Fortschritt",
+    "list_item_3": "Bleibe motiviert",
+    "discount_description": "Wenn du die App noch während der Testzeit kaufst, bekommst du einen Rabatt!",
+    "purchase_button_discount": "In der Testphase kaufen ({})",
+    "purchase_button_normal": "Nach der Testphase kaufen ({})",
+    "help_text": "Wenn du noch Fragen bezüglich des Kaufprozesses hast, schreib mir gerne eine E-Mail: neverskipfitness@icloud.com",
+    "purchase_pending_text": "Zahlung erfolgt...\nBitte lass die App offen, bis die Zahlung bestätigt ist.",
+    "day_free_trial_text": "{} Tage Testversion",
+    "trial_description": "Du kannst die App {} Tage lang gratis verwenden. Damit hast du genügend Zeit um alle Features zu testen.\n\nWenn du die App noch während der Testzeit kaufst, bekommst du einen kleinen Rabatt!",
+    "start_trial_button": "Starte die Testphase",
+    "trial_over_dialog": {
+      "buy": "Kaufen",
+      "title": "Testphase ist vorüber",
+      "description": "Deine Testphase ist zu Ende. Du musst die App kaufen um wieder alle Features nutzen zu können."
+    }
+  },
+  "misc": {
+    "new_activity": "Neue Übung",
+    "new_workout": "Neues Workout",
+    "activity_not_found": "Übung nicht gefunden",
+    "activity_not_found_description": "Vielleicht wurde diese Übung gelöscht",
+    "workout_not_found": "Workout nicht gefunden",
+    "workout_not_found_description": "Vielleicht wurde dieses Workout gelöscht",
+    "create_workout": "Neues Workout erstellen",
+    "edit_workout": "Dein Workout bearbeiten",
+    "create_activity": "Neue Übung erstellen",
+    "edit_activity": "Deine Übung bearbeiten",
+    "name": "Name",
+    "description": "Beschreibung",
+    "duration": "Dauer",
+    "week": "Woche",
+    "weeks": "Wochen",
+    "repeating": "Wiederholend",
+    "number_of_activities": "Anzahl von Übungen im Workout",
+    "start_day": "Anfangstag",
+    "type": "Typ",
+    "weighted": "Gewichte",
+    "calisthenics": "Calisthenics",
+    "recommended_reps": "Empfohlene Wiederholungen",
+    "recommended_sets": "Empfohlene Sätze",
+    "delete_activity": "Willst du diese Übung löschen?",
+    "delete_workout": "Willst du dieses Workout löschen?",
+    "set_reps_and_sets": "Stelle deine gewünschten Wiederholungen und Sätze für diese Übung ein."
+  },
+  "sharing": {
+    "share_to": "Teilen an...",
+    "share_to_instagram_stories": "Instagram Story",
+    "share_to_other": "Andere"
+  },
+  "create": "Erstellen",
+  "submit": "Speichern",
+  "enable": "Aktivieren",
+  "disable": "Deaktivieren",
+  "save": "Speichern",
+  "okay": "Okay",
+  "confirm": "Bestätigen",
+  "cancel": "Abbruch",
+  "delete": "Löschen",
+  "confirm_delete": "Löschen bestätigen",
+  "close": "Schließen",
+  "search_field": "Suchen...",
+  "app_name": "NeverSkip Fitness"
+}
