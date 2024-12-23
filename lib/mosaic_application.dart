@@ -17,7 +17,7 @@ class MosaicApplication extends StatefulWidget {
 }
 
 class _MosaicApplicationState extends State<MosaicApplication> {
-  bool pipelineEditorExpanded = false;
+  bool pipelineEditorExpanded = true;
 
   @override
   Widget build(BuildContext context) {

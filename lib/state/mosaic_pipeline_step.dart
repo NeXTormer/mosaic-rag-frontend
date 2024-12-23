@@ -6,3 +6,11 @@ class MosaicPipelineStep {
   String title;
   Key key;
 }
+
+enum MosaicPipelineStepParameterType {
+  CustomText,
+  CustomNumber,
+  SelectableText,
+  SelectableNumber,
+  Checkbox,
+}

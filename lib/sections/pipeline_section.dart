@@ -40,18 +40,26 @@ class _PipelineSectionState extends State<PipelineSection> {
                   child: Padding(
             padding: const EdgeInsets.all(16),
             child: ReorderableListView.builder(
+                buildDefaultDragHandles: false,
+                itemExtent: 220,
                 physics: BouncingScrollPhysics(),
                 proxyDecorator: _proxyDecorator,
                 onReorder: (oldIndex, newIndex) {
-                  // setState(() {
-                  //   pipelineSteps.swap(oldIndex, newIndex);
-                  // });
+                  setState(() {
+                    if (oldIndex < newIndex) {
+                      newIndex -= 1;
+                    }
+                    final item = pipelineSteps.removeAt(oldIndex);
+                    pipelineSteps.insert(newIndex, item);
+                  });
                 },
                 itemCount: pipelineSteps.length,
                 itemBuilder: (context, index) {
                   return MosaicPipelineStepCard(
+                      index: index,
                       key: pipelineSteps[index].key,
-                      pipelineStep: pipelineSteps[index]);
+                      height: 50.0 + 50 * index,
+                      step: pipelineSteps[index]);
                 }),
           ))),
         ],
@@ -63,16 +71,8 @@ class _PipelineSectionState extends State<PipelineSection> {
     return Material(
       borderRadius: BorderRadius.circular(10),
       elevation: 0,
-      color: Colors.transparent,
+      color: Colors.white,
       child: child,
     );
-  }
-}
-
-extension SwappableList<E> on List<E> {
-  void swap(int first, int second) {
-    final temp = this[first];
-    this[first] = this[second];
-    this[second] = temp;
   }
 }
