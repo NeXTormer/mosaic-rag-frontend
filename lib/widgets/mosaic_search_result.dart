@@ -7,7 +7,7 @@ import 'package:mosaic_rs_application/widgets/standard_elements/frederic_card.da
 import 'standard_elements/frederic_chip.dart';
 
 class MosaicSearchResult extends StatelessWidget {
-  const MosaicSearchResult(
+  MosaicSearchResult(
       {super.key,
       required this.url,
       required this.title,
@@ -20,6 +20,9 @@ class MosaicSearchResult extends StatelessWidget {
   final String title;
   final String text;
   final String textHeader;
+
+  RegExp domainRegExp =
+      RegExp(r'/^(?:https?:\/)?(?:[^@\n]+@)?(?:www\.)?([^:\/\n?]+)/img');
 
   @override
   Widget build(BuildContext context) {
@@ -44,7 +47,7 @@ class MosaicSearchResult extends StatelessWidget {
                     Row(
                       children: [
                         Text(
-                          url,
+                          domainRegExp.firstMatch(url)?.group(1) ?? url,
                           style: GoogleFonts.montserrat(
                               color: theme.mainColor, fontSize: 12),
                         ),
