@@ -37,9 +37,16 @@ class _ResultSectionState extends State<ResultSection> {
                               url: searchManager.resultList.data[index]['url'],
                               title: searchManager.resultList.data[index]
                                   ['title'],
-                              textHeader: 'Full text',
+                              textHeader: searchManager.resultList.data[index]
+                                      .containsKey('summary')
+                                  ? 'Summary'
+                                  : 'Full text',
                               text: searchManager.resultList.data[index]
-                                  ['full_text'],
+                                      .containsKey('summary')
+                                  ? searchManager.resultList.data[index]
+                                      ['summary']
+                                  : searchManager.resultList.data[index]
+                                      ['full_text'],
                               chips: [
                                 'wordcount: ${searchManager.resultList.data[index]['wordCount']}',
                                 'lang: ${searchManager.resultList.data[index]['language']}',

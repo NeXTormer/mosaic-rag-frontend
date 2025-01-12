@@ -4,6 +4,7 @@ import 'package:mosaic_rs_application/main.dart';
 import 'package:mosaic_rs_application/state/mosaic_pipeline_step.dart';
 import 'package:mosaic_rs_application/widgets/standard_elements/frederic_card.dart';
 import 'package:mosaic_rs_application/widgets/standard_elements/frederic_drop_down_text_field.dart';
+import 'package:mosaic_rs_application/widgets/standard_elements/frederic_text_field.dart';
 
 class MosaicPipelineStepCard extends StatelessWidget {
   MosaicPipelineStepCard(
@@ -36,10 +37,17 @@ class MosaicPipelineStepCard extends StatelessWidget {
                     color: theme.textColor,
                   )),
               SizedBox(height: 12),
-              FredericDropDownTextField(
-                'select column',
-                icon: Icons.data_array,
-              )
+              for (var entry in step.parameterDescriptions.entries) ...[
+                Text(entry.value),
+                FredericTextField(
+                  entry.key,
+                  icon: Icons.data_array,
+                  onSubmit: (data) {
+                    step.parameterData[entry.key] = data;
+                  },
+                ),
+                SizedBox(height: 8),
+              ]
             ],
           ),
         ),

@@ -1,10 +1,15 @@
 import 'package:flutter/material.dart';
 
 class MosaicPipelineStep {
-  MosaicPipelineStep(this.title) : key = UniqueKey() {}
+  MosaicPipelineStep(this.title, this.id, this.parameterDescriptions)
+      : key = UniqueKey(),
+        parameterData = {} {}
+  Key key;
 
   String title;
-  Key key;
+  String id;
+  Map<String, String> parameterDescriptions;
+  Map<String, String> parameterData;
 }
 
 enum MosaicPipelineStepParameterType {

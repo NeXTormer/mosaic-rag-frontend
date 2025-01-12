@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:mosaic_rs_application/backend/pipeline_manager.dart';
 import 'package:mosaic_rs_application/main.dart';
 import 'package:mosaic_rs_application/mosaic_app_bar.dart';
 import 'package:mosaic_rs_application/sections/pipeline_section.dart';
 import 'package:mosaic_rs_application/sections/result_section.dart';
 import 'package:mosaic_rs_application/theme/ExtraIcons.dart';
+import 'package:mosaic_rs_application/widgets/mosaic_search_bar.dart';
 import 'package:mosaic_rs_application/widgets/standard_elements/frederic_button.dart';
 import 'package:mosaic_rs_application/widgets/standard_elements/frederic_divider.dart';
 import 'package:mosaic_rs_application/widgets/standard_elements/frederic_text_field.dart';
@@ -37,7 +39,9 @@ class _MosaicApplicationState extends State<MosaicApplication> {
         body: MultiProvider(
           providers: [
             ChangeNotifierProvider<SearchManager>(
-                create: (context) => SearchManager())
+                create: (context) => SearchManager()),
+            ChangeNotifierProvider<PipelineManager>(
+                create: (context) => PipelineManager())
           ],
           child: Builder(builder: (context) {
             return Column(
@@ -55,27 +59,7 @@ class _MosaicApplicationState extends State<MosaicApplication> {
                             fontSize: 32),
                       ),
                       SizedBox(width: 48),
-                      Expanded(
-                          child: FredericTextField(
-                        'Enter search query...',
-                        onSubmit: (query) {
-                          Provider.of<SearchManager>(context, listen: false)
-                              .performSearch(query);
-                        },
-                        icon: Icons.search,
-                        suffixIcon: Padding(
-                          padding: const EdgeInsets.all(4),
-                          child: Container(
-                            decoration: BoxDecoration(
-                                color: theme.mainColor,
-                                borderRadius: BorderRadius.circular(8)),
-                            child: Icon(
-                              Icons.settings,
-                              color: Colors.white,
-                            ),
-                          ),
-                        ),
-                      )),
+                      Expanded(child: MosaicSearchBar()),
                       SizedBox(width: 48),
                       Text(
                         'Preconfigured pipelines',

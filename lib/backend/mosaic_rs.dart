@@ -1,11 +1,33 @@
+import 'dart:convert';
+import 'dart:io';
+
 import 'package:dio/dio.dart';
 import 'package:mosaic_rs_application/backend/result_list.dart';
 
 class MosaicRS {
+  static final serverURL = 'http://127.0.0.1:5000';
   static Future<ResultList> search(String query) async {
     final dio = Dio();
-    final response = await dio.get('http://127.0.0.1:5000/search?q=' + query);
+    final response = await dio.get(serverURL + '/search?q=' + query);
 
     return ResultList.fromJSON(response.data);
+  }
+
+  static Future<ResultList> runPipeline(Map<String, dynamic> parameters) async {
+    final dio = Dio();
+    final response = await dio.post(serverURL + '/pipeline/run',
+        options: Options(headers: {
+          HttpHeaders.contentTypeHeader: "application/json",
+        }),
+        data: jsonEncode(parameters));
+
+    return ResultList.fromJSON(response.data);
+  }
+
+  static Future<Map<String, dynamic>> getPipelineInfo() async {
+    final dio = Dio();
+    final response = await dio.get(serverURL + '/pipeline/info');
+
+    return response.data;
   }
 }

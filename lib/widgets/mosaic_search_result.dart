@@ -22,7 +22,7 @@ class MosaicSearchResult extends StatelessWidget {
   final String textHeader;
 
   RegExp domainRegExp =
-      RegExp(r'/^(?:https?:\/)?(?:[^@\n]+@)?(?:www\.)?([^:\/\n?]+)/img');
+      RegExp(r'/^(?:https?:\/\/)?(?:[^@\n]+@)?(?:www\.)?([^:\/\n?]+)/img');
 
   @override
   Widget build(BuildContext context) {
