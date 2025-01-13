@@ -21,9 +21,6 @@ class MosaicSearchResult extends StatelessWidget {
   final String text;
   final String textHeader;
 
-  RegExp domainRegExp =
-      RegExp(r'/^(?:https?:\/\/)?(?:[^@\n]+@)?(?:www\.)?([^:\/\n?]+)/img');
-
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -46,14 +43,17 @@ class MosaicSearchResult extends StatelessWidget {
                   children: [
                     Row(
                       children: [
-                        Text(
-                          domainRegExp.firstMatch(url)?.group(1) ?? url,
-                          style: GoogleFonts.montserrat(
-                              color: theme.mainColor, fontSize: 12),
-                        ),
                         Expanded(
-                          child: Container(),
+                          child: Text(
+                            url,
+                            overflow: TextOverflow.ellipsis,
+                            style: GoogleFonts.montserrat(
+                                color: theme.mainColor, fontSize: 12),
+                          ),
                         ),
+                        // Expanded(
+                        //   child: Container(),
+                        // ),
                         for (final chip in chips)
                           Padding(
                             padding: const EdgeInsets.only(left: 8),

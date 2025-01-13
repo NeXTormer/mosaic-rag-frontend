@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:mosaic_rs_application/widgets/mosaic_search_result.dart';
+import 'package:mosaic_rs_application/widgets/standard_elements/frederic_drop_down_text_field.dart';
 import 'package:provider/provider.dart';
 
 import '../backend/search_manager.dart';
@@ -20,12 +21,23 @@ class _ResultSectionState extends State<ResultSection> {
   Widget build(BuildContext context) {
     return Consumer<SearchManager>(
       builder: (context, searchManager, child) => Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Padding(
-              padding: const EdgeInsets.only(left: 56, top: 8),
+              padding: const EdgeInsets.only(left: 56, top: 6),
               child: SearchSelectorSegment(
                   filterController: searchModeFilterController)),
-          SizedBox(height: 24),
+          SizedBox(height: 12),
+          Padding(
+            padding: const EdgeInsets.only(left: 56),
+            child: SizedBox(
+              width: 224,
+              child: FredericDropDownTextField(
+                  onSubmit: (s) {},
+                  defaultValue: 'full-text',
+                  suggestedValues: ['full-text', 'summary']),
+            ),
+          ),
           searchManager.showLoadingBar
               ? CircularProgressIndicator()
               : Expanded(

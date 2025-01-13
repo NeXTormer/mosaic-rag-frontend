@@ -3,9 +3,12 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:mosaic_rs_application/backend/mosaic_rs.dart';
 import 'package:mosaic_rs_application/backend/pipeline_manager.dart';
+import 'package:mosaic_rs_application/widgets/add_pipeline_dialog.dart';
 import 'package:mosaic_rs_application/widgets/mosaic_pipeline_step_card.dart';
+import 'package:mosaic_rs_application/widgets/standard_elements/frederic_button.dart';
 import 'package:mosaic_rs_application/widgets/standard_elements/frederic_card.dart';
 import 'package:mosaic_rs_application/widgets/standard_elements/frederic_heading.dart';
+import 'package:mosaic_rs_application/widgets/standard_elements/progress_bar.dart';
 import 'package:provider/provider.dart';
 
 import '../state/mosaic_pipeline_step.dart';
@@ -23,44 +26,75 @@ class _PipelineSectionState extends State<PipelineSection> {
     super.initState();
   }
 
+  void onSelectStep(MosaicPipelineStep step) {
+    Provider.of<PipelineManager>(context, listen: false).addStep(step);
+  }
+
   @override
   Widget build(BuildContext context) {
     final pipelineSteps =
         Provider.of<PipelineManager>(context, listen: false).pipelineSteps;
 
+    final allPipelineSteps =
+        Provider.of<PipelineManager>(context, listen: false).allPipelineSteps;
+
     return Padding(
-      padding: const EdgeInsets.only(top: 8, left: 8, right: 16, bottom: 16),
+      padding: const EdgeInsets.only(top: 6, left: 8, right: 16, bottom: 16),
       child: Column(
         children: [
           SizedBox(height: 10),
           FredericHeading('Retrieval pipeline'),
-          SizedBox(height: 32),
+          SizedBox(height: 22),
+          Row(
+            crossAxisAlignment: CrossAxisAlignment.end,
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Flexible(
+                  child: FredericButton('Add step', onPressed: () {
+                showDialog<void>(
+                  context: context,
+                  barrierDismissible: true,
+                  builder: (BuildContext context) {
+                    return AddPipelineDialog(
+                      allPipelineSteps,
+                      onSelect: onSelectStep,
+                    );
+                  },
+                );
+              })),
+              const SizedBox(width: 72),
+              ProgressBar(0.7)
+            ],
+          ),
+          SizedBox(height: 16),
           Expanded(
               child: FredericCard(
                   child: Padding(
             padding: const EdgeInsets.all(16),
-            child: ReorderableListView.builder(
-                buildDefaultDragHandles: false,
-                itemExtent: 440,
-                physics: BouncingScrollPhysics(),
-                proxyDecorator: _proxyDecorator,
-                onReorder: (oldIndex, newIndex) {
-                  setState(() {
-                    if (oldIndex < newIndex) {
-                      newIndex -= 1;
-                    }
-                    final item = pipelineSteps.removeAt(oldIndex);
-                    pipelineSteps.insert(newIndex, item);
+            child: Consumer<PipelineManager>(builder: (context, data, child) {
+              return ReorderableListView.builder(
+                  buildDefaultDragHandles: false,
+                  itemExtent: 440,
+                  physics: BouncingScrollPhysics(),
+                  proxyDecorator: _proxyDecorator,
+                  onReorder: (oldIndex, newIndex) {
+                    setState(() {
+                      if (oldIndex < newIndex) {
+                        newIndex -= 1;
+                      }
+                      final item = pipelineSteps.removeAt(oldIndex);
+                      pipelineSteps.insert(newIndex, item);
+                    });
+                  },
+                  itemCount: pipelineSteps.length,
+                  itemBuilder: (context, index) {
+                    return MosaicPipelineStepCard(
+                        index: index,
+                        key: pipelineSteps[index].key,
+                        height: 420,
+                        step: pipelineSteps[index]);
                   });
-                },
-                itemCount: pipelineSteps.length,
-                itemBuilder: (context, index) {
-                  return MosaicPipelineStepCard(
-                      index: index,
-                      key: pipelineSteps[index].key,
-                      height: 420,
-                      step: pipelineSteps[index]);
-                }),
+            }),
           ))),
         ],
       ),

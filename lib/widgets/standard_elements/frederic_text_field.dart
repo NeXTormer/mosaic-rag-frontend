@@ -6,6 +6,7 @@ import '../../main.dart';
 class FredericTextField extends StatefulWidget {
   FredericTextField(this.placeholder,
       {this.controller,
+      this.defaultValue,
       this.onSubmit,
       this.keyboardType = TextInputType.text,
       this.icon = Icons.person,
@@ -21,7 +22,8 @@ class FredericTextField extends StatefulWidget {
       this.brightContents = false,
       this.maxLength = 200});
 
-  final String placeholder;
+  String? defaultValue;
+  final String? placeholder;
   final TextInputType keyboardType;
   final IconData? icon;
   final Widget? suffixIcon;
@@ -44,8 +46,7 @@ class FredericTextField extends StatefulWidget {
 }
 
 class _FredericTextFieldState extends State<FredericTextField> {
-  final Color textColor = Colors.black87;
-  final Color disabledBorderColor = theme.greyColor; //Color(0xFFE2E2E2);
+  final Color disabledBorderColor = theme.greyColor;
 
   bool showPassword = false;
 
@@ -59,21 +60,22 @@ class _FredericTextFieldState extends State<FredericTextField> {
   Widget build(BuildContext context) {
     return Container(
       height: widget.height,
-      child: TextField(
-        onSubmitted: widget.onSubmit,
+      child: TextFormField(
+        onChanged: widget.onSubmit,
+        initialValue: widget.defaultValue,
         controller: widget.controller,
         keyboardType: widget.keyboardType,
         style: TextStyle(
-          fontSize: 14,
-          color: widget.onColorfulBackground
-              ? theme.textColorColorfulBackground
-              : theme.greyTextColor,
-          letterSpacing: 0.2,
+          fontSize: 13,
+          color: theme.textColor,
         ),
         maxLines: widget.maxLines,
         inputFormatters: [LengthLimitingTextInputFormatter(widget.maxLength)],
         obscureText: widget.isPasswordField && !showPassword,
         decoration: InputDecoration(
+          fillColor: Colors.white,
+          filled: true,
+          hoverColor: null,
           hintStyle: TextStyle(
               color: widget.onColorfulBackground
                   ? theme.textColorColorfulBackground
