@@ -2,10 +2,12 @@ import 'dart:convert';
 import 'dart:io';
 
 import 'package:dio/dio.dart';
+import 'package:flutter/foundation.dart';
 import 'package:mosaic_rs_application/backend/result_list.dart';
 
 class MosaicRS {
-  static final serverURL = 'http://127.0.0.1:5000';
+  static final serverURL =
+      true ? 'https://mosaicrs-api.felixholz.com' : 'http://127.0.0.1:5000';
   static Future<ResultList> search(String query) async {
     final dio = Dio();
     final response = await dio.get(serverURL + '/search?q=' + query);
