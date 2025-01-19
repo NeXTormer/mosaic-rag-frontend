@@ -6,6 +6,8 @@ import 'package:mosaic_rs_application/widgets/standard_elements/frederic_card.da
 
 import 'standard_elements/frederic_chip.dart';
 
+import 'dart:js' as js;
+
 class MosaicSearchResult extends StatelessWidget {
   MosaicSearchResult(
       {super.key,
@@ -44,11 +46,14 @@ class MosaicSearchResult extends StatelessWidget {
                     Row(
                       children: [
                         Expanded(
-                          child: Text(
-                            url,
-                            overflow: TextOverflow.ellipsis,
-                            style: GoogleFonts.montserrat(
-                                color: theme.mainColor, fontSize: 12),
+                          child: GestureDetector(
+                            onTap: () => js.context.callMethod('open', [url]),
+                            child: Text(
+                              url,
+                              overflow: TextOverflow.ellipsis,
+                              style: GoogleFonts.montserrat(
+                                  color: theme.mainColor, fontSize: 12),
+                            ),
                           ),
                         ),
                         // Expanded(
@@ -63,12 +68,15 @@ class MosaicSearchResult extends StatelessWidget {
                     ),
                     SizedBox(height: 8),
                     Flexible(
-                      child: Text(
-                        title,
-                        style: GoogleFonts.montserrat(
-                            color: theme.textColor,
-                            fontWeight: FontWeight.w600,
-                            fontSize: 16),
+                      child: GestureDetector(
+                        onTap: () => js.context.callMethod('open', [url]),
+                        child: Text(
+                          title,
+                          style: GoogleFonts.montserrat(
+                              color: theme.textColor,
+                              fontWeight: FontWeight.w600,
+                              fontSize: 16),
+                        ),
                       ),
                     ),
                     SizedBox(height: 8),

@@ -42,7 +42,11 @@ class PipelineManager extends ChangeNotifier {
           MosaicPipelineStep(data[key]['name'], key, parameterDescriptions);
 
       allPipelineSteps.add(step);
-      pipelineSteps.add(MosaicPipelineStep.clone(step));
+
+      if (step.id == 'mosaic_datasource') {
+        pipelineSteps.add(MosaicPipelineStep.clone(step));
+      }
+
       notifyListeners();
     });
   }

@@ -3,6 +3,8 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:mosaic_rs_application/backend/mosaic_rs.dart';
 import 'package:mosaic_rs_application/backend/pipeline_manager.dart';
+import 'package:mosaic_rs_application/backend/search_manager.dart';
+import 'package:mosaic_rs_application/main.dart';
 import 'package:mosaic_rs_application/widgets/add_pipeline_dialog.dart';
 import 'package:mosaic_rs_application/widgets/mosaic_pipeline_step_card.dart';
 import 'package:mosaic_rs_application/widgets/standard_elements/frederic_button.dart';
@@ -44,28 +46,47 @@ class _PipelineSectionState extends State<PipelineSection> {
         children: [
           SizedBox(height: 10),
           FredericHeading('Retrieval pipeline'),
-          SizedBox(height: 22),
-          Row(
-            crossAxisAlignment: CrossAxisAlignment.end,
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Flexible(
-                  child: FredericButton('Add step', onPressed: () {
-                showDialog<void>(
-                  context: context,
-                  barrierDismissible: true,
-                  builder: (BuildContext context) {
-                    return AddPipelineDialog(
-                      allPipelineSteps,
-                      onSelect: onSelectStep,
-                    );
-                  },
-                );
-              })),
-              const SizedBox(width: 72),
-              ProgressBar(0.7)
-            ],
-          ),
+          // SizedBox(height: 22),
+          const SizedBox(height: 3),
+          Consumer<SearchManager>(builder: (context, searchManager, child) {
+            return Row(
+              crossAxisAlignment: CrossAxisAlignment.end,
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Flexible(
+                    child: FredericButton('Add step', onPressed: () {
+                  showDialog<void>(
+                    context: context,
+                    barrierDismissible: true,
+                    builder: (BuildContext context) {
+                      return AddPipelineDialog(
+                        allPipelineSteps,
+                        onSelect: onSelectStep,
+                      );
+                    },
+                  );
+                })),
+                const SizedBox(width: 16),
+                Flexible(
+                    child: FredericButton('Cancel',
+                        mainColor: searchManager.showLoadingBar
+                            ? theme.negativeColor
+                            : theme.disabledGreyColor, onPressed: () {
+                  searchManager.cancelTask();
+                })),
+                const SizedBox(width: 32),
+                Column(
+                  children: [
+                    ProgressBar(searchManager.taskProgress.stepPercentage,
+                        '${searchManager.taskProgress.currentStep}: ${searchManager.taskProgress.stepProgress}'),
+                    const SizedBox(height: 8),
+                    ProgressBar(searchManager.taskProgress.pipelinePercentage,
+                        'Total: ${searchManager.taskProgress.pipelineProgress}'),
+                  ],
+                )
+              ],
+            );
+          }),
           SizedBox(height: 16),
           Expanded(
               child: FredericCard(

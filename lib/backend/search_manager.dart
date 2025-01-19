@@ -1,13 +1,19 @@
 import 'package:flutter/cupertino.dart';
 import 'package:mosaic_rs_application/backend/mosaic_rs.dart';
 import 'package:mosaic_rs_application/backend/result_list.dart';
+import 'package:mosaic_rs_application/backend/task_progress.dart';
 import 'package:mosaic_rs_application/state/mosaic_pipeline_step.dart';
 import 'package:provider/provider.dart';
 
 class SearchManager extends ChangeNotifier {
+  static final Duration timeout = const Duration(minutes: 3);
+
   String query = '';
 
-  ResultList resultList = ResultList([]);
+  // ResultList resultList = ResultList([]);
+  TaskProgress taskProgress = TaskProgress();
+  String currentTaskID = '';
+
   List<String> resultColumns = <String>[];
   List<String> chipColumns = <String>[];
   Map<String, List<int>> resultColumnsWordCountList = Map<String, List<int>>();
@@ -15,14 +21,25 @@ class SearchManager extends ChangeNotifier {
 
   bool showLoadingBar = false;
 
-  void performSearch(String query) async {
-    showLoadingBar = true;
-    notifyListeners();
+  ResultList get resultList {
+    return taskProgress.result ?? ResultList([]);
+  }
 
-    this.query = query;
+  // void performSearch(String query) async {
+  //   showLoadingBar = true;
+  //   notifyListeners();
+  //
+  //   this.query = query;
+  //
+  //   resultList = await MosaicRS.search(query);
+  //
+  //   showLoadingBar = false;
+  //   notifyListeners();
+  // }
 
-    resultList = await MosaicRS.search(query);
-
+  void cancelTask() async {
+    await MosaicRS.cancelTask(currentTaskID);
+    currentTaskID = '';
     showLoadingBar = false;
     notifyListeners();
   }
@@ -57,9 +74,24 @@ class SearchManager extends ChangeNotifier {
       };
     }
 
-    resultList = await MosaicRS.runPipeline(parameters);
+    String taskID = await MosaicRS.enqueueTask(parameters);
+    currentTaskID = taskID;
 
-    final stopwatch = Stopwatch();
+    var stopwatch = Stopwatch()..start();
+    while (true) {
+      await Future.delayed(const Duration(milliseconds: 500));
+      if (stopwatch.elapsed > timeout) {
+        break;
+      }
+
+      taskProgress = await MosaicRS.getTaskProgress(taskID);
+      notifyListeners();
+      if (taskProgress.result != null) {
+        break;
+      }
+    }
+
+    stopwatch = Stopwatch();
 
     stopwatch.start();
 
@@ -119,6 +151,7 @@ class SearchManager extends ChangeNotifier {
     stopwatch.stop();
     print('Result postprocessing time: ${stopwatch.elapsedMicroseconds} us');
 
+    currentTaskID = '';
     showLoadingBar = false;
     notifyListeners();
   }
