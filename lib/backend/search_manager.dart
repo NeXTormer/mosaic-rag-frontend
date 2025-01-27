@@ -25,6 +25,10 @@ class SearchManager extends ChangeNotifier {
     return taskProgress.result ?? ResultList([]);
   }
 
+  List<Map<String, dynamic>> get metadata {
+    return taskProgress.metadata ?? <Map<String, dynamic>>[];
+  }
+
   // void performSearch(String query) async {
   //   showLoadingBar = true;
   //   notifyListeners();

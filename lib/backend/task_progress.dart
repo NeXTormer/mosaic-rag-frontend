@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:mosaic_rs_application/backend/result_list.dart';
 
 class TaskProgress {
@@ -23,9 +25,15 @@ class TaskProgress {
     if (json.containsKey('result') && json['result'] != null) {
       result = ResultList.fromJSON(json['result']);
     }
+
+    if (json.containsKey('metadata') && json['metadata'] != null) {
+      metadata = jsonDecode(json['metadata']).cast<Map<String, dynamic>>();
+    }
   }
 
   ResultList? result;
+
+  List<Map<String, dynamic>>? metadata;
 
   String currentStep;
 

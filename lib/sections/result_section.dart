@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:mosaic_rs_application/widgets/chip_selector.dart';
 import 'package:mosaic_rs_application/widgets/mosaic_search_result.dart';
+import 'package:mosaic_rs_application/widgets/standard_elements/frederic_card.dart';
 import 'package:mosaic_rs_application/widgets/standard_elements/frederic_drop_down_text_field.dart';
+import 'package:mosaic_rs_application/widgets/standard_elements/frederic_heading.dart';
 import 'package:provider/provider.dart';
 
 import '../backend/search_manager.dart';
@@ -54,6 +56,25 @@ class _ResultSectionState extends State<ResultSection> {
         return Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
+            if (searchManager.metadata.isNotEmpty)
+              Padding(
+                padding: const EdgeInsets.only(
+                    left: 56, right: 16, top: 24, bottom: 8),
+                child: FredericCard(
+                  animated: false,
+                  child: Padding(
+                    padding:
+                        const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+                    child: Column(
+                      children: [
+                        FredericHeading(searchManager.metadata.first['title']),
+                        const SizedBox(height: 8),
+                        Text(searchManager.metadata.first['data']),
+                      ],
+                    ),
+                  ),
+                ),
+              ),
             Padding(
                 padding: const EdgeInsets.only(left: 56, top: 6),
                 child: SearchSelectorSegment(

@@ -7,9 +7,8 @@ import 'package:mosaic_rs_application/backend/result_list.dart';
 import 'package:mosaic_rs_application/backend/task_progress.dart';
 
 class MosaicRS {
-  static final serverURL = kReleaseMode
-      ? 'https://mosaicrs-api.felixholz.com'
-      : 'http://127.0.0.1:5000';
+  static final serverURL =
+      false ? 'https://mosaicrs-api.felixholz.com' : 'http://127.0.0.1:5000';
   static Future<ResultList> search(String query) async {
     final dio = Dio();
     final response = await dio.get(serverURL + '/search?q=' + query);
@@ -18,6 +17,7 @@ class MosaicRS {
   }
 
   static Future<String> enqueueTask(Map<String, dynamic> parameters) async {
+    print(parameters);
     final dio = Dio();
     final response = await dio.post(serverURL + '/task/enqueue',
         options: Options(headers: {
