@@ -88,7 +88,7 @@ class MosaicSearchResult extends StatelessWidget {
                     SizedBox(height: 4),
                     Expanded(
                       child: Text(
-                        text,
+                        text.replaceAll('\s+', '').replaceAll('\n', ' '),
                         style: GoogleFonts.montserrat(
                             color: theme.textColor,
                             fontWeight: FontWeight.w400),

@@ -40,6 +40,10 @@ class _PipelineSectionState extends State<PipelineSection> {
     final allPipelineSteps =
         Provider.of<PipelineManager>(context, listen: false).allPipelineSteps;
 
+    final pipelineStepsCategories =
+        Provider.of<PipelineManager>(context, listen: false)
+            .pipelineStepCategories;
+
     return Padding(
       padding: const EdgeInsets.only(top: 6, left: 8, right: 16, bottom: 16),
       child: Column(
@@ -61,6 +65,7 @@ class _PipelineSectionState extends State<PipelineSection> {
                     builder: (BuildContext context) {
                       return AddPipelineDialog(
                         allPipelineSteps,
+                        pipelineStepsCategories,
                         onSelect: onSelectStep,
                       );
                     },
@@ -77,11 +82,17 @@ class _PipelineSectionState extends State<PipelineSection> {
                 const SizedBox(width: 32),
                 Column(
                   children: [
-                    ProgressBar(searchManager.taskProgress.stepPercentage,
-                        '${searchManager.taskProgress.currentStep}: ${searchManager.taskProgress.stepProgress}'),
+                    ProgressBar(
+                        searchManager.taskProgress.stepPercentage,
+                        searchManager.taskProgress.currentStep.isEmpty
+                            ? ''
+                            : '${searchManager.taskProgress.currentStep}: ${searchManager.taskProgress.stepProgress}'),
                     const SizedBox(height: 8),
-                    ProgressBar(searchManager.taskProgress.pipelinePercentage,
-                        'Total: ${searchManager.taskProgress.pipelineProgress}'),
+                    ProgressBar(
+                        searchManager.taskProgress.pipelinePercentage,
+                        searchManager.taskProgress.pipelineProgress.isEmpty
+                            ? ''
+                            : 'Total: ${searchManager.taskProgress.pipelineProgress}'),
                   ],
                 )
               ],
@@ -95,7 +106,7 @@ class _PipelineSectionState extends State<PipelineSection> {
             child: Consumer<PipelineManager>(builder: (context, data, child) {
               return ReorderableListView.builder(
                   buildDefaultDragHandles: false,
-                  itemExtent: 440,
+                  itemExtent: 250,
                   physics: BouncingScrollPhysics(),
                   proxyDecorator: _proxyDecorator,
                   onReorder: (oldIndex, newIndex) {
@@ -109,11 +120,12 @@ class _PipelineSectionState extends State<PipelineSection> {
                   },
                   itemCount: pipelineSteps.length,
                   itemBuilder: (context, index) {
-                    return MosaicPipelineStepCard(
-                        index: index,
-                        key: pipelineSteps[index].key,
-                        height: 420,
-                        step: pipelineSteps[index]);
+                    return Container(
+                      margin: const EdgeInsets.only(bottom: 16),
+                      key: pipelineSteps[index].key,
+                      child: MosaicPipelineStepCard(
+                          index: index, step: pipelineSteps[index]),
+                    );
                   });
             }),
           ))),
@@ -124,8 +136,8 @@ class _PipelineSectionState extends State<PipelineSection> {
 
   Widget _proxyDecorator(Widget child, int index, Animation<double> animation) {
     return Material(
-      borderRadius: BorderRadius.circular(10),
-      elevation: 0,
+      borderRadius: BorderRadius.circular(12),
+      elevation: 10,
       color: Colors.white,
       child: child,
     );

@@ -34,41 +34,47 @@ class _MosaicPipelineStepParameterCardState
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      children: [
-        const SizedBox(height: 6),
-        Text(
-          widget.parameter.title,
-          style: TextStyle(fontSize: 12, fontWeight: FontWeight.w600),
-        ),
-        const SizedBox(height: 4),
-        if (widget.parameter.type == 'string')
-          SizedBox(
-            height: 50,
-            child: FredericTextField(
+    return LayoutBuilder(builder: (context, constraints) {
+      return SizedBox(
+        width: constraints.maxWidth * 0.5 - 8,
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            const SizedBox(height: 6),
+            Text(
               widget.parameter.title,
-              text: widget.parameter.defaultValue,
-              defaultValue: null,
-              controller: controller,
-              icon: null,
-              onSubmit: widget.onChanged,
+              style: TextStyle(fontSize: 12, fontWeight: FontWeight.w600),
             ),
-          ),
-        if (widget.parameter.type == 'dropdown')
-          FredericDropDownTextField(
-            controller: controller,
-            defaultValue: widget.parameter.defaultValue,
-            suggestedValues: widget.parameter.supportedValues,
-            onSubmit: (data) {
-              if (data.isEmpty)
-                widget.onChanged(controller.text);
-              else
-                widget.onChanged(data);
-            },
-          ),
-        SizedBox(height: 8),
-      ],
-    );
+            const SizedBox(height: 4),
+            if (widget.parameter.type == 'string')
+              SizedBox(
+                height: 50,
+                child: FredericTextField(
+                  widget.parameter.title,
+                  text: widget.parameter.defaultValue,
+                  defaultValue: null,
+                  controller: controller,
+                  icon: null,
+                  onSubmit: widget.onChanged,
+                ),
+              ),
+            if (widget.parameter.type == 'dropdown')
+              FredericDropDownTextField(
+                controller: controller,
+                defaultValue: widget.parameter.defaultValue,
+                suggestedValues: widget.parameter.supportedValues,
+                onSubmit: (data) {
+                  if (data.isEmpty)
+                    widget.onChanged(controller.text);
+                  else
+                    widget.onChanged(data);
+                },
+              ),
+            SizedBox(height: 8),
+          ],
+        ),
+      );
+    });
   }
 
   void dispose() {

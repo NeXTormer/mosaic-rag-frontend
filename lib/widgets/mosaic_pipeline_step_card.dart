@@ -14,58 +14,86 @@ class MosaicPipelineStepCard extends StatelessWidget {
   MosaicPipelineStepCard(
       {super.key,
       required this.step,
-      this.height = 200,
       required this.index,
+      this.showDescription = false,
       this.bottomPadding = 16});
 
+  final bool showDescription;
   final MosaicPipelineStep step;
-  final double height;
   final int index;
   final double bottomPadding;
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: EdgeInsets.only(bottom: bottomPadding),
-      child: ReorderableDragStartListener(
-        index: index,
-        child: FredericCard(
-          color: theme.mainColorLight,
-          borderColor: theme.mainColor,
-          height: height,
-          width: double.infinity,
-          padding: EdgeInsets.all(12),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Row(
-                children: [
-                  Expanded(
-                    child: Text(step.title,
-                        maxLines: 1,
-                        style: GoogleFonts.montserrat(
-                          fontWeight: FontWeight.w600,
-                          fontSize: 16,
-                          color: theme.textColor,
-                        )),
-                  ),
+    return ReorderableDragStartListener(
+      index: index,
+      child: FredericCard(
+        // margin: EdgeInsets.only(bottom: 16),
+        color: theme.mainColorLight,
+        borderColor: theme.mainColor,
+        width: double.infinity,
+        padding: EdgeInsets.all(12),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Row(
+              children: [
+                Expanded(
+                  child: Text(step.title,
+                      maxLines: 1,
+                      style: GoogleFonts.montserrat(
+                        fontWeight: FontWeight.w600,
+                        fontSize: 16,
+                        color: theme.textColor,
+                      )),
+                ),
+                if (!showDescription)
                   HoverIconButton(() {
                     Provider.of<PipelineManager>(context, listen: false)
                         .removeStep(step);
                   }),
+              ],
+            ),
+            SizedBox(height: 12),
+            if (showDescription) ...[
+              Text(
+                step.description,
+                style: GoogleFonts.montserrat(
+                    color: theme.textColor, fontWeight: FontWeight.w400),
+              ),
+              const SizedBox(height: 8),
+              Text(
+                'Parameters',
+                style: GoogleFonts.montserrat(
+                    fontSize: 14,
+                    color: theme.textColor,
+                    fontWeight: FontWeight.w600),
+              ),
+              const SizedBox(height: 2),
+              Text(
+                step.parameterDescriptions.values
+                    .map((v) => v.title)
+                    .toList()
+                    .join(", "),
+                style: GoogleFonts.montserrat(
+                    color: theme.textColor, fontWeight: FontWeight.w400),
+              ),
+            ],
+            if (!showDescription)
+              Wrap(
+                spacing: 16,
+                children: [
+                  for (var entry in step.parameterDescriptions.entries) ...[
+                    MosaicPipelineStepParameterCard(
+                      parameter: entry.value,
+                      onChanged: (data) {
+                        step.parameterData[entry.key] = data;
+                      },
+                    )
+                  ]
                 ],
               ),
-              SizedBox(height: 12),
-              for (var entry in step.parameterDescriptions.entries) ...[
-                MosaicPipelineStepParameterCard(
-                  parameter: entry.value,
-                  onChanged: (data) {
-                    step.parameterData[entry.key] = data;
-                  },
-                )
-              ]
-            ],
-          ),
+          ],
         ),
       ),
     );

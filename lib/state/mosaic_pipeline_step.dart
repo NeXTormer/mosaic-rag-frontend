@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 
 class MosaicPipelineStep {
-  MosaicPipelineStep(this.title, this.id, this.parameterDescriptions)
+  MosaicPipelineStep(this.title, this.category, this.description, this.id,
+      this.parameterDescriptions)
       : key = UniqueKey(),
         parameterData = {} {}
 
@@ -9,6 +10,8 @@ class MosaicPipelineStep {
       : key = UniqueKey(),
         this.title = other.title,
         this.id = other.id,
+        this.category = other.category,
+        this.description = other.description,
         this.parameterDescriptions = Map.from(other.parameterDescriptions),
         this.parameterData = Map.from(other.parameterData);
 
@@ -16,6 +19,8 @@ class MosaicPipelineStep {
 
   String title;
   String id;
+  String category;
+  String description;
   Map<String, MosaicPipelineStepParameter> parameterDescriptions;
   Map<String, String> parameterData;
 }

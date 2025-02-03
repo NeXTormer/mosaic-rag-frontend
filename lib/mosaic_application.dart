@@ -77,8 +77,8 @@ class _MosaicApplicationState extends State<MosaicApplication> {
                           width: 148,
                           child: FredericButton(
                               !pipelineEditorExpanded
-                                  ? 'Edit pipeline'
-                                  : 'Close pipeline', onPressed: () {
+                                  ? 'Show pipeline'
+                                  : 'Hide pipeline', onPressed: () {
                             setState(() {
                               pipelineEditorExpanded = !pipelineEditorExpanded;
                             });

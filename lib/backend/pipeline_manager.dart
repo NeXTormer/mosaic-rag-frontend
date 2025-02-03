@@ -11,6 +11,8 @@ class PipelineManager extends ChangeNotifier {
   List<MosaicPipelineStep> allPipelineSteps = <MosaicPipelineStep>[];
   List<MosaicPipelineStep> pipelineSteps = <MosaicPipelineStep>[];
 
+  List<String> pipelineStepCategories = <String>[];
+
   void _getPipelineInfo() async {
     final data = await MosaicRS.getPipelineInfo();
     data.keys.forEach((key) {
@@ -38,8 +40,14 @@ class PipelineManager extends ChangeNotifier {
 
         parameterDescriptions[parameter.key] = p;
       }
-      final step =
-          MosaicPipelineStep(data[key]['name'], key, parameterDescriptions);
+
+      final category = data[key]['category'];
+      final step = MosaicPipelineStep(data[key]['name'], category,
+          data[key]['description'], key, parameterDescriptions);
+
+      if (!pipelineStepCategories.contains(category)) {
+        pipelineStepCategories.add(category);
+      }
 
       allPipelineSteps.add(step);
 
