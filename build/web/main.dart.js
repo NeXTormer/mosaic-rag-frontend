@@ -647,7 +647,7 @@ aTX(a){var s=0,r=A.S(t.Lk),q,p=2,o,n,m,l,k
 var $async$wm=A.T(function(b,c){if(b===1){o=c
 s=p}while(true)switch(s){case 0:p=4
 s=7
-return A.V(A.kv(self.window.fetch(a + '?v=1.0.56'),t.e),$async$wm)
+return A.V(A.kv(self.window.fetch(a + '?v=1.0.67'),t.e),$async$wm)
 case 7:n=c
 q=new A.L7(a,n)
 s=1
