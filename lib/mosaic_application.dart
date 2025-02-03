@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:mosaic_rs_application/backend/pipeline_manager.dart';
@@ -12,6 +14,7 @@ import 'package:mosaic_rs_application/widgets/standard_elements/frederic_button.
 import 'package:mosaic_rs_application/widgets/standard_elements/frederic_divider.dart';
 import 'package:mosaic_rs_application/widgets/standard_elements/frederic_text_field.dart';
 import 'package:mosaic_rs_application/widgets/standard_elements/search_selector_segment.dart';
+import 'package:package_info_plus/package_info_plus.dart';
 import 'package:provider/provider.dart';
 
 import 'backend/search_manager.dart';
@@ -27,6 +30,15 @@ class MosaicApplication extends StatefulWidget {
 
 class _MosaicApplicationState extends State<MosaicApplication> {
   bool pipelineEditorExpanded = true;
+
+  String versionString = '';
+
+  @override
+  void initState() {
+    super.initState();
+
+    getVersionString();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -55,12 +67,27 @@ class _MosaicApplicationState extends State<MosaicApplication> {
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.start,
                     children: [
-                      Text(
-                        'mosaicRS',
-                        style: GoogleFonts.montserrat(
-                            fontWeight: FontWeight.w800,
-                            color: theme.mainColor,
-                            fontSize: 32),
+                      Stack(
+                        children: [
+                          Text(
+                            'mosaicRS',
+                            style: GoogleFonts.montserrat(
+                                fontWeight: FontWeight.w800,
+                                color: theme.mainColor,
+                                fontSize: 32),
+                          ),
+                          Positioned(
+                            bottom: 0,
+                            right: 0,
+                            child: Text(
+                              versionString,
+                              style: GoogleFonts.montserrat(
+                                  fontWeight: FontWeight.w700,
+                                  color: theme.mainColor,
+                                  fontSize: 10),
+                            ),
+                          ),
+                        ],
                       ),
                       SizedBox(width: 48),
                       Expanded(child: MosaicSearchBar()),
@@ -114,5 +141,18 @@ class _MosaicApplicationState extends State<MosaicApplication> {
         ),
       ),
     );
+  }
+
+  void getVersionString() async {
+    PackageInfo packageInfo = await PackageInfo.fromPlatform();
+
+    String appName = packageInfo.appName;
+    String packageName = packageInfo.packageName;
+    String version = packageInfo.version;
+    String buildNumber = packageInfo.buildNumber;
+
+    setState(() {
+      versionString = 'v$version+$buildNumber';
+    });
   }
 }
