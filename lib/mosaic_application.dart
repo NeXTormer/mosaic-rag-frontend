@@ -5,14 +5,18 @@ import 'package:mosaic_rs_application/main.dart';
 import 'package:mosaic_rs_application/mosaic_app_bar.dart';
 import 'package:mosaic_rs_application/sections/pipeline_section.dart';
 import 'package:mosaic_rs_application/sections/result_section.dart';
+import 'package:mosaic_rs_application/sections/search_result_list_section.dart';
 import 'package:mosaic_rs_application/theme/ExtraIcons.dart';
 import 'package:mosaic_rs_application/widgets/mosaic_search_bar.dart';
 import 'package:mosaic_rs_application/widgets/standard_elements/frederic_button.dart';
 import 'package:mosaic_rs_application/widgets/standard_elements/frederic_divider.dart';
 import 'package:mosaic_rs_application/widgets/standard_elements/frederic_text_field.dart';
+import 'package:mosaic_rs_application/widgets/standard_elements/search_selector_segment.dart';
 import 'package:provider/provider.dart';
 
 import 'backend/search_manager.dart';
+
+import 'dart:js' as js;
 
 class MosaicApplication extends StatefulWidget {
   const MosaicApplication({super.key});
@@ -67,10 +71,14 @@ class _MosaicApplicationState extends State<MosaicApplication> {
                             color: theme.textColor, fontSize: 16),
                       ),
                       SizedBox(width: 48),
-                      Text(
-                        'How it works',
-                        style: GoogleFonts.montserrat(
-                            color: theme.textColor, fontSize: 16),
+                      GestureDetector(
+                        onTap: () => js.context
+                            .callMethod('open', ['https://mosaic.ows.eu']),
+                        child: Text(
+                          'About MOSAIC',
+                          style: GoogleFonts.montserrat(
+                              color: theme.textColor, fontSize: 16),
+                        ),
                       ),
                       SizedBox(width: 48),
                       SizedBox(
@@ -92,7 +100,7 @@ class _MosaicApplicationState extends State<MosaicApplication> {
                     children: [
                       Expanded(child: ResultSection()),
                       AnimatedContainer(
-                        width: pipelineEditorExpanded ? 500 : 0,
+                        width: pipelineEditorExpanded ? 450 : 0,
                         duration: Duration(milliseconds: 220),
                         curve: Curves.easeInOut,
                         child: PipelineSection(),

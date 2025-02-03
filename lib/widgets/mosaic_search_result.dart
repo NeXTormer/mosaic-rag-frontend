@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_linkify/flutter_linkify.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:mosaic_rs_application/main.dart';
 import 'package:mosaic_rs_application/widgets/standard_elements/calendar_time_line.dart';
@@ -46,19 +47,13 @@ class MosaicSearchResult extends StatelessWidget {
                     Row(
                       children: [
                         Expanded(
-                          child: GestureDetector(
-                            onTap: () => js.context.callMethod('open', [url]),
-                            child: Text(
-                              url,
-                              overflow: TextOverflow.ellipsis,
-                              style: GoogleFonts.montserrat(
-                                  color: theme.mainColor, fontSize: 12),
-                            ),
+                          child: Linkify(
+                            options: LinkifyOptions(),
+                            style: TextStyle(fontFamily: 'Montserrat'),
+                            text: url,
+                            onOpen: (e) => js.context.callMethod('open', [url]),
                           ),
                         ),
-                        // Expanded(
-                        //   child: Container(),
-                        // ),
                         for (final chip in chips)
                           Padding(
                             padding: const EdgeInsets.only(left: 8),
@@ -68,15 +63,12 @@ class MosaicSearchResult extends StatelessWidget {
                     ),
                     SizedBox(height: 8),
                     Flexible(
-                      child: GestureDetector(
-                        onTap: () => js.context.callMethod('open', [url]),
-                        child: Text(
-                          title,
-                          style: GoogleFonts.montserrat(
-                              color: theme.textColor,
-                              fontWeight: FontWeight.w600,
-                              fontSize: 16),
-                        ),
+                      child: Text(
+                        title,
+                        style: GoogleFonts.montserrat(
+                            color: theme.textColor,
+                            fontWeight: FontWeight.w600,
+                            fontSize: 16),
                       ),
                     ),
                     SizedBox(height: 8),

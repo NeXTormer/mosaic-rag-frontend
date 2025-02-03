@@ -4,7 +4,7 @@ import 'package:google_fonts/google_fonts.dart';
 
 import '../../main.dart';
 
-enum SearchMode { ResultList, Conversational }
+enum SearchMode { ResultList, Conversational, DataFlowExplorer, History }
 
 class SearchSelectorSegment extends StatefulWidget {
   SearchSelectorSegment({required this.filterController});
@@ -20,6 +20,8 @@ class _ActivityFilterSegmentState extends State<SearchSelectorSegment> {
 
   final resultListKey = GlobalKey();
   final conversationalKey = GlobalKey();
+  final dataflowKey = GlobalKey();
+  final historyKey = GlobalKey();
 
   List<GlobalKey> keys = <GlobalKey>[];
 
@@ -31,6 +33,8 @@ class _ActivityFilterSegmentState extends State<SearchSelectorSegment> {
   void initState() {
     keys.add(resultListKey);
     keys.add(conversationalKey);
+    keys.add(dataflowKey);
+    keys.add(historyKey);
 
     super.initState();
   }
@@ -46,7 +50,7 @@ class _ActivityFilterSegmentState extends State<SearchSelectorSegment> {
             Row(
               // mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                _FilterButton('Search results',
+                _FilterButton('Search result list',
                     key: resultListKey,
                     rightPadding: padding,
                     isActive: selectedIndex == 0, onPressed: () {
@@ -63,6 +67,26 @@ class _ActivityFilterSegmentState extends State<SearchSelectorSegment> {
                   setState(() {
                     handleMuscleFilters(SearchMode.Conversational);
                     selectedIndex = 1;
+                  });
+                }),
+                SizedBox(width: 72),
+                _FilterButton('Data flow explorer',
+                    key: dataflowKey,
+                    rightPadding: padding,
+                    isActive: selectedIndex == 2, onPressed: () {
+                  setState(() {
+                    handleMuscleFilters(SearchMode.DataFlowExplorer);
+                    selectedIndex = 2;
+                  });
+                }),
+                SizedBox(width: 72),
+                _FilterButton('History',
+                    key: historyKey,
+                    rightPadding: padding,
+                    isActive: selectedIndex == 3, onPressed: () {
+                  setState(() {
+                    handleMuscleFilters(SearchMode.History);
+                    selectedIndex = 3;
                   });
                 }),
                 SizedBox(width: 12)
@@ -95,11 +119,17 @@ class _ActivityFilterSegmentState extends State<SearchSelectorSegment> {
   void handleMuscleFilters(SearchMode activeFilter) {
     switch (activeFilter) {
       case SearchMode.ResultList:
-        widget.filterController.showResultList = true;
+        widget.filterController.selection = 0;
 
         break;
       case SearchMode.Conversational:
-        widget.filterController.showResultList = false;
+        widget.filterController.selection = 1;
+        break;
+      case SearchMode.DataFlowExplorer:
+        widget.filterController.selection = 2;
+        break;
+      case SearchMode.History:
+        widget.filterController.selection = 3;
         break;
     }
   }
@@ -128,12 +158,13 @@ extension GlobalKeyExtension on GlobalKey {
 class SearchModeFilterController with ChangeNotifier {
   SearchModeFilterController() {}
 
-  bool _showResultList = true;
+  int _currentSelection = 0;
 
-  bool get showResultList => _showResultList;
+  bool get showResultList => _currentSelection == 0;
+  int get selection => _currentSelection;
 
-  set showResultList(bool value) {
-    _showResultList = value;
+  set selection(int value) {
+    _currentSelection = value;
     notifyListeners();
   }
 }
