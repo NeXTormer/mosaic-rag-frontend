@@ -10,7 +10,6 @@ class SearchManager extends ChangeNotifier {
 
   String query = '';
 
-  // ResultList resultList = ResultList([]);
   TaskProgress taskProgress = TaskProgress();
   String currentTaskID = '';
 
@@ -29,18 +28,6 @@ class SearchManager extends ChangeNotifier {
     return taskProgress.metadata ?? <Map<String, dynamic>>[];
   }
 
-  // void performSearch(String query) async {
-  //   showLoadingBar = true;
-  //   notifyListeners();
-  //
-  //   this.query = query;
-  //
-  //   resultList = await MosaicRS.search(query);
-  //
-  //   showLoadingBar = false;
-  //   notifyListeners();
-  // }
-
   void cancelTask() async {
     await MosaicRS.cancelTask(currentTaskID);
     currentTaskID = '';
@@ -58,7 +45,6 @@ class SearchManager extends ChangeNotifier {
 
     parameters['pipeline'] = <String, dynamic>{
       'query': query,
-      // 'arguments': {},
     };
 
     for (int i = 0; i < steps.length; i++) {

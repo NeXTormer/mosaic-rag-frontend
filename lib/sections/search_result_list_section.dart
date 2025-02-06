@@ -178,6 +178,7 @@ class _SearchResultListSectionState extends State<SearchResultListSection> {
                     sliver: SliverList.builder(
                       itemBuilder: (context, index) => true
                           ? MosaicSearchResult(
+                              rawData: searchManager.resultList.data[index],
                               url: searchManager.resultList.data[index]['url'],
                               title: searchManager.resultList.data[index]
                                   ['title'],
