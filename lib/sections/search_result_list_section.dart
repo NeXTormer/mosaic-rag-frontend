@@ -179,15 +179,18 @@ class _SearchResultListSectionState extends State<SearchResultListSection> {
                       itemBuilder: (context, index) => true
                           ? MosaicSearchResult(
                               rawData: searchManager.resultList.data[index],
-                              url: searchManager.resultList.data[index]['url'],
+                              url: searchManager.resultList.data[index]
+                                      ['url'] ??
+                                  '',
                               title: searchManager.resultList.data[index]
-                                  ['title'],
+                                      ['title'] ??
+                                  '',
                               textHeader: columnToDisplay,
                               text:
-                                  '${searchManager.resultList.data[index][columnToDisplay]}',
+                                  '${searchManager.resultList.data[index][columnToDisplay] ?? ''}',
                               chips: chipsToDisplay
                                   .map((column) =>
-                                      '$column: ${searchManager.resultList.data[index][column]}')
+                                      '$column: ${searchManager.resultList.data[index][column] ?? ''}')
                                   .toList(),
                             )
                           : MosaicSearchResult(
@@ -197,7 +200,7 @@ class _SearchResultListSectionState extends State<SearchResultListSection> {
                                   'Wikipedia: Ancient Roman Mosaic of Lierna on Lake Como',
                               textHeader: 'Summary',
                               text:
-                                  'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam quis nostrud exercitation. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam quis nostrud exercitation.',
+                                  'Lorem ipsum dolor sit amet, consectetur adipiscing elit, seLorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam quis nosLorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam quis nosd do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enimLorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam quis nosLorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam quis nos ad minim veniam quis nostrud exercitation. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam quis nostrud exercitation.',
                               chips: [
                                 'wordcount: 187',
                                 'lang: eng',

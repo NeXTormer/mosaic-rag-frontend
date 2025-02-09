@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:mosaic_rs_application/main.dart';
+import 'package:mosaic_rs_application/widgets/map_display.dart';
 import 'package:mosaic_rs_application/widgets/standard_elements/frederic_card.dart';
 import 'package:mosaic_rs_application/widgets/standard_elements/frederic_divider.dart';
 import 'package:mosaic_rs_application/widgets/standard_elements/frederic_heading.dart';
@@ -58,7 +59,7 @@ class MosaicSearchResultLarge extends StatelessWidget {
                             ],
                           ),
                         ),
-                        SizedBox(width: 300, child: Placeholder()),
+                        SizedBox(height: 300, width: 300, child: MapDisplay())
                       ],
                     ),
                   ),
