@@ -734,7 +734,7 @@ b0G(a){var s=0,r=A.O(t.Lk),q,p=2,o,n,m,l,k
 var $async$xQ=A.P(function(b,c){if(b===1){o=c
 s=p}while(true)switch(s){case 0:p=4
 s=7
-return A.R(A.hB(self.window.fetch(a + '?v=1.0.910'),t.e),$async$xQ)
+return A.R(A.hB(self.window.fetch(a + '?v=1.0.1011'),t.e),$async$xQ)
 case 7:n=c
 q=new A.NH(a,n)
 s=1
@@ -28106,7 +28106,7 @@ p=A.a67(null)
 o=t.z
 n=A.aIm(A.aE(["content-type","application/json"],t.N,o))
 s=3
-return A.R(p.Bg(0,"http://127.0.0.1:5000/task/enqueue",null,B.bg.Hs(a,null),null,null,A.aGo("POST",n),null,o),$async$afA)
+return A.R(p.Bg(0,"https://mosaicrs-api.felixholz.com/task/enqueue",null,B.bg.Hs(a,null),null,null,A.aGo("POST",n),null,o),$async$afA)
 case 3:m=c
 A.jT("TaskID: "+A.m(m.a))
 q=A.bL(m.a)
@@ -28119,7 +28119,7 @@ var $async$afC=A.P(function(b,c){if(b===1)return A.L(c,r)
 while(true)switch(s){case 0:k=A.a67(null)
 A.jT("Getting task progress")
 s=3
-return A.R(k.BG(0,"http://127.0.0.1:5000"+("/task/progress/"+a),t.z),$async$afC)
+return A.R(k.BG(0,"https://mosaicrs-api.felixholz.com"+("/task/progress/"+a),t.z),$async$afC)
 case 3:p=c.a
 o=new A.Ey()
 n=J.az(p)
@@ -28140,13 +28140,13 @@ return A.N($async$afC,r)},
 afz(a){var s=0,r=A.O(t.H)
 var $async$afz=A.P(function(b,c){if(b===1)return A.L(c,r)
 while(true)switch(s){case 0:s=2
-return A.R(A.a67(null).BG(0,"http://127.0.0.1:5000"+("/task/cancel/"+a),t.z),$async$afz)
+return A.R(A.a67(null).BG(0,"https://mosaicrs-api.felixholz.com"+("/task/cancel/"+a),t.z),$async$afz)
 case 2:return A.M(null,r)}})
 return A.N($async$afz,r)},
 afB(){var s=0,r=A.O(t.a),q
 var $async$afB=A.P(function(a,b){if(a===1)return A.L(b,r)
 while(true)switch(s){case 0:s=3
-return A.R(A.a67(null).BG(0,"http://127.0.0.1:5000/pipeline/info",t.z),$async$afB)
+return A.R(A.a67(null).BG(0,"https://mosaicrs-api.felixholz.com/pipeline/info",t.z),$async$afB)
 case 3:q=b.a
 s=1
 break
