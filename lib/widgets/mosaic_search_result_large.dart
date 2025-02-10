@@ -43,13 +43,14 @@ class MosaicSearchResultLarge extends StatelessWidget {
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              FredericHeading(data['title']),
+                              FredericHeading(
+                                  data['title'] ?? '<missing title>'),
                               const SizedBox(height: 16),
                               for (final key in metadataFields)
                                 Padding(
                                   padding: const EdgeInsets.only(bottom: 8),
                                   child: _DataValue(
-                                      title: key, value: '${data[key]}'),
+                                      title: key, value: '${data[key] ?? ''}'),
                                 ),
                               _DataValue(
                                 title: 'Columns',

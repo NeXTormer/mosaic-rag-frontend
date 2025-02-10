@@ -734,7 +734,7 @@ b0G(a){var s=0,r=A.O(t.Lk),q,p=2,o,n,m,l,k
 var $async$xQ=A.P(function(b,c){if(b===1){o=c
 s=p}while(true)switch(s){case 0:p=4
 s=7
-return A.R(A.hB(self.window.fetch(a + '?v=1.0.89'),t.e),$async$xQ)
+return A.R(A.hB(self.window.fetch(a + '?v=1.0.910'),t.e),$async$xQ)
 case 7:n=c
 q=new A.NH(a,n)
 s=1
@@ -28106,7 +28106,7 @@ p=A.a67(null)
 o=t.z
 n=A.aIm(A.aE(["content-type","application/json"],t.N,o))
 s=3
-return A.R(p.Bg(0,"https://mosaicrs-api.felixholz.com/task/enqueue",null,B.bg.Hs(a,null),null,null,A.aGo("POST",n),null,o),$async$afA)
+return A.R(p.Bg(0,"http://127.0.0.1:5000/task/enqueue",null,B.bg.Hs(a,null),null,null,A.aGo("POST",n),null,o),$async$afA)
 case 3:m=c
 A.jT("TaskID: "+A.m(m.a))
 q=A.bL(m.a)
@@ -28119,7 +28119,7 @@ var $async$afC=A.P(function(b,c){if(b===1)return A.L(c,r)
 while(true)switch(s){case 0:k=A.a67(null)
 A.jT("Getting task progress")
 s=3
-return A.R(k.BG(0,"https://mosaicrs-api.felixholz.com"+("/task/progress/"+a),t.z),$async$afC)
+return A.R(k.BG(0,"http://127.0.0.1:5000"+("/task/progress/"+a),t.z),$async$afC)
 case 3:p=c.a
 o=new A.Ey()
 n=J.az(p)
@@ -28140,13 +28140,13 @@ return A.N($async$afC,r)},
 afz(a){var s=0,r=A.O(t.H)
 var $async$afz=A.P(function(b,c){if(b===1)return A.L(c,r)
 while(true)switch(s){case 0:s=2
-return A.R(A.a67(null).BG(0,"https://mosaicrs-api.felixholz.com"+("/task/cancel/"+a),t.z),$async$afz)
+return A.R(A.a67(null).BG(0,"http://127.0.0.1:5000"+("/task/cancel/"+a),t.z),$async$afz)
 case 2:return A.M(null,r)}})
 return A.N($async$afz,r)},
 afB(){var s=0,r=A.O(t.a),q
 var $async$afB=A.P(function(a,b){if(a===1)return A.L(b,r)
 while(true)switch(s){case 0:s=3
-return A.R(A.a67(null).BG(0,"https://mosaicrs-api.felixholz.com/pipeline/info",t.z),$async$afB)
+return A.R(A.a67(null).BG(0,"http://127.0.0.1:5000/pipeline/info",t.z),$async$afB)
 case 3:q=b.a
 s=1
 break
@@ -91369,9 +91369,9 @@ else s.push(r)},
 $S:0}
 A.awV.prototype={
 $2(a,b){var s,r,q,p,o,n=this.b,m=J.bb(n.glG().a,b),l=J.bb(J.bb(n.glG().a,b),"url")
-if(l==null)l=""
+if(l==null)l="<missing-url>"
 s=J.bb(J.bb(n.glG().a,b),"title")
-if(s==null)s=""
+if(s==null)s="<missing-title>"
 r=this.a
 q=r.f
 p=J.bb(J.bb(n.glG().a,b),r.f)
@@ -91583,12 +91583,14 @@ s=s.a
 if(r<10)p.push(s)
 else o.push(s)}return new A.dV(new A.afD(this,p,o),null)}}
 A.afD.prototype={
-$2(a,b){var s,r,q,p,o=null,n=A.ee(14),m=this.a.c,l=J.az(m),k=t.p,j=A.b([A.a9i(l.i(m,"title")),B.l9],k)
+$2(a,b){var s,r,q,p,o,n=null,m=A.ee(14),l=this.a.c,k=J.az(l),j=k.i(l,"title"),i=t.p
+j=A.b([A.a9i(j==null?"<missing title>":j),B.l9],i)
 for(s=this.b,r=s.length,q=0;q<s.length;s.length===r||(0,A.H)(s),++q){p=s[q]
-j.push(new A.bI(B.EE,new A.wB(p,A.m(l.i(m,p)),!1,!1,o),o))}j.push(new A.wB("Columns",J.aBu(l.gc1(m),", "),!0,!1,o))
-k=A.b([new A.bI(B.nj,A.dK(A.b([A.dR(A.eV(j,B.aP,B.G),1),new A.be(300,300,new A.Bt(o),o)],k),B.W,B.a_,B.G),o),new A.Au(o),B.l9],k)
-for(j=this.c,s=j.length,q=0;q<j.length;j.length===s||(0,A.H)(j),++q){p=j[q]
-k.push(new A.bI(B.EK,new A.wB(p,A.m(l.i(m,p)),!1,!0,o),o))}return new A.be(b.b*0.6,b.d*0.8,A.aG_(n,A.aJ9(A.At(!1,o,14,1,A.eV(k,B.aP,B.G),o,o,o,o),o,B.a2)),o)},
+o=k.i(l,p)
+j.push(new A.bI(B.EE,new A.wB(p,A.m(o==null?"":o),!1,!1,n),n))}j.push(new A.wB("Columns",J.aBu(k.gc1(l),", "),!0,!1,n))
+j=A.b([new A.bI(B.nj,A.dK(A.b([A.dR(A.eV(j,B.aP,B.G),1),new A.be(300,300,new A.Bt(n),n)],i),B.W,B.a_,B.G),n),new A.Au(n),B.l9],i)
+for(i=this.c,s=i.length,q=0;q<i.length;i.length===s||(0,A.H)(i),++q){p=i[q]
+j.push(new A.bI(B.EK,new A.wB(p,A.m(k.i(l,p)),!1,!0,n),n))}return new A.be(b.b*0.6,b.d*0.8,A.aG_(m,A.aJ9(A.At(!1,n,14,1,A.eV(j,B.aP,B.G),n,n,n,n),n,B.a2)),n)},
 $S:110}
 A.wB.prototype={
 G(a){var s=this,r=null,q=s.f,p=q?14:12

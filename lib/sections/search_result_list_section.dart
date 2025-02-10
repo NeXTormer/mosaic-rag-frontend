@@ -181,10 +181,10 @@ class _SearchResultListSectionState extends State<SearchResultListSection> {
                               rawData: searchManager.resultList.data[index],
                               url: searchManager.resultList.data[index]
                                       ['url'] ??
-                                  '',
+                                  '<missing-url>',
                               title: searchManager.resultList.data[index]
                                       ['title'] ??
-                                  '',
+                                  '<missing-title>',
                               textHeader: columnToDisplay,
                               text:
                                   '${searchManager.resultList.data[index][columnToDisplay] ?? ''}',
