@@ -4,6 +4,8 @@ import 'package:mosaic_rs_application/theme/frederic_theme.dart';
 
 final theme = FredericColorTheme.blue();
 
+final bool kUseLocalMosaicRS = Uri.base.queryParameters['local'] == 'true';
+
 void main() {
   runApp(MosaicApplication());
 }

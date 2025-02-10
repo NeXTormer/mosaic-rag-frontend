@@ -6,8 +6,10 @@ import 'package:flutter/foundation.dart';
 import 'package:mosaic_rs_application/backend/result_list.dart';
 import 'package:mosaic_rs_application/backend/task_progress.dart';
 
+import '../main.dart';
+
 class MosaicRS {
-  static final serverURL = kReleaseMode
+  static final serverURL = (kDebugMode || kUseLocalMosaicRS)
       ? 'https://mosaicrs-api.felixholz.com'
       : 'http://127.0.0.1:5000';
 
