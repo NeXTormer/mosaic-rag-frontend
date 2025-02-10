@@ -9,9 +9,9 @@ import 'package:mosaic_rs_application/backend/task_progress.dart';
 import '../main.dart';
 
 class MosaicRS {
-  static final serverURL = (kDebugMode || kUseLocalMosaicRS)
-      ? 'https://mosaicrs-api.felixholz.com'
-      : 'http://127.0.0.1:5000';
+  static final serverURL = (kUseLocalMosaicRS)
+      ? 'http://127.0.0.1:5000'
+      : 'https://mosaicrs-api.felixholz.com';
 
   static Future<ResultList> search(String query) async {
     final dio = Dio();

@@ -734,7 +734,7 @@ b0K(a){var s=0,r=A.O(t.Lk),q,p=2,o,n,m,l,k
 var $async$xT=A.P(function(b,c){if(b===1){o=c
 s=p}while(true)switch(s){case 0:p=4
 s=7
-return A.R(A.hB(self.window.fetch(a + '?v=1.0.1112'),t.e),$async$xT)
+return A.R(A.hB(self.window.fetch(a + '?v=1.0.1213'),t.e),$async$xT)
 case 7:n=c
 q=new A.NJ(a,n)
 s=1
@@ -100161,8 +100161,7 @@ c=j[1]
 i=j[2]
 h=[400*d/(d+27.13),400*c/(c+27.13),400*i/(i+27.13)]
 return new A.aoc(l,(40*h[0]+20*h[1]+h[2])/20*k,k,k,a1,1,q,m,A.xX(m,0.25),1.48+e)})
-s($,"b3P","a2Y",()=>{var q=$.aQ_()
-return q?"https://mosaicrs-api.felixholz.com":"http://127.0.0.1:5000"})
+s($,"b3P","a2Y",()=>$.aQ_()?"http://127.0.0.1:5000":"https://mosaicrs-api.felixholz.com")
 s($,"b7y","d0",()=>{A.e_()
 A.e_()
 A.e_()
