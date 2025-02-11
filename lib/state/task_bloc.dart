@@ -1,45 +1,33 @@
-import 'package:flutter/cupertino.dart';
-import 'package:mosaic_rs_application/backend/mosaic_rs.dart';
-import 'package:mosaic_rs_application/backend/result_list.dart';
-import 'package:mosaic_rs_application/backend/task_progress.dart';
-import 'package:mosaic_rs_application/state/mosaic_pipeline_step.dart';
-import 'package:provider/provider.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:mosaic_rs_application/api/mosaic_rs.dart';
+import 'package:mosaic_rs_application/state/result_list.dart';
+import 'package:mosaic_rs_application/state/task_state.dart';
+import 'package:mosaic_rs_application/state/task_progress.dart';
 
-class SearchManager extends ChangeNotifier {
-  static final Duration timeout = const Duration(minutes: 3);
+class TaskBloc extends Bloc<TaskEvent, TaskState> {
+  TaskBloc(super.initialState) {
+    on<CancelTaskEvent>((event, emit) async {
+      print("WERNER");
+      print(state);
+      assert(state is TaskInProgress);
+      if (state is TaskInProgress) {
+        print('process CancelTaskEvent');
 
-  String query = '';
+        await MosaicRS.cancelTask((state as TaskInProgress).currentTaskID);
+        emit(TaskDoesNotExist());
+      }
+    });
 
-  TaskProgress taskProgress = TaskProgress();
-  String currentTaskID = '';
-
-  List<String> resultColumns = <String>[];
-  List<String> chipColumns = <String>[];
-  Map<String, List<int>> resultColumnsWordCountList = Map<String, List<int>>();
-  Map<String, int> resultColumnsWordCount = Map<String, int>();
-
-  bool showLoadingBar = false;
-
-  ResultList get resultList {
-    return taskProgress.result ?? ResultList([]);
+    on<StartTaskEvent>(_startTask);
   }
 
-  List<Map<String, dynamic>> get metadata {
-    return taskProgress.metadata ?? <Map<String, dynamic>>[];
-  }
+  void _startTask(StartTaskEvent event, emit) async {
+    if (state is TaskInProgress) return;
 
-  void cancelTask() async {
-    await MosaicRS.cancelTask(currentTaskID);
-    currentTaskID = '';
-    showLoadingBar = false;
-    notifyListeners();
-  }
+    emit(TaskInProgress(TaskProgress(), 'None'));
 
-  void runPipeline(String query, List<MosaicPipelineStep> steps) async {
-    showLoadingBar = true;
-    notifyListeners();
-
-    this.query = query;
+    final query = event.query;
+    final steps = event.steps;
 
     Map<String, dynamic> parameters = {};
 
@@ -65,29 +53,33 @@ class SearchManager extends ChangeNotifier {
     }
 
     String taskID = await MosaicRS.enqueueTask(parameters);
-    currentTaskID = taskID;
+    TaskProgress? progress;
 
     var stopwatch = Stopwatch()..start();
     while (true) {
       await Future.delayed(const Duration(milliseconds: 500));
-      if (stopwatch.elapsed > timeout) {
-        break;
+
+      if (!(state is TaskInProgress)) {
+        // just in case
+        emit(TaskDoesNotExist());
+        return;
       }
 
-      taskProgress = await MosaicRS.getTaskProgress(taskID);
-      notifyListeners();
-      if (taskProgress.result != null) {
+      progress = await MosaicRS.getTaskProgress(taskID);
+      emit(TaskInProgress(progress, taskID));
+
+      if (progress.hasFinished) {
         break;
       }
     }
 
-    stopwatch = Stopwatch();
+    final resultList = progress.result;
+    stopwatch = Stopwatch()..start();
 
-    stopwatch.start();
-
-    resultColumns.clear();
-    resultColumnsWordCount.clear();
-    chipColumns.clear();
+    List<String> resultColumns = [];
+    List<String> chipColumns = [];
+    Map<String, List<int>> resultColumnsWordCountList = {};
+    Map<String, int> resultColumnsWordCount = {};
 
     for (final result in resultList.data) {
       for (final key in result.keys) {
@@ -139,10 +131,15 @@ class SearchManager extends ChangeNotifier {
     }
 
     stopwatch.stop();
-    print('Result postprocessing time: ${stopwatch.elapsedMicroseconds} us');
+    assert(progress.result != null);
+    emit(TaskFinished(
+        currentTaskID: taskID,
+        resultColumns: resultColumns,
+        chipColumns: chipColumns,
+        resultColumnsWordCount: resultColumnsWordCount,
+        resultColumnsWordCountList: resultColumnsWordCountList,
+        resultList: progress.result!));
 
-    currentTaskID = '';
-    showLoadingBar = false;
-    notifyListeners();
+    print('Result postprocessing time: ${stopwatch.elapsedMicroseconds} us');
   }
 }

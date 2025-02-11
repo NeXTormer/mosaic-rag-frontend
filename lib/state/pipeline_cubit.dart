@@ -1,19 +1,23 @@
 import 'package:flutter/cupertino.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:mosaic_rs_application/state/mosaic_pipeline_state.dart';
 
-import '../state/mosaic_pipeline_step.dart';
-import 'mosaic_rs.dart';
+import 'mosaic_pipeline_step.dart';
+import '../api/mosaic_rs.dart';
 
-class PipelineManager extends ChangeNotifier {
-  PipelineManager() {
+class PipelineCubit extends Cubit<PipelineState> {
+  PipelineCubit(super.initialState) {
     _getPipelineInfo();
   }
 
-  List<MosaicPipelineStep> allPipelineSteps = <MosaicPipelineStep>[];
-  List<MosaicPipelineStep> pipelineSteps = <MosaicPipelineStep>[];
-
-  List<String> pipelineStepCategories = <String>[];
+  void loadPipelineInfo() {}
 
   void _getPipelineInfo() async {
+    List<MosaicPipelineStep> allSteps = <MosaicPipelineStep>[];
+    List<MosaicPipelineStep> currentSteps = <MosaicPipelineStep>[];
+
+    List<String> categories = <String>[];
+
     final data = await MosaicRS.getPipelineInfo();
     data.keys.forEach((key) {
       final parameters = Map.from(data[key]['parameters']);
@@ -45,29 +49,41 @@ class PipelineManager extends ChangeNotifier {
       final step = MosaicPipelineStep(data[key]['name'], category,
           data[key]['description'], key, parameterDescriptions);
 
-      if (!pipelineStepCategories.contains(category)) {
-        pipelineStepCategories.add(category);
+      if (!categories.contains(category)) {
+        categories.add(category);
       }
 
-      allPipelineSteps.add(step);
+      allSteps.add(step);
 
       if (step.id == 'mosaic_datasource') {
-        pipelineSteps.add(MosaicPipelineStep.clone(step));
+        currentSteps.add(MosaicPipelineStep.clone(step));
       }
-
-      notifyListeners();
     });
+
+    emit(state.copyWith(
+        allSteps: allSteps,
+        currentSteps: currentSteps,
+        categories: categories));
+  }
+
+  void reorderStep(int oldIndex, int newIndex) {
+    // final steps = List<MosaicPipelineStep>.from(state.currentSteps);
+    final steps = state.currentSteps;
+    if (oldIndex < newIndex) {
+      newIndex -= 1;
+    }
+    final item = steps.removeAt(oldIndex);
+    steps.insert(newIndex, item);
+
+    emit(state.copyWith(currentSteps: steps));
   }
 
   void addStep(MosaicPipelineStep step) {
-    pipelineSteps.add(MosaicPipelineStep.clone(step));
-    notifyListeners();
+    emit(state.copyWith(
+        currentSteps: state.currentSteps..add(MosaicPipelineStep.clone(step))));
   }
 
   void removeStep(MosaicPipelineStep step) {
-    pipelineSteps.remove(step);
-    notifyListeners();
+    emit(state.copyWith(currentSteps: state.currentSteps..remove(step)));
   }
-
-  void init() {}
 }

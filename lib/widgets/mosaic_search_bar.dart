@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:mosaic_rs_application/backend/pipeline_manager.dart';
-import 'package:mosaic_rs_application/widgets/standard_elements/frederic_text_field.dart';
-import 'package:provider/provider.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:mosaic_rs_application/state/pipeline_cubit.dart';
 
-import '../backend/search_manager.dart';
+import 'package:mosaic_rs_application/state/task_bloc.dart';
+import 'package:mosaic_rs_application/state/task_state.dart';
+
 import '../main.dart';
 
 class MosaicSearchBar extends StatefulWidget {
@@ -26,10 +27,12 @@ class _MosaicSearchBarState extends State<MosaicSearchBar> {
       ),
       onSubmitted: (query) {
         final pipelineSteps =
-            Provider.of<PipelineManager>(context, listen: false).pipelineSteps;
+            BlocProvider.of<PipelineCubit>(context, listen: false)
+                .state
+                .currentSteps;
 
-        Provider.of<SearchManager>(context, listen: false)
-            .runPipeline(query, pipelineSteps);
+        BlocProvider.of<TaskBloc>(context, listen: false)
+            .add(StartTaskEvent(controller.text, pipelineSteps));
       },
       decoration: InputDecoration(
         fillColor: Colors.white,
@@ -45,11 +48,12 @@ class _MosaicSearchBarState extends State<MosaicSearchBar> {
           child: GestureDetector(
             onTap: () {
               final pipelineSteps =
-                  Provider.of<PipelineManager>(context, listen: false)
-                      .pipelineSteps;
+                  BlocProvider.of<PipelineCubit>(context, listen: false)
+                      .state
+                      .currentSteps;
 
-              Provider.of<SearchManager>(context, listen: false)
-                  .runPipeline(controller.text, pipelineSteps);
+              BlocProvider.of<TaskBloc>(context, listen: false)
+                  .add(StartTaskEvent(controller.text, pipelineSteps));
             },
             child: Container(
               decoration: BoxDecoration(

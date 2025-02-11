@@ -1,8 +1,10 @@
 import 'dart:async';
+import 'dart:io';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:mosaic_rs_application/backend/pipeline_manager.dart';
+import 'package:mosaic_rs_application/state/pipeline_cubit.dart';
 import 'package:mosaic_rs_application/main.dart';
 import 'package:mosaic_rs_application/state/mosaic_pipeline_step.dart';
 import 'package:mosaic_rs_application/widgets/standard_elements/frederic_card.dart';
@@ -12,12 +14,7 @@ import 'package:provider/provider.dart';
 import 'mosaic_pipeline_step_card.dart';
 
 class AddPipelineDialog extends StatefulWidget {
-  AddPipelineDialog(this.allSteps, this.categories,
-      {super.key, required this.onSelect});
-
-  final Function(MosaicPipelineStep) onSelect;
-  final List<MosaicPipelineStep> allSteps;
-  final List<String> categories;
+  AddPipelineDialog({super.key});
 
   @override
   State<AddPipelineDialog> createState() => _AddPipelineDialogState();
@@ -28,6 +25,7 @@ class _AddPipelineDialogState extends State<AddPipelineDialog> {
 
   @override
   Widget build(BuildContext context) {
+    final pipeline = BlocProvider.of<PipelineCubit>(context);
     return Center(
       child: Container(
         decoration: BoxDecoration(
@@ -45,7 +43,7 @@ class _AddPipelineDialogState extends State<AddPipelineDialog> {
                     child: Column(
                       children: [
                         FredericHeading('Select a Pipeline Step'),
-                        for (final cat in widget.categories) ...[
+                        for (final cat in pipeline.state.categories) ...[
                           const SizedBox(height: 16),
                           Material(
                             borderRadius: BorderRadius.circular(10),
@@ -88,7 +86,7 @@ class _AddPipelineDialogState extends State<AddPipelineDialog> {
                           child: ListView(
                             // key: UniqueKey(),
                             padding: EdgeInsets.only(top: 16 + 34, right: 16),
-                            children: widget.allSteps
+                            children: pipeline.state.allSteps
                                 .where((step) => selectedCategory == ''
                                     ? true
                                     : step.category == selectedCategory)
@@ -109,7 +107,7 @@ class _AddPipelineDialogState extends State<AddPipelineDialog> {
                                                       step: step,
                                                       index: 1)),
                                               onTap: () {
-                                                widget.onSelect(step);
+                                                pipeline.addStep(step);
                                                 Navigator.of(context).pop();
                                               },
                                             )),

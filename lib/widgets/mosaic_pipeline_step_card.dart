@@ -1,14 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:mosaic_rs_application/backend/pipeline_manager.dart';
+import 'package:mosaic_rs_application/state/pipeline_cubit.dart';
 import 'package:mosaic_rs_application/main.dart';
 import 'package:mosaic_rs_application/state/mosaic_pipeline_step.dart';
 import 'package:mosaic_rs_application/widgets/mosaic_pipeline_step_parameter_card.dart';
 import 'package:mosaic_rs_application/widgets/standard_elements/frederic_card.dart';
-import 'package:mosaic_rs_application/widgets/standard_elements/frederic_drop_down_text_field.dart';
-import 'package:mosaic_rs_application/widgets/standard_elements/frederic_text_field.dart';
 import 'package:mosaic_rs_application/widgets/standard_elements/hover_icon_button.dart';
-import 'package:provider/provider.dart';
 
 class MosaicPipelineStepCard extends StatelessWidget {
   MosaicPipelineStepCard(
@@ -49,7 +47,7 @@ class MosaicPipelineStepCard extends StatelessWidget {
                 ),
                 if (!showDescription)
                   HoverIconButton(() {
-                    Provider.of<PipelineManager>(context, listen: false)
+                    BlocProvider.of<PipelineCubit>(context, listen: false)
                         .removeStep(step);
                   }),
               ],

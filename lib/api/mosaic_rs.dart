@@ -3,22 +3,15 @@ import 'dart:io';
 
 import 'package:dio/dio.dart';
 import 'package:flutter/foundation.dart';
-import 'package:mosaic_rs_application/backend/result_list.dart';
-import 'package:mosaic_rs_application/backend/task_progress.dart';
+import 'package:mosaic_rs_application/state/result_list.dart';
+import 'package:mosaic_rs_application/state/task_progress.dart';
 
 import '../main.dart';
 
 class MosaicRS {
-  static final serverURL = (kUseLocalMosaicRS)
+  static final serverURL = kUseLocalMosaicRS
       ? 'http://127.0.0.1:5000'
       : 'https://mosaicrs-api.felixholz.com';
-
-  static Future<ResultList> search(String query) async {
-    final dio = Dio();
-    final response = await dio.get(serverURL + '/search?q=' + query);
-
-    return ResultList.fromJSON(response.data);
-  }
 
   static Future<String> enqueueTask(Map<String, dynamic> parameters) async {
     print(parameters);
@@ -43,17 +36,6 @@ class MosaicRS {
   static Future<void> cancelTask(String taskID) async {
     final dio = Dio();
     final response = await dio.get(serverURL + '/task/cancel/$taskID');
-  }
-
-  static Future<ResultList> runPipeline(Map<String, dynamic> parameters) async {
-    final dio = Dio();
-    final response = await dio.post(serverURL + '/pipeline/run',
-        options: Options(headers: {
-          HttpHeaders.contentTypeHeader: "application/json",
-        }),
-        data: jsonEncode(parameters));
-
-    return ResultList.fromJSON(response.data);
   }
 
   static Future<Map<String, dynamic>> getPipelineInfo() async {
