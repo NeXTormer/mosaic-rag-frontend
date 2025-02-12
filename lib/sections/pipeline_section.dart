@@ -84,24 +84,44 @@ class PipelineSection extends StatelessWidget {
             padding: const EdgeInsets.all(16),
             child: BlocBuilder<PipelineCubit, PipelineState>(
                 builder: (context, pipeline) {
-              return ReorderableListView.builder(
-                  buildDefaultDragHandles: false,
-                  itemExtent: 250,
-                  physics: BouncingScrollPhysics(),
-                  proxyDecorator: _proxyDecorator,
-                  onReorder: (oldIndex, newIndex) {
-                    BlocProvider.of<PipelineCubit>(context)
-                        .reorderStep(oldIndex, newIndex);
-                  },
-                  itemCount: pipeline.currentSteps.length,
-                  itemBuilder: (context, index) {
-                    return Container(
-                      margin: const EdgeInsets.only(bottom: 16),
-                      key: pipeline.currentSteps[index].key,
-                      child: MosaicPipelineStepCard(
-                          index: index, step: pipeline.currentSteps[index]),
-                    );
-                  });
+              return BlocBuilder<TaskBloc, TaskState>(
+                  buildWhen: (last, current) {
+                if (current is TaskInProgress && last is TaskInProgress) {
+                  if (current.taskProgress.currentStepIndex !=
+                      last.taskProgress.currentStepIndex) {
+                    return true;
+                  }
+                }
+                if (current is TaskInProgress && !(last is TaskInProgress))
+                  return true;
+                if (!(current is TaskInProgress) && last is TaskInProgress)
+                  return true;
+                return false;
+              }, builder: (context, taskState) {
+                final activeStepIndex = (taskState is TaskInProgress)
+                    ? taskState.taskProgress.currentStepIndex - 1
+                    : -1;
+                return ReorderableListView.builder(
+                    buildDefaultDragHandles: false,
+                    itemExtent: 250,
+                    physics: BouncingScrollPhysics(),
+                    proxyDecorator: _proxyDecorator,
+                    onReorder: (oldIndex, newIndex) {
+                      BlocProvider.of<PipelineCubit>(context)
+                          .reorderStep(oldIndex, newIndex);
+                    },
+                    itemCount: pipeline.currentSteps.length,
+                    itemBuilder: (context, index) {
+                      return Container(
+                        margin: const EdgeInsets.only(bottom: 16),
+                        key: pipeline.currentSteps[index].key,
+                        child: MosaicPipelineStepCard(
+                            activeStepIndex: activeStepIndex,
+                            index: index,
+                            step: pipeline.currentSteps[index]),
+                      );
+                    });
+              });
             }),
           ))),
         ],

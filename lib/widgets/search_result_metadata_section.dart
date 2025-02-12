@@ -11,7 +11,7 @@ class SearchResultMetadataSection extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<TaskBloc, TaskState>(builder: (context, state) {
-      if (state is TaskFinished && state.resultList.metadata.isNotEmpty)
+      if (state is TaskFinished && state.taskInfo.aggregated_data.isNotEmpty)
         return SliverToBoxAdapter(
           child: Padding(
             padding:
@@ -24,9 +24,10 @@ class SearchResultMetadataSection extends StatelessWidget {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    FredericHeading(state.resultList.metadata.first['title']),
+                    FredericHeading(
+                        state.taskInfo.aggregated_data.first['title']),
                     const SizedBox(height: 8),
-                    Text(state.resultList.metadata.first['data']),
+                    Text(state.taskInfo.aggregated_data.first['data']),
                   ],
                 ),
               ),

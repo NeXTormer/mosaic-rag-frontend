@@ -2,11 +2,8 @@ import 'dart:convert';
 import 'dart:io';
 
 import 'package:dio/dio.dart';
-import 'package:flutter/foundation.dart';
-import 'package:mosaic_rs_application/state/result_list.dart';
 import 'package:mosaic_rs_application/state/task_progress.dart';
-
-import '../main.dart';
+import 'package:mosaic_rs_application/main.dart';
 
 class MosaicRS {
   static final serverURL = kUseLocalMosaicRS
@@ -25,12 +22,11 @@ class MosaicRS {
     return response.data as String;
   }
 
-  static Future<TaskProgress> getTaskProgress(String taskID) async {
+  static Future<TaskInfo> getTaskProgress(String taskID) async {
     final dio = Dio();
-    print("Getting task progress");
     final response = await dio.get(serverURL + '/task/progress/$taskID');
 
-    return TaskProgress.fromJSON(response.data);
+    return TaskInfo.fromJSON(response.data);
   }
 
   static Future<void> cancelTask(String taskID) async {

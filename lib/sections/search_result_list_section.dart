@@ -9,10 +9,7 @@ import 'package:mosaic_rs_application/state/task_state.dart';
 import 'package:mosaic_rs_application/widgets/chip_selector.dart';
 import 'package:mosaic_rs_application/widgets/mosaic_search_result.dart';
 import 'package:mosaic_rs_application/widgets/search_result_metadata_section.dart';
-import 'package:mosaic_rs_application/widgets/standard_elements/frederic_card.dart';
 import 'package:mosaic_rs_application/widgets/standard_elements/frederic_drop_down_text_field.dart';
-import 'package:mosaic_rs_application/widgets/standard_elements/frederic_heading.dart';
-import 'package:provider/provider.dart';
 
 class SearchResultListSection extends StatefulWidget {
   const SearchResultListSection({super.key});
@@ -48,12 +45,12 @@ class _SearchResultListSectionState extends State<SearchResultListSection>
       builder: (context, taskState) {
         if (taskState is TaskFinished) {
           if (columnToDisplay.isEmpty) {
-            if (taskState.resultColumns.contains('summary')) {
+            if (taskState.taskInfo.textColumns.contains('summary')) {
               columnToDisplay = 'summary';
-            } else if (taskState.resultColumns.contains('full-text')) {
+            } else if (taskState.taskInfo.textColumns.contains('full-text')) {
               columnToDisplay = 'full-text';
-            } else if (taskState.resultColumns.isNotEmpty) {
-              columnToDisplay = taskState.resultColumns.first;
+            } else if (taskState.taskInfo.textColumns.isNotEmpty) {
+              columnToDisplay = taskState.taskInfo.textColumns.first;
             }
           }
 
@@ -61,11 +58,8 @@ class _SearchResultListSectionState extends State<SearchResultListSection>
               !firstChipsHaveBeenDisplayed &&
               columnToDisplay.isNotEmpty) {
             firstChipsHaveBeenDisplayed = true;
-            if (taskState.resultColumns.contains('language')) {
+            if (taskState.taskInfo.chipColumns.contains('language')) {
               chipsToDisplay.add('language');
-            }
-            if (taskState.resultColumns.contains('wordCount')) {
-              chipsToDisplay.add('wordCount');
             }
           }
         }
@@ -104,15 +98,13 @@ class _SearchResultListSectionState extends State<SearchResultListSection>
                               },
                               defaultValue: columnToDisplay,
                               controller: columnSelectorTextFieldController,
-                              suggestedValues: taskState.resultColumns.isEmpty
-                                  ? ['full-text']
-                                  : taskState.resultColumns),
+                              suggestedValues: taskState.taskInfo.textColumns),
                         ),
                         Padding(
                           padding: const EdgeInsets.symmetric(horizontal: 24),
                           child: Wrap(
                             spacing: 16,
-                            children: taskState.chipColumns
+                            children: taskState.taskInfo.chipColumns
                                 .map((column) => ChipSelector(
                                     onTap: () {
                                       setState(() {
@@ -161,17 +153,17 @@ class _SearchResultListSectionState extends State<SearchResultListSection>
                   sliver: SliverList.builder(
                     itemBuilder: (context, index) => true
                         ? MosaicSearchResult(
-                            rawData: taskState.resultList.data[index],
-                            url: taskState.resultList.data[index]['url'] ??
+                            rawData: taskState.taskInfo.data[index],
+                            url: taskState.taskInfo.data[index]['url'] ??
                                 '<missing-url>',
-                            title: taskState.resultList.data[index]['title'] ??
+                            title: taskState.taskInfo.data[index]['title'] ??
                                 '<missing-title>',
                             textHeader: columnToDisplay,
                             text:
-                                '${taskState.resultList.data[index][columnToDisplay] ?? ''}',
+                                '${taskState.taskInfo.data[index][columnToDisplay] ?? ''}',
                             chips: chipsToDisplay
                                 .map((column) =>
-                                    '$column: ${taskState.resultList.data[index][column] ?? ''}')
+                                    '$column: ${taskState.taskInfo.data[index][column] ?? ''}')
                                 .toList(),
                           )
                         : MosaicSearchResult(
@@ -187,11 +179,10 @@ class _SearchResultListSectionState extends State<SearchResultListSection>
                               'index-date:2020-02-01'
                             ],
                           ),
-                    itemCount: taskState.resultList.data.length,
+                    itemCount: taskState.taskInfo.data.length,
                   ),
                 ),
-              if (taskState is TaskFinished &&
-                  taskState.resultList.data.isEmpty)
+              if (taskState is TaskFinished && taskState.taskInfo.data.isEmpty)
                 SliverToBoxAdapter(
                   child: Padding(
                     padding: const EdgeInsets.only(top: 200),

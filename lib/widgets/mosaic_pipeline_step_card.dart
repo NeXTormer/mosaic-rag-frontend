@@ -4,31 +4,39 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:mosaic_rs_application/state/pipeline_cubit.dart';
 import 'package:mosaic_rs_application/main.dart';
 import 'package:mosaic_rs_application/state/mosaic_pipeline_step.dart';
+import 'package:mosaic_rs_application/state/task_bloc.dart';
+import 'package:mosaic_rs_application/state/task_state.dart';
 import 'package:mosaic_rs_application/widgets/mosaic_pipeline_step_parameter_card.dart';
 import 'package:mosaic_rs_application/widgets/standard_elements/frederic_card.dart';
 import 'package:mosaic_rs_application/widgets/standard_elements/hover_icon_button.dart';
+import 'package:zo_animated_border/widget/zo_dual_border.dart';
+
+enum PipelineExecutionState { Idle, Running, Success, Error }
 
 class MosaicPipelineStepCard extends StatelessWidget {
   MosaicPipelineStepCard(
       {super.key,
       required this.step,
       required this.index,
+      this.activeStepIndex = -1,
       this.showDescription = false,
       this.bottomPadding = 16});
 
   final bool showDescription;
   final MosaicPipelineStep step;
   final int index;
+  final int activeStepIndex;
   final double bottomPadding;
 
   @override
   Widget build(BuildContext context) {
-    return ReorderableDragStartListener(
-      index: index,
-      child: FredericCard(
+    final animateBorder = index == activeStepIndex;
+
+    final restOfCard = FredericCard(
         // margin: EdgeInsets.only(bottom: 16),
         color: theme.mainColorLight,
         borderColor: theme.mainColor,
+        borderWidth: animateBorder ? 0 : 1,
         width: double.infinity,
         padding: EdgeInsets.all(12),
         child: Column(
@@ -92,8 +100,28 @@ class MosaicPipelineStepCard extends StatelessWidget {
                 ],
               ),
           ],
+        ));
+
+    if (animateBorder)
+      return ReorderableDragStartListener(
+        index: index,
+        child: ZoDualBorder(
+          trackBorderColor: theme.greyColor,
+          borderWidth: 1,
+          // snakeHeadColor: theme.accentColor,
+          // snakeTailColor: theme.mainColor,
+          // duration: 3,
+          duration: const Duration(seconds: 3),
+          firstBorderColor: theme.mainColor,
+          secondBorderColor: theme.mainColor,
+          borderRadius: BorderRadius.circular(14),
+          child: restOfCard,
         ),
-      ),
+      );
+
+    return ReorderableDragStartListener(
+      index: index,
+      child: restOfCard,
     );
   }
 }

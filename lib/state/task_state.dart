@@ -1,6 +1,4 @@
-import 'package:mosaic_rs_application/state/result_list.dart';
 import 'package:mosaic_rs_application/state/task_progress.dart';
-import 'package:mosaic_rs_application/widgets/mosaic_pipeline_step_parameter_card.dart';
 
 import 'mosaic_pipeline_step.dart';
 
@@ -16,22 +14,11 @@ class TaskInProgress extends TaskState {
 }
 
 class TaskFinished extends TaskState {
-  TaskFinished(
-      {required this.currentTaskID,
-      required this.resultColumns,
-      required this.chipColumns,
-      required this.resultColumnsWordCountList,
-      required this.resultColumnsWordCount,
-      required this.resultList});
+  TaskFinished({required this.currentTaskID, required this.taskInfo});
 
   final String currentTaskID;
 
-  final ResultList resultList;
-
-  final List<String> resultColumns;
-  final List<String> chipColumns;
-  final Map<String, List<int>> resultColumnsWordCountList;
-  final Map<String, int> resultColumnsWordCount;
+  final TaskInfo taskInfo;
 }
 
 sealed class TaskEvent {}
