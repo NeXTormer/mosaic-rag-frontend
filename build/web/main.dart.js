@@ -732,7 +732,7 @@ b34(a){var s=0,r=A.Q(t.Lk),q,p=2,o,n,m,l,k
 var $async$yu=A.R(function(b,c){if(b===1){o=c
 s=p}while(true)switch(s){case 0:p=4
 s=7
-return A.U(A.hK(self.window.fetch(a + '?v=1.0.1415'),t.e),$async$yu)
+return A.U(A.hK(self.window.fetch(a + '?v=1.0.1617'),t.e),$async$yu)
 case 7:n=c
 q=new A.Or(a,n)
 s=1
