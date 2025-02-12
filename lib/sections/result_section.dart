@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:mosaic_rs_application/sections/conversational_search_section.dart';
+import 'package:mosaic_rs_application/sections/log_section.dart';
 import 'package:mosaic_rs_application/sections/search_result_list_section.dart';
 import '../widgets/standard_elements/search_selector_segment.dart';
 
@@ -40,6 +41,12 @@ class _ResultSectionState extends State<ResultSection> {
           controller: pageController,
           children: [
             SearchResultListSection(),
+            ConversationalSearchSection(),
+            Placeholder(
+              child: Center(child: Text("Data flow explorer coming soon")),
+            ),
+            LogSection(),
+
             // Center(
             //   child: MosaicSearchResultLarge(data: {
             //     "id": "237240a8-557c-4831-ac79-5f39fc71dbd1",
@@ -57,13 +64,6 @@ class _ResultSectionState extends State<ResultSection> {
             //         "Wikipedia: Werner Scholl\nWerner Scholl (1922-1944) was the brother of Hans Scholl and Sophie Scholl. Like his siblings, Werner joined the Hitler Youth when Hitler came to power."
             //   }),
             // ),
-            ConversationalSearchSection(),
-            Placeholder(
-              child: Center(child: Text("Data flow explorer coming soon")),
-            ),
-            Placeholder(
-              child: Center(child: Text("History coming soon")),
-            )
           ],
         )),
       ],

@@ -11,7 +11,6 @@ class MosaicRS {
       : 'https://mosaicrs-api.felixholz.com';
 
   static Future<String> enqueueTask(Map<String, dynamic> parameters) async {
-    print(parameters);
     final dio = Dio();
     final response = await dio.post(serverURL + '/task/enqueue',
         options: Options(headers: {
@@ -29,9 +28,9 @@ class MosaicRS {
     return TaskInfo.fromJSON(response.data);
   }
 
-  static Future<void> cancelTask(String taskID) async {
+  static void cancelTask(String taskID) {
     final dio = Dio();
-    final response = await dio.get(serverURL + '/task/cancel/$taskID');
+    dio.get(serverURL + '/task/cancel/$taskID');
   }
 
   static Future<Map<String, dynamic>> getPipelineInfo() async {

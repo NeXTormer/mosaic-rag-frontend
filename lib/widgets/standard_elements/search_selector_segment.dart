@@ -80,7 +80,7 @@ class _ActivityFilterSegmentState extends State<SearchSelectorSegment> {
                   });
                 }),
                 SizedBox(width: 72),
-                _FilterButton('History',
+                _FilterButton('Logs',
                     key: historyKey,
                     rightPadding: padding,
                     isActive: selectedIndex == 3, onPressed: () {

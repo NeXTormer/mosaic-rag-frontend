@@ -36,7 +36,7 @@ class MosaicPipelineStepCard extends StatelessWidget {
         // margin: EdgeInsets.only(bottom: 16),
         color: theme.mainColorLight,
         borderColor: theme.mainColor,
-        borderWidth: animateBorder ? 0 : 1,
+        borderWidth: animateBorder ? 0 : 1.0,
         width: double.infinity,
         padding: EdgeInsets.all(12),
         child: Column(
@@ -111,7 +111,7 @@ class MosaicPipelineStepCard extends StatelessWidget {
           // snakeHeadColor: theme.accentColor,
           // snakeTailColor: theme.mainColor,
           // duration: 3,
-          duration: const Duration(seconds: 3),
+          duration: const Duration(seconds: 2),
           firstBorderColor: theme.mainColor,
           secondBorderColor: theme.mainColor,
           borderRadius: BorderRadius.circular(14),

@@ -2,7 +2,6 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:mosaic_rs_application/api/mosaic_rs.dart';
 import 'package:mosaic_rs_application/state/mosaic_pipeline_state.dart';
 import 'package:mosaic_rs_application/main.dart';
 import 'package:mosaic_rs_application/state/pipeline_cubit.dart';
@@ -55,8 +54,9 @@ class PipelineSection extends StatelessWidget {
                         mainColor: taskState is TaskInProgress
                             ? theme.negativeColor
                             : theme.disabledGreyColor, onPressed: () {
-                  print('adding cancel event');
-                  BlocProvider.of<TaskBloc>(context).add(CancelTaskEvent());
+                  if (taskState is TaskInProgress) {
+                    BlocProvider.of<TaskBloc>(context).add(CancelTaskEvent());
+                  }
                 })),
                 const SizedBox(width: 32),
                 Column(
@@ -101,26 +101,29 @@ class PipelineSection extends StatelessWidget {
                 final activeStepIndex = (taskState is TaskInProgress)
                     ? taskState.taskProgress.currentStepIndex - 1
                     : -1;
-                return ReorderableListView.builder(
-                    buildDefaultDragHandles: false,
-                    itemExtent: 250,
-                    physics: BouncingScrollPhysics(),
-                    proxyDecorator: _proxyDecorator,
-                    onReorder: (oldIndex, newIndex) {
-                      BlocProvider.of<PipelineCubit>(context)
-                          .reorderStep(oldIndex, newIndex);
-                    },
-                    itemCount: pipeline.currentSteps.length,
-                    itemBuilder: (context, index) {
-                      return Container(
-                        margin: const EdgeInsets.only(bottom: 16),
-                        key: pipeline.currentSteps[index].key,
-                        child: MosaicPipelineStepCard(
-                            activeStepIndex: activeStepIndex,
-                            index: index,
-                            step: pipeline.currentSteps[index]),
-                      );
-                    });
+                return IgnorePointer(
+                  ignoring: taskState is TaskInProgress,
+                  child: ReorderableListView.builder(
+                      buildDefaultDragHandles: false,
+                      itemExtent: 250,
+                      physics: BouncingScrollPhysics(),
+                      proxyDecorator: _proxyDecorator,
+                      onReorder: (oldIndex, newIndex) {
+                        BlocProvider.of<PipelineCubit>(context)
+                            .reorderStep(oldIndex, newIndex);
+                      },
+                      itemCount: pipeline.currentSteps.length,
+                      itemBuilder: (context, index) {
+                        return Container(
+                          margin: const EdgeInsets.only(bottom: 16),
+                          key: pipeline.currentSteps[index].key,
+                          child: MosaicPipelineStepCard(
+                              activeStepIndex: activeStepIndex,
+                              index: index,
+                              step: pipeline.currentSteps[index]),
+                        );
+                      }),
+                );
               });
             }),
           ))),

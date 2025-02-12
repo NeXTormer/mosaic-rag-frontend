@@ -6,9 +6,8 @@ import 'package:mosaic_rs_application/state/task_progress.dart';
 class TaskBloc extends Bloc<TaskEvent, TaskState> {
   TaskBloc(super.initialState) {
     on<CancelTaskEvent>((event, emit) async {
-      assert(state is TaskInProgress);
       if (state is TaskInProgress) {
-        await MosaicRS.cancelTask((state as TaskInProgress).currentTaskID);
+        MosaicRS.cancelTask((state as TaskInProgress).currentTaskID);
         emit(TaskDoesNotExist());
       }
     });

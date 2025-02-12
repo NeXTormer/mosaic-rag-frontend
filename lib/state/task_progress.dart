@@ -114,6 +114,12 @@ class TaskProgress {
     pipelinePercentage = json['pipeline_percentage'];
     stepProgress = json['step_progress'];
     stepPercentage = json['step_percentage'];
+    logs = (json['log'] as List)
+        .map((item) => item as String)
+        .toList()
+        .reversed
+        .toList();
+    ;
   }
 
   List<String> logs;

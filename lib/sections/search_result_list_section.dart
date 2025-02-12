@@ -58,8 +58,9 @@ class _SearchResultListSectionState extends State<SearchResultListSection>
               !firstChipsHaveBeenDisplayed &&
               columnToDisplay.isNotEmpty) {
             firstChipsHaveBeenDisplayed = true;
-            if (taskState.taskInfo.chipColumns.contains('language')) {
-              chipsToDisplay.add('language');
+            final chipsToAdd = min(taskState.taskInfo.chipColumns.length, 3);
+            for (var i = 0; i < chipsToAdd; i++) {
+              chipsToDisplay.add(taskState.taskInfo.chipColumns[i]);
             }
           }
         }
