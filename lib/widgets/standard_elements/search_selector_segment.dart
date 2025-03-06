@@ -45,65 +45,69 @@ class _ActivityFilterSegmentState extends State<SearchSelectorSegment> {
     try {
       return SizedBox(
         width: double.infinity,
-        child: Stack(
-          children: [
-            Row(
-              // mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                _FilterButton('Search result list',
-                    key: resultListKey,
-                    rightPadding: padding,
-                    isActive: selectedIndex == 0, onPressed: () {
-                  setState(() {
-                    handleMuscleFilters(SearchMode.ResultList);
-                    selectedIndex = 0;
-                  });
-                }),
-                SizedBox(width: 72),
-                _FilterButton('Conversational search',
-                    key: conversationalKey,
-                    rightPadding: padding,
-                    isActive: selectedIndex == 1, onPressed: () {
-                  setState(() {
-                    handleMuscleFilters(SearchMode.Conversational);
-                    selectedIndex = 1;
-                  });
-                }),
-                SizedBox(width: 72),
-                _FilterButton('Data flow explorer',
-                    key: dataflowKey,
-                    rightPadding: padding,
-                    isActive: selectedIndex == 2, onPressed: () {
-                  setState(() {
-                    handleMuscleFilters(SearchMode.DataFlowExplorer);
-                    selectedIndex = 2;
-                  });
-                }),
-                SizedBox(width: 72),
-                _FilterButton('Logs',
-                    key: historyKey,
-                    rightPadding: padding,
-                    isActive: selectedIndex == 3, onPressed: () {
-                  setState(() {
-                    handleMuscleFilters(SearchMode.History);
-                    selectedIndex = 3;
-                  });
-                }),
-                SizedBox(width: 12)
-              ],
-            ),
-            AnimatedPositioned(
-              duration: Duration(milliseconds: 300),
-              curve: Curves.ease,
-              bottom: 0,
-              left: keys[selectedIndex].positionedDifference(dotKey),
-              child: Icon(
-                Icons.circle,
-                size: 8,
-                color: theme.mainColor,
+        child: SingleChildScrollView(
+          scrollDirection: Axis.horizontal,
+          physics: NeverScrollableScrollPhysics(),
+          child: Stack(
+            children: [
+              Row(
+                // mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  _FilterButton('Search result list',
+                      key: resultListKey,
+                      rightPadding: padding,
+                      isActive: selectedIndex == 0, onPressed: () {
+                    setState(() {
+                      handleMuscleFilters(SearchMode.ResultList);
+                      selectedIndex = 0;
+                    });
+                  }),
+                  SizedBox(width: 72),
+                  _FilterButton('Conversational search',
+                      key: conversationalKey,
+                      rightPadding: padding,
+                      isActive: selectedIndex == 1, onPressed: () {
+                    setState(() {
+                      handleMuscleFilters(SearchMode.Conversational);
+                      selectedIndex = 1;
+                    });
+                  }),
+                  SizedBox(width: 72),
+                  _FilterButton('Data flow explorer',
+                      key: dataflowKey,
+                      rightPadding: padding,
+                      isActive: selectedIndex == 2, onPressed: () {
+                    setState(() {
+                      handleMuscleFilters(SearchMode.DataFlowExplorer);
+                      selectedIndex = 2;
+                    });
+                  }),
+                  SizedBox(width: 72),
+                  _FilterButton('Logs',
+                      key: historyKey,
+                      rightPadding: padding,
+                      isActive: selectedIndex == 3, onPressed: () {
+                    setState(() {
+                      handleMuscleFilters(SearchMode.History);
+                      selectedIndex = 3;
+                    });
+                  }),
+                  SizedBox(width: 12)
+                ],
               ),
-            ),
-          ],
+              AnimatedPositioned(
+                duration: Duration(milliseconds: 300),
+                curve: Curves.ease,
+                bottom: 0,
+                left: keys[selectedIndex].positionedDifference(dotKey),
+                child: Icon(
+                  Icons.circle,
+                  size: 8,
+                  color: theme.mainColor,
+                ),
+              ),
+            ],
+          ),
         ),
       );
     } catch (e, stackTrace) {

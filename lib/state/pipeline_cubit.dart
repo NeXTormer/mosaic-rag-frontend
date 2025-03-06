@@ -78,6 +78,10 @@ class PipelineCubit extends Cubit<PipelineState> {
     emit(state.copyWith(currentSteps: steps));
   }
 
+  void emitNewState() {
+    emit(state);
+  }
+
   void addStep(MosaicPipelineStep step) {
     emit(state.copyWith(
         currentSteps: state.currentSteps..add(MosaicPipelineStep.clone(step))));

@@ -37,7 +37,11 @@ class PipelineSection extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Flexible(
-                    child: FredericButton('Add step', onPressed: () {
+                    child: FredericButton('Add step',
+                        mainColor: !(taskState is TaskInProgress)
+                            ? theme.mainColor
+                            : theme.greyColor, onPressed: () {
+                  if (taskState is TaskInProgress) return;
                   showDialog<void>(
                     context: context,
                     barrierDismissible: true,
@@ -84,8 +88,11 @@ class PipelineSection extends StatelessWidget {
             padding: const EdgeInsets.all(16),
             child: BlocBuilder<PipelineCubit, PipelineState>(
                 builder: (context, pipeline) {
+              if (pipeline.currentSteps.isNotEmpty)
+                print(pipeline.currentSteps.first.parameterData);
               return BlocBuilder<TaskBloc, TaskState>(
                   buildWhen: (last, current) {
+                return true;
                 if (current is TaskInProgress && last is TaskInProgress) {
                   if (current.taskProgress.currentStepIndex !=
                       last.taskProgress.currentStepIndex) {

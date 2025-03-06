@@ -7,10 +7,14 @@ import 'package:mosaic_rs_application/widgets/standard_elements/frederic_text_fi
 
 class MosaicPipelineStepParameterCard extends StatefulWidget {
   const MosaicPipelineStepParameterCard(
-      {super.key, required this.parameter, required this.onChanged});
+      {super.key,
+      required this.parameter,
+      required this.onChanged,
+      this.defaultValue});
 
   final MosaicPipelineStepParameter parameter;
   final Function(String) onChanged;
+  final String? defaultValue;
 
   @override
   State<MosaicPipelineStepParameterCard> createState() =>
@@ -25,7 +29,8 @@ class _MosaicPipelineStepParameterCardState
   void initState() {
     super.initState();
     controller.addListener(textFieldListener);
-    controller.text = widget.parameter.defaultValue;
+    print("initstate, default: " + (widget.defaultValue ?? 'null'));
+    controller.text = widget.defaultValue ?? widget.parameter.defaultValue;
   }
 
   void textFieldListener() {

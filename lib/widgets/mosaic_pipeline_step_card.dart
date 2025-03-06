@@ -30,98 +30,104 @@ class MosaicPipelineStepCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final animateBorder = index == activeStepIndex;
-
-    final restOfCard = FredericCard(
-        // margin: EdgeInsets.only(bottom: 16),
-        color: theme.mainColorLight,
-        borderColor: theme.mainColor,
-        borderWidth: animateBorder ? 0 : 1.0,
-        width: double.infinity,
-        padding: EdgeInsets.all(12),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Row(
-              children: [
-                Expanded(
-                  child: Text(step.title,
-                      maxLines: 1,
-                      style: GoogleFonts.montserrat(
-                        fontWeight: FontWeight.w600,
-                        fontSize: 16,
-                        color: theme.textColor,
-                      )),
-                ),
-                if (!showDescription)
-                  HoverIconButton(() {
-                    BlocProvider.of<PipelineCubit>(context, listen: false)
-                        .removeStep(step);
-                  }),
-              ],
-            ),
-            SizedBox(height: 12),
-            if (showDescription) ...[
-              Text(
-                step.description,
-                style: GoogleFonts.montserrat(
-                    color: theme.textColor, fontWeight: FontWeight.w400),
-              ),
-              const SizedBox(height: 8),
-              Text(
-                'Parameters',
-                style: GoogleFonts.montserrat(
-                    fontSize: 14,
-                    color: theme.textColor,
-                    fontWeight: FontWeight.w600),
-              ),
-              const SizedBox(height: 2),
-              Text(
-                step.parameterDescriptions.values
-                    .map((v) => v.title)
-                    .toList()
-                    .join(", "),
-                style: GoogleFonts.montserrat(
-                    color: theme.textColor, fontWeight: FontWeight.w400),
-              ),
-            ],
-            if (!showDescription)
-              Wrap(
-                spacing: 16,
-                children: [
-                  for (var entry in step.parameterDescriptions.entries) ...[
-                    MosaicPipelineStepParameterCard(
-                      parameter: entry.value,
-                      onChanged: (data) {
-                        step.parameterData[entry.key] = data;
-                      },
-                    )
-                  ]
-                ],
-              ),
-          ],
-        ));
-
-    if (animateBorder)
-      return ReorderableDragStartListener(
-        index: index,
-        child: ZoDualBorder(
-          trackBorderColor: theme.greyColor,
-          borderWidth: 1,
-          // snakeHeadColor: theme.accentColor,
-          // snakeTailColor: theme.mainColor,
-          // duration: 3,
-          duration: const Duration(seconds: 2),
-          firstBorderColor: theme.mainColor,
-          secondBorderColor: theme.mainColor,
-          borderRadius: BorderRadius.circular(14),
-          child: restOfCard,
-        ),
-      );
+    final showProgressIndicator = index == activeStepIndex;
 
     return ReorderableDragStartListener(
       index: index,
-      child: restOfCard,
+      child: Stack(
+        children: [
+          FredericCard(
+              // margin: EdgeInsets.only(bottom: 16),
+              color: theme.mainColorLight,
+              borderColor: theme.mainColor,
+              borderWidth: showProgressIndicator ? 0 : 1.0,
+              width: double.infinity,
+              padding: EdgeInsets.all(12),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Row(
+                    children: [
+                      Expanded(
+                        child: Text(step.title,
+                            maxLines: 1,
+                            style: GoogleFonts.montserrat(
+                              fontWeight: FontWeight.w600,
+                              fontSize: 16,
+                              color: theme.textColor,
+                            )),
+                      ),
+                      if (!showDescription && !showProgressIndicator)
+                        HoverIconButton(() {
+                          BlocProvider.of<PipelineCubit>(context, listen: false)
+                              .removeStep(step);
+                        }),
+                    ],
+                  ),
+                  SizedBox(height: 12),
+                  if (showDescription) ...[
+                    Text(
+                      step.description,
+                      style: GoogleFonts.montserrat(
+                          color: theme.textColor, fontWeight: FontWeight.w400),
+                    ),
+                    const SizedBox(height: 8),
+                    Text(
+                      'Parameters',
+                      style: GoogleFonts.montserrat(
+                          fontSize: 14,
+                          color: theme.textColor,
+                          fontWeight: FontWeight.w600),
+                    ),
+                    const SizedBox(height: 2),
+                    Text(
+                      step.parameterDescriptions.values
+                          .map((v) => v.title)
+                          .toList()
+                          .join(", "),
+                      style: GoogleFonts.montserrat(
+                          color: theme.textColor, fontWeight: FontWeight.w400),
+                    ),
+                  ],
+                  if (!showDescription)
+                    Wrap(
+                      spacing: 16,
+                      children: [
+                        for (var entry
+                            in step.parameterDescriptions.entries) ...[
+                          MosaicPipelineStepParameterCard(
+                            parameter: entry.value,
+                            defaultValue:
+                                step.parameterData.containsKey(entry.key)
+                                    ? step.parameterData[entry.key]
+                                    : null,
+                            onChanged: (data) {
+                              step.parameterData[entry.key] = data;
+                            },
+                          )
+                        ]
+                      ],
+                    ),
+                ],
+              )),
+          if (showProgressIndicator)
+            ReorderableDragStartListener(
+              index: index,
+              child: ZoDualBorder(
+                trackBorderColor: theme.greyColor,
+                borderWidth: 1,
+                // snakeHeadColor: theme.accentColor,
+                // snakeTailColor: theme.mainColor,
+                // duration: 3,
+                duration: const Duration(seconds: 2),
+                firstBorderColor: theme.mainColor,
+                secondBorderColor: theme.mainColor,
+                borderRadius: BorderRadius.circular(14),
+                child: Container(),
+              ),
+            )
+        ],
+      ),
     );
   }
 }
