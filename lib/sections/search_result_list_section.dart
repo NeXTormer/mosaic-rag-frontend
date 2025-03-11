@@ -9,7 +9,9 @@ import 'package:mosaic_rs_application/state/task_state.dart';
 import 'package:mosaic_rs_application/widgets/chip_selector.dart';
 import 'package:mosaic_rs_application/widgets/mosaic_search_result.dart';
 import 'package:mosaic_rs_application/widgets/search_result_metadata_section.dart';
+import 'package:mosaic_rs_application/widgets/standard_elements/frederic_divider.dart';
 import 'package:mosaic_rs_application/widgets/standard_elements/frederic_drop_down_text_field.dart';
+import 'package:mosaic_rs_application/widgets/standard_elements/frederic_heading.dart';
 
 class SearchResultListSection extends StatefulWidget {
   const SearchResultListSection({super.key});
@@ -24,9 +26,14 @@ class _SearchResultListSectionState extends State<SearchResultListSection>
   TextEditingController columnSelectorTextFieldController =
       TextEditingController();
 
+  TextEditingController columnToTankTextFieldController =
+      TextEditingController();
+
   ScrollController scrollController = ScrollController();
 
   String columnToDisplay = '';
+  String columnToRank = '';
+
   List<String> chipsToDisplay = <String>[];
   bool firstChipsHaveBeenDisplayed = false;
 
@@ -51,6 +58,14 @@ class _SearchResultListSectionState extends State<SearchResultListSection>
               columnToDisplay = 'full-text';
             } else if (taskState.taskInfo.textColumns.isNotEmpty) {
               columnToDisplay = taskState.taskInfo.textColumns.first;
+            }
+          }
+
+          if (columnToRank.isEmpty) {
+            if (taskState.taskInfo.rankColumns.isNotEmpty) {
+              columnToRank = taskState.taskInfo.rankColumns.last;
+              BlocProvider.of<TaskBloc>(context)
+                  .add(ChangeRankingEvent(columnToRank));
             }
           }
 
@@ -85,21 +100,64 @@ class _SearchResultListSectionState extends State<SearchResultListSection>
               if (taskState is TaskFinished)
                 SliverToBoxAdapter(
                   child: Padding(
-                    padding: const EdgeInsets.only(left: 56, top: 16),
+                    padding: const EdgeInsets.only(left: 56, top: 12),
                     child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      crossAxisAlignment: CrossAxisAlignment.end,
                       children: [
                         SizedBox(
-                          width: 224,
-                          child: FredericDropDownTextField(
-                              onSubmit: (s) {
-                                setState(() {
-                                  columnToDisplay = s;
-                                });
-                              },
-                              defaultValue: columnToDisplay,
-                              controller: columnSelectorTextFieldController,
-                              suggestedValues: taskState.taskInfo.textColumns),
+                          width: 200,
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                'Ranking',
+                                style: TextStyle(
+                                    fontSize: 11, color: theme.greyTextColor),
+                              ),
+                              const SizedBox(height: 2),
+                              FredericDropDownTextField(
+                                  onSubmit: (s) {
+                                    setState(() {
+                                      columnToRank = s;
+                                      BlocProvider.of<TaskBloc>(context)
+                                          .add(ChangeRankingEvent(s));
+                                    });
+                                  },
+                                  defaultValue: columnToRank,
+                                  controller: columnToTankTextFieldController,
+                                  suggestedValues:
+                                      taskState.taskInfo.rankColumns),
+                            ],
+                          ),
+                        ),
+                        const SizedBox(width: 16),
+                        SizedBox(
+                          width: 120,
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                'Text',
+                                style: TextStyle(
+                                    fontSize: 11, color: theme.greyTextColor),
+                              ),
+                              const SizedBox(height: 2),
+                              FredericDropDownTextField(
+                                  onSubmit: (s) {
+                                    setState(() {
+                                      columnToDisplay = s;
+                                    });
+                                  },
+                                  defaultValue: columnToDisplay,
+                                  controller: columnSelectorTextFieldController,
+                                  suggestedValues:
+                                      taskState.taskInfo.textColumns),
+                            ],
+                          ),
+                        ),
+                        Expanded(
+                          child: Container(),
                         ),
                         Padding(
                           padding: const EdgeInsets.symmetric(horizontal: 24),
@@ -133,24 +191,35 @@ class _SearchResultListSectionState extends State<SearchResultListSection>
                     ),
                   ),
                 ),
-              SliverToBoxAdapter(child: const SizedBox(height: 14)),
               if (taskState is TaskInProgress)
                 SliverToBoxAdapter(
-                    child: Center(
-                  child: SizedBox(
-                    height: 200,
-                    width: 200,
-                    child: LoadingIndicator(
-                      indicatorType: showPacman
-                          ? Indicator.pacman
-                          : Indicator.ballClipRotateMultiple,
-                      colors: [theme.mainColor, theme.accentColor],
+                    child: Padding(
+                  padding: const EdgeInsets.only(top: 14),
+                  child: Center(
+                    child: SizedBox(
+                      height: 200,
+                      width: 200,
+                      child: LoadingIndicator(
+                        indicatorType: showPacman
+                            ? Indicator.pacman
+                            : Indicator.ballClipRotateMultiple,
+                        colors: [theme.mainColor, theme.accentColor],
+                      ),
                     ),
                   ),
                 )),
               if (taskState is TaskFinished)
+                SliverToBoxAdapter(
+                    child: Padding(
+                  padding: const EdgeInsets.only(left: 56, top: 8, bottom: 8),
+                  child: Text(
+                    taskState.taskInfo.resultDescription,
+                    style: TextStyle(color: theme.greyTextColor, fontSize: 11),
+                  ),
+                )),
+              if (taskState is TaskFinished)
                 SliverPadding(
-                  padding: const EdgeInsets.only(left: 16),
+                  padding: const EdgeInsets.only(left: 16, right: 20),
                   sliver: SliverList.builder(
                     itemBuilder: (context, index) => true
                         ? MosaicSearchResult(

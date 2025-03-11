@@ -18,7 +18,8 @@ class TaskInfo {
         aggregated_data = [],
         chipColumns = [],
         rankColumns = [],
-        textColumns = [];
+        textColumns = [],
+        resultDescription = '';
 
   TaskInfo.fromJSON(dynamic json)
       : taskProgress = TaskProgress(),
@@ -28,12 +29,15 @@ class TaskInfo {
         aggregated_data = [],
         chipColumns = [],
         rankColumns = [],
-        textColumns = [] {
+        textColumns = [],
+        resultDescription = '' {
     taskProgress = TaskProgress.fromJSON(json['progress']);
     hasFinished = json['has_finished'];
 
     if (json['result'] != null) {
       final results = json['result'] as Map<String, dynamic>;
+
+      resultDescription = results['result_description'];
 
       data = (jsonDecode(results['data']) as List<dynamic>)
           .map((e) => e as Map<String, dynamic>)
@@ -76,16 +80,12 @@ class TaskInfo {
   }
 
   List<Map<String, dynamic>> data;
-
   List<Map<String, dynamic>> _metadata;
+
+  String resultDescription;
   List<String> textColumns;
   List<String> chipColumns;
   List<String> rankColumns;
-
-  // final List<String> resultColumns;
-  // final List<String> chipColumns;
-  // final Map<String, List<int>> resultColumnsWordCountList;
-  // final Map<String, int> resultColumnsWordCount;
 
   List<Map<String, dynamic>> aggregated_data;
 }

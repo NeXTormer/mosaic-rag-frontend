@@ -112,7 +112,7 @@ class PipelineSection extends StatelessWidget {
                   ignoring: taskState is TaskInProgress,
                   child: ReorderableListView.builder(
                       buildDefaultDragHandles: false,
-                      itemExtent: 250,
+                      itemExtent: 237,
                       physics: BouncingScrollPhysics(),
                       proxyDecorator: _proxyDecorator,
                       onReorder: (oldIndex, newIndex) {

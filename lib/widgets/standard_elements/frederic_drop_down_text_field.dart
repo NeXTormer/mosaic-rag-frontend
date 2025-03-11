@@ -76,12 +76,13 @@ class _FredericDropDownTextFieldState extends State<FredericDropDownTextField> {
           ),
           textStyle: TextStyle(fontSize: 13),
           inputDecorationTheme: InputDecorationTheme(
+            constraints: BoxConstraints.tight(Size.fromHeight(widget.height)),
             hintStyle: TextStyle(
                 color: widget.onColorfulBackground
                     ? theme.textColorColorfulBackground
                     : theme.greyTextColor),
             contentPadding: EdgeInsets.symmetric(
-                horizontal: 16, vertical: widget.verticalContentPadding),
+                horizontal: 12, vertical: widget.verticalContentPadding),
             floatingLabelBehavior: FloatingLabelBehavior.never,
             focusedBorder: OutlineInputBorder(
               borderRadius: BorderRadius.all(Radius.circular(10)),

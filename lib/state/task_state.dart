@@ -14,7 +14,10 @@ class TaskInProgress extends TaskState {
 }
 
 class TaskFinished extends TaskState {
-  TaskFinished({required this.currentTaskID, required this.taskInfo});
+  TaskFinished({
+    required this.currentTaskID,
+    required this.taskInfo,
+  });
 
   final String currentTaskID;
 
@@ -30,4 +33,10 @@ class StartTaskEvent extends TaskEvent {
 
   final String query;
   final List<MosaicPipelineStep> steps;
+}
+
+class ChangeRankingEvent extends TaskEvent {
+  ChangeRankingEvent(this.column);
+
+  final String column;
 }

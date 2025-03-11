@@ -13,6 +13,7 @@ class TaskBloc extends Bloc<TaskEvent, TaskState> {
     });
 
     on<StartTaskEvent>(_startTask);
+    on<ChangeRankingEvent>(_changeRanking);
   }
 
   void _startTask(StartTaskEvent event, emit) async {
@@ -51,7 +52,7 @@ class TaskBloc extends Bloc<TaskEvent, TaskState> {
 
     var stopwatch = Stopwatch()..start();
     while (true) {
-      await Future.delayed(const Duration(milliseconds: 500));
+      await Future.delayed(const Duration(milliseconds: 200));
 
       if (!(state is TaskInProgress)) {
         // just in case
@@ -70,5 +71,15 @@ class TaskBloc extends Bloc<TaskEvent, TaskState> {
     emit(TaskFinished(currentTaskID: taskID, taskInfo: taskInfo));
 
     print('Result postprocessing time: ${stopwatch.elapsedMicroseconds} us');
+  }
+
+  void _changeRanking(ChangeRankingEvent event, emit) {
+    if (state is TaskFinished) {
+      final s = state as TaskFinished;
+
+      s.taskInfo.data.sort((a, b) => a[event.column] - b[event.column]);
+
+      emit(TaskFinished(currentTaskID: s.currentTaskID, taskInfo: s.taskInfo));
+    }
   }
 }

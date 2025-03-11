@@ -15,9 +15,9 @@ class _MapDisplayState extends State<MapDisplay> {
   Widget build(BuildContext context) {
     return FlutterMap(
       options: MapOptions(
-        initialCenter:
-            LatLng(43.42163, -81.62773), // Center the map over London
-        initialZoom: 9.2,
+        initialCenter: LatLng(
+            47.0593287234262, 15.458694016069696), // Center the map over London
+        initialZoom: 12,
       ),
       children: [
         TileLayer(
@@ -25,14 +25,8 @@ class _MapDisplayState extends State<MapDisplay> {
           // Bring your own tiles
           urlTemplate:
               'https://tile.openstreetmap.org/{z}/{x}/{y}.png', // For demonstration only
-          userAgentPackageName: 'com.example.app', // Add your app identifier
+          userAgentPackageName: 'eu.ows.mosaicrs', // Add your app identifier
           // And many more recommended properties!
-        ),
-        RichAttributionWidget(
-          // Include a stylish prebuilt attribution widget that meets all requirments
-          attributions: [
-            // Also add images...
-          ],
         ),
       ],
     );

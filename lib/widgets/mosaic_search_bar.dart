@@ -60,7 +60,7 @@ class _MosaicSearchBarState extends State<MosaicSearchBar> {
                   color: theme.mainColor,
                   borderRadius: BorderRadius.circular(8)),
               child: Icon(
-                Icons.arrow_upward,
+                Icons.arrow_forward,
                 color: Colors.white,
               ),
             ),

@@ -31,7 +31,7 @@ class MosaicSearchResult extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.only(bottom: 24, right: 24),
+      padding: const EdgeInsets.only(bottom: 16),
       child: SizedBox(
         // height: 200,
         child: IntrinsicHeight(

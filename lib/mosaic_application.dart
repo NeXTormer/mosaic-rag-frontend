@@ -38,7 +38,7 @@ class _MosaicApplicationState extends State<MosaicApplication> {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'mosaicRS',
+      title: 'mosaicRAG',
       theme: ThemeData(
         colorScheme: ColorScheme.fromSeed(seedColor: theme.mainColor),
         fontFamily: 'Montserrat',
@@ -66,7 +66,7 @@ class _MosaicApplicationState extends State<MosaicApplication> {
                       Stack(
                         children: [
                           Text(
-                            'mosaicRS',
+                            'mosaicRAG',
                             style: GoogleFonts.montserrat(
                                 fontWeight: FontWeight.w800,
                                 color: theme.mainColor,

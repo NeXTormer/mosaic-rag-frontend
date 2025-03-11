@@ -60,7 +60,7 @@ class MosaicSearchResultLarge extends StatelessWidget {
                             ],
                           ),
                         ),
-                        SizedBox(height: 300, width: 300, child: MapDisplay())
+                        SizedBox(height: 500, width: 300, child: MapDisplay())
                       ],
                     ),
                   ),
