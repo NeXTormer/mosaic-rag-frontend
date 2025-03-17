@@ -53,7 +53,7 @@ class _MosaicPipelineStepParameterCardState
             const SizedBox(height: 4),
             if (widget.parameter.type == 'string')
               SizedBox(
-                height: 50,
+                height: 44,
                 child: FredericTextField(
                   widget.parameter.title,
                   text: widget.parameter.defaultValue,
@@ -65,6 +65,7 @@ class _MosaicPipelineStepParameterCardState
               ),
             if (widget.parameter.type == 'dropdown')
               FredericDropDownTextField(
+                height: 44,
                 controller: controller,
                 defaultValue: widget.parameter.defaultValue,
                 suggestedValues: widget.parameter.supportedValues,

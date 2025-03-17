@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_markdown/flutter_markdown.dart';
 import 'package:mosaic_rs_application/state/task_bloc.dart';
 import 'package:mosaic_rs_application/state/task_state.dart';
 import 'package:mosaic_rs_application/widgets/standard_elements/frederic_card.dart';
@@ -27,7 +28,11 @@ class SearchResultMetadataSection extends StatelessWidget {
                     FredericHeading(
                         state.taskInfo.aggregated_data.first['title']),
                     const SizedBox(height: 8),
-                    Text(state.taskInfo.aggregated_data.first['data']),
+                    Markdown(
+                        shrinkWrap: true,
+                        padding: EdgeInsets.zero,
+                        physics: NeverScrollableScrollPhysics(),
+                        data: state.taskInfo.aggregated_data.first['data']),
                   ],
                 ),
               ),

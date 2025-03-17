@@ -49,10 +49,10 @@ class TaskInfo {
 
       _parseMetadata();
 
-      aggregated_data =
-          (jsonDecode(results['aggregated_data']) as List<dynamic>)
-              .map((e) => e as Map<String, dynamic>)
-              .toList();
+      // aggregated_data =
+      //     (jsonDecode(results['aggregated_data']) as List<dynamic>)
+      //         .map((e) => e as Map<String, dynamic>)
+      //         .toList();
     }
   }
 
@@ -63,18 +63,23 @@ class TaskInfo {
     textColumns.clear();
     chipColumns.clear();
     rankColumns.clear();
+    aggregated_data.clear();
 
-    for (final column in _metadata) {
-      if (column['chip'] == true) {
-        chipColumns.add(column['id']);
+    for (final row in _metadata) {
+      if (row['chip'] == true) {
+        chipColumns.add(row['id']);
       }
 
-      if (column['text'] == true) {
-        textColumns.add(column['id']);
+      if (row['text'] == true) {
+        textColumns.add(row['id']);
       }
 
-      if (column['rank'] == true) {
-        rankColumns.add(column['id']);
+      if (row['rank'] == true) {
+        rankColumns.add(row['id']);
+      }
+
+      if (row['title'] != null && row['data'] != null) {
+        aggregated_data.add({'title': row['title'], 'data': row['data']});
       }
     }
   }
