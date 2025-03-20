@@ -47,6 +47,7 @@ class TaskInfo {
           .map((e) => e as Map<String, dynamic>)
           .toList();
 
+      print(json);
       _parseMetadata();
 
       // aggregated_data =
@@ -66,6 +67,7 @@ class TaskInfo {
     aggregated_data.clear();
 
     for (final row in _metadata) {
+      print(row);
       if (row['chip'] == true) {
         chipColumns.add(row['id']);
       }

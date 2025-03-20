@@ -14,19 +14,26 @@ class TaskInProgress extends TaskState {
 }
 
 class TaskFinished extends TaskState {
-  TaskFinished({
-    required this.currentTaskID,
-    required this.taskInfo,
-  });
+  TaskFinished(
+      {required this.currentTaskID,
+      required this.taskInfo,
+      required this.textPreviewColumn,
+      required this.rankColumn,
+      this.activeChipColumns = const []});
 
   final String currentTaskID;
-
   final TaskInfo taskInfo;
+
+  final String textPreviewColumn;
+  final String rankColumn;
+  final List<String> activeChipColumns;
 }
 
 sealed class TaskEvent {}
 
 class CancelTaskEvent extends TaskEvent {}
+
+class ResetTaskEvent extends TaskEvent {}
 
 class StartTaskEvent extends TaskEvent {
   StartTaskEvent(this.query, this.steps);
@@ -35,8 +42,11 @@ class StartTaskEvent extends TaskEvent {
   final List<MosaicPipelineStep> steps;
 }
 
-class ChangeRankingEvent extends TaskEvent {
-  ChangeRankingEvent(this.column);
+class ChangeTaskDisplayEvent extends TaskEvent {
+  ChangeTaskDisplayEvent(
+      {this.rankColumn, this.textPreviewColumn, this.activeChipColumns});
 
-  final String column;
+  final String? rankColumn;
+  final String? textPreviewColumn;
+  final List<String>? activeChipColumns;
 }

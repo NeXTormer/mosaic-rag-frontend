@@ -9,9 +9,7 @@ import 'package:mosaic_rs_application/state/task_state.dart';
 import 'package:mosaic_rs_application/widgets/chip_selector.dart';
 import 'package:mosaic_rs_application/widgets/mosaic_search_result.dart';
 import 'package:mosaic_rs_application/widgets/search_result_metadata_section.dart';
-import 'package:mosaic_rs_application/widgets/standard_elements/frederic_divider.dart';
 import 'package:mosaic_rs_application/widgets/standard_elements/frederic_drop_down_text_field.dart';
-import 'package:mosaic_rs_application/widgets/standard_elements/frederic_heading.dart';
 
 class SearchResultListSection extends StatefulWidget {
   const SearchResultListSection({super.key});
@@ -26,16 +24,10 @@ class _SearchResultListSectionState extends State<SearchResultListSection>
   TextEditingController columnSelectorTextFieldController =
       TextEditingController();
 
-  TextEditingController columnToTankTextFieldController =
+  TextEditingController columnToRankTextFieldController =
       TextEditingController();
 
   ScrollController scrollController = ScrollController();
-
-  String columnToDisplay = '';
-  String columnToRank = '';
-
-  List<String> chipsToDisplay = <String>[];
-  bool firstChipsHaveBeenDisplayed = false;
 
   bool showPacman = false;
 
@@ -50,36 +42,6 @@ class _SearchResultListSectionState extends State<SearchResultListSection>
     super.build(context);
     return BlocBuilder<TaskBloc, TaskState>(
       builder: (context, taskState) {
-        if (taskState is TaskFinished) {
-          if (columnToDisplay.isEmpty) {
-            if (taskState.taskInfo.textColumns.contains('summary')) {
-              columnToDisplay = 'summary';
-            } else if (taskState.taskInfo.textColumns.contains('full-text')) {
-              columnToDisplay = 'full-text';
-            } else if (taskState.taskInfo.textColumns.isNotEmpty) {
-              columnToDisplay = taskState.taskInfo.textColumns.first;
-            }
-          }
-
-          if (columnToRank.isEmpty) {
-            if (taskState.taskInfo.rankColumns.isNotEmpty) {
-              columnToRank = taskState.taskInfo.rankColumns.last;
-              BlocProvider.of<TaskBloc>(context)
-                  .add(ChangeRankingEvent(columnToRank));
-            }
-          }
-
-          if (chipsToDisplay.isEmpty &&
-              !firstChipsHaveBeenDisplayed &&
-              columnToDisplay.isNotEmpty) {
-            firstChipsHaveBeenDisplayed = true;
-            final chipsToAdd = min(taskState.taskInfo.chipColumns.length, 3);
-            for (var i = 0; i < chipsToAdd; i++) {
-              chipsToDisplay.add(taskState.taskInfo.chipColumns[i]);
-            }
-          }
-        }
-
         return BlocBuilder<TaskBloc, TaskState>(builder: (context, taskState) {
           return CustomScrollView(
             controller: scrollController,
@@ -117,15 +79,12 @@ class _SearchResultListSectionState extends State<SearchResultListSection>
                               ),
                               const SizedBox(height: 2),
                               FredericDropDownTextField(
-                                  onSubmit: (s) {
-                                    setState(() {
-                                      columnToRank = s;
-                                      BlocProvider.of<TaskBloc>(context)
-                                          .add(ChangeRankingEvent(s));
-                                    });
-                                  },
-                                  defaultValue: columnToRank,
-                                  controller: columnToTankTextFieldController,
+                                  onSubmit: (s) =>
+                                      BlocProvider.of<TaskBloc>(context).add(
+                                          ChangeTaskDisplayEvent(
+                                              rankColumn: s)),
+                                  defaultValue: taskState.rankColumn,
+                                  controller: columnToRankTextFieldController,
                                   suggestedValues:
                                       taskState.taskInfo.rankColumns),
                             ],
@@ -144,12 +103,11 @@ class _SearchResultListSectionState extends State<SearchResultListSection>
                               ),
                               const SizedBox(height: 2),
                               FredericDropDownTextField(
-                                  onSubmit: (s) {
-                                    setState(() {
-                                      columnToDisplay = s;
-                                    });
-                                  },
-                                  defaultValue: columnToDisplay,
+                                  onSubmit: (s) =>
+                                      BlocProvider.of<TaskBloc>(context).add(
+                                          ChangeTaskDisplayEvent(
+                                              textPreviewColumn: s)),
+                                  defaultValue: taskState.textPreviewColumn,
                                   controller: columnSelectorTextFieldController,
                                   suggestedValues:
                                       taskState.taskInfo.textColumns),
@@ -166,15 +124,22 @@ class _SearchResultListSectionState extends State<SearchResultListSection>
                             children: taskState.taskInfo.chipColumns
                                 .map((column) => ChipSelector(
                                     onTap: () {
-                                      setState(() {
-                                        final enabled =
-                                            chipsToDisplay.contains(column);
-                                        if (enabled) {
-                                          chipsToDisplay.remove(column);
-                                        } else {
-                                          chipsToDisplay.add(column);
-                                        }
-                                      });
+                                      final enabled = taskState
+                                          .activeChipColumns
+                                          .contains(column);
+                                      final activeChipColumns =
+                                          List<String>.from(
+                                              taskState.activeChipColumns);
+                                      if (enabled) {
+                                        activeChipColumns.remove(column);
+                                      } else {
+                                        activeChipColumns.add(column);
+                                      }
+
+                                      BlocProvider.of<TaskBloc>(context).add(
+                                          ChangeTaskDisplayEvent(
+                                              activeChipColumns:
+                                                  activeChipColumns));
                                     },
                                     child: Center(
                                       child: Padding(
@@ -183,7 +148,8 @@ class _SearchResultListSectionState extends State<SearchResultListSection>
                                         child: Text(column),
                                       ),
                                     ),
-                                    selected: chipsToDisplay.contains(column)))
+                                    selected: taskState.activeChipColumns
+                                        .contains(column)))
                                 .toList(),
                           ),
                         )
@@ -228,10 +194,10 @@ class _SearchResultListSectionState extends State<SearchResultListSection>
                                 '<missing-url>',
                             title: taskState.taskInfo.data[index]['title'] ??
                                 '<missing-title>',
-                            textHeader: columnToDisplay,
+                            textHeader: taskState.textPreviewColumn,
                             text:
-                                '${taskState.taskInfo.data[index][columnToDisplay] ?? ''}',
-                            chips: chipsToDisplay
+                                '${taskState.taskInfo.data[index][taskState.textPreviewColumn] ?? ''}',
+                            chips: taskState.activeChipColumns
                                 .map((column) =>
                                     '$column: ${taskState.taskInfo.data[index][column] ?? ''}')
                                 .toList(),

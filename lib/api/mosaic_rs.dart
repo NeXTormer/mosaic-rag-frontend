@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'dart:io';
 
 import 'package:dio/dio.dart';
+import 'package:mosaic_rs_application/state/mosaic_pipeline_step.dart';
 import 'package:mosaic_rs_application/state/task_progress.dart';
 import 'package:mosaic_rs_application/main.dart';
 
@@ -38,5 +39,39 @@ class MosaicRS {
     final response = await dio.get(serverURL + '/pipeline/info');
 
     return response.data;
+  }
+
+  static Map<String, dynamic> getPipelineParameters(
+      List<MosaicPipelineStep> steps, String query) {
+    Map<String, dynamic> parameters = {};
+
+    parameters['pipeline'] = <String, dynamic>{
+      'query': query,
+    };
+
+    for (int i = 0; i < steps.length; i++) {
+      final index = i + 1;
+      final step = steps[i];
+
+      final parameterData = step.parameterData;
+      List<String> parametersToRemove = [];
+      for (final entry in parameterData.entries) {
+        if (entry.value.isEmpty) parametersToRemove.add(entry.key);
+      }
+      for (final param in parametersToRemove) parameterData.remove(param);
+
+      parameters['pipeline']['$index'] = <String, dynamic>{
+        'id': step.id,
+        'parameters': step.parameterData
+      };
+    }
+
+    return parameters;
+  }
+
+  static String generateCurlCommandForPipeline(List<MosaicPipelineStep> steps) {
+    final parameters = getPipelineParameters(steps, '');
+    final jsonBody = jsonEncode(parameters);
+    return "curl -X POST ${serverURL}/task/run -H 'Content-Type: application/json' -d '$jsonBody'";
   }
 }

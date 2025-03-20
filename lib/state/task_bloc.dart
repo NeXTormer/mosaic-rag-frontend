@@ -1,5 +1,8 @@
+import 'dart:math';
+
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:mosaic_rs_application/api/mosaic_rs.dart';
+import 'package:mosaic_rs_application/state/mosaic_pipeline_step.dart';
 import 'package:mosaic_rs_application/state/task_state.dart';
 import 'package:mosaic_rs_application/state/task_progress.dart';
 
@@ -12,8 +15,13 @@ class TaskBloc extends Bloc<TaskEvent, TaskState> {
       }
     });
 
+    on<ResetTaskEvent>((event, emit) {
+      assert(state is TaskFinished);
+      emit(TaskDoesNotExist());
+    });
+
     on<StartTaskEvent>(_startTask);
-    on<ChangeRankingEvent>(_changeRanking);
+    on<ChangeTaskDisplayEvent>(_changeTaskDisplayData);
   }
 
   void _startTask(StartTaskEvent event, emit) async {
@@ -21,31 +29,7 @@ class TaskBloc extends Bloc<TaskEvent, TaskState> {
 
     emit(TaskInProgress(TaskProgress(), 'None'));
 
-    final query = event.query;
-    final steps = event.steps;
-
-    Map<String, dynamic> parameters = {};
-
-    parameters['pipeline'] = <String, dynamic>{
-      'query': query,
-    };
-
-    for (int i = 0; i < steps.length; i++) {
-      final index = i + 1;
-      final step = steps[i];
-
-      final parameterData = step.parameterData;
-      List<String> parametersToRemove = [];
-      for (final entry in parameterData.entries) {
-        if (entry.value.isEmpty) parametersToRemove.add(entry.key);
-      }
-      for (final param in parametersToRemove) parameterData.remove(param);
-
-      parameters['pipeline']['$index'] = <String, dynamic>{
-        'id': step.id,
-        'parameters': step.parameterData
-      };
-    }
+    final parameters = MosaicRS.getPipelineParameters(event.steps, event.query);
 
     String taskID = await MosaicRS.enqueueTask(parameters);
     TaskInfo? taskInfo;
@@ -68,18 +52,56 @@ class TaskBloc extends Bloc<TaskEvent, TaskState> {
       }
     }
 
-    emit(TaskFinished(currentTaskID: taskID, taskInfo: taskInfo));
+    String textPreviewColumn = '';
+    String rankColumn = '';
+    List<String> activeChipColumns = [];
+
+    if (taskInfo.textColumns.contains('summary')) {
+      textPreviewColumn = 'summary';
+    } else if (taskInfo.textColumns.contains('full-text')) {
+      textPreviewColumn = 'full-text';
+    } else if (taskInfo.textColumns.isNotEmpty) {
+      textPreviewColumn = taskInfo.textColumns.last;
+    }
+
+    if (taskInfo.rankColumns.isNotEmpty) {
+      rankColumn = taskInfo.rankColumns.last;
+      taskInfo.data.sort((a, b) => a[rankColumn] - b[rankColumn]);
+    }
+
+    print("Chips");
+    print(taskInfo.chipColumns);
+
+    final numberOfChipsToDisplay = min(taskInfo.chipColumns.length, 3);
+    for (var i = 0; i < numberOfChipsToDisplay; i++) {
+      activeChipColumns.add(taskInfo.chipColumns[i]);
+    }
+
+    emit(TaskFinished(
+      currentTaskID: taskID,
+      taskInfo: taskInfo,
+      activeChipColumns: activeChipColumns,
+      rankColumn: rankColumn,
+      textPreviewColumn: textPreviewColumn,
+    ));
 
     print('Result postprocessing time: ${stopwatch.elapsedMicroseconds} us');
   }
 
-  void _changeRanking(ChangeRankingEvent event, emit) {
-    if (state is TaskFinished) {
-      final s = state as TaskFinished;
+  void _changeTaskDisplayData(ChangeTaskDisplayEvent event, emit) {
+    assert(state is TaskFinished);
+    final s = state as TaskFinished;
 
-      s.taskInfo.data.sort((a, b) => a[event.column] - b[event.column]);
-
-      emit(TaskFinished(currentTaskID: s.currentTaskID, taskInfo: s.taskInfo));
+    if (event.rankColumn != null) {
+      s.taskInfo.data.sort((a, b) => a[event.rankColumn] - b[event.rankColumn]);
     }
+
+    emit(TaskFinished(
+      currentTaskID: s.currentTaskID,
+      taskInfo: s.taskInfo,
+      rankColumn: event.rankColumn ?? s.rankColumn,
+      textPreviewColumn: event.textPreviewColumn ?? s.textPreviewColumn,
+      activeChipColumns: event.activeChipColumns ?? s.activeChipColumns,
+    ));
   }
 }
