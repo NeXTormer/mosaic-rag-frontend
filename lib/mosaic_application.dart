@@ -92,55 +92,58 @@ class _MosaicApplicationState extends State<MosaicApplication> {
                       SizedBox(width: 48),
                       Expanded(child: MosaicSearchBar()),
                       SizedBox(width: 48),
-                      DropdownButtonHideUnderline(
-                        child: DropdownButton2(
-                          customButton: Text(
-                            'Preconfigured pipelines',
-                            style: GoogleFonts.montserrat(
-                                color: theme.textColor, fontSize: 16),
-                          ),
-                          items: [
-                            ...MenuItems.firstItems.map(
-                              (item) => DropdownMenuItem<MenuItem>(
-                                value: item,
-                                child: MenuItems.buildItem(item),
+                      SizedBox(width: 220),
+                      if (false)
+                        DropdownButtonHideUnderline(
+                          child: DropdownButton2(
+                            customButton: Text(
+                              'Preconfigured pipelines',
+                              style: GoogleFonts.montserrat(
+                                  color: theme.textColor, fontSize: 16),
+                            ),
+                            items: [
+                              ...MenuItems.firstItems.map(
+                                (item) => DropdownMenuItem<MenuItem>(
+                                  value: item,
+                                  child: MenuItems.buildItem(item),
+                                ),
                               ),
-                            ),
-                            const DropdownMenuItem<Divider>(
-                                enabled: false, child: Divider()),
-                            ...MenuItems.secondItems.map(
-                              (item) => DropdownMenuItem<MenuItem>(
-                                value: item,
-                                child: MenuItems.buildItem(item),
+                              const DropdownMenuItem<Divider>(
+                                  enabled: false, child: Divider()),
+                              ...MenuItems.secondItems.map(
+                                (item) => DropdownMenuItem<MenuItem>(
+                                  value: item,
+                                  child: MenuItems.buildItem(item),
+                                ),
                               ),
-                            ),
-                          ],
-                          onChanged: (value) {
-                            print(value);
-                          },
-                          dropdownStyleData: DropdownStyleData(
-                            width: 450,
-                            openInterval:
-                                Interval(0, 0, curve: Curves.easeInOut),
-                            padding: const EdgeInsets.symmetric(vertical: 6),
-                            decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(10),
-                              color: Colors.white,
-                            ),
-                            offset: const Offset(0, 0),
-                          ),
-                          menuItemStyleData: MenuItemStyleData(
-                            customHeights: [
-                              ...List<double>.filled(
-                                  MenuItems.firstItems.length, 48),
-                              8,
-                              ...List<double>.filled(
-                                  MenuItems.secondItems.length, 48),
                             ],
-                            padding: const EdgeInsets.only(left: 16, right: 16),
+                            onChanged: (value) {
+                              print(value);
+                            },
+                            dropdownStyleData: DropdownStyleData(
+                              width: 450,
+                              openInterval:
+                                  Interval(0, 0, curve: Curves.easeInOut),
+                              padding: const EdgeInsets.symmetric(vertical: 6),
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(10),
+                                color: Colors.white,
+                              ),
+                              offset: const Offset(0, 0),
+                            ),
+                            menuItemStyleData: MenuItemStyleData(
+                              customHeights: [
+                                ...List<double>.filled(
+                                    MenuItems.firstItems.length, 48),
+                                8,
+                                ...List<double>.filled(
+                                    MenuItems.secondItems.length, 48),
+                              ],
+                              padding:
+                                  const EdgeInsets.only(left: 16, right: 16),
+                            ),
                           ),
                         ),
-                      ),
                       SizedBox(width: 48),
                       GestureDetector(
                         onTap: () => js.context

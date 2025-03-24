@@ -40,8 +40,8 @@ class _ResultSectionState extends State<ResultSection> {
           physics: NeverScrollableScrollPhysics(),
           controller: pageController,
           children: [
-            ConversationalSearchSection(),
             SearchResultListSection(),
+            ConversationalSearchSection(),
             Placeholder(
               child: Center(child: Text("Coming soon")),
             ),
