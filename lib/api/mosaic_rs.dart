@@ -69,6 +69,20 @@ class MosaicRS {
     return parameters;
   }
 
+  static Future<String> chat(String taskID, String? chatID, String model,
+      String column, String message) async {
+    final dio = Dio();
+    final response = await dio.get(serverURL + '/task/chat/${chatID ?? 'new'}',
+        queryParameters: {
+          'task_id': taskID,
+          'model': model,
+          'column': column,
+          'message': message
+        });
+
+    return response.data;
+  }
+
   static String generateCurlCommandForPipeline(List<MosaicPipelineStep> steps) {
     final parameters = getPipelineParameters(steps, '');
     final jsonBody = jsonEncode(parameters);

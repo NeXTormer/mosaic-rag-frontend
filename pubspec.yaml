@@ -2,7 +2,7 @@ name: mosaic_rs_application
 description: "Frontend application for the mosaic retrieval system"
 publish_to: 'none'
 
-version: 1.0.20+21
+version: 1.0.21+22
 
 environment:
   sdk: ^3.5.3
@@ -24,6 +24,7 @@ dependencies:
   zo_animated_border: ^0.0.5
   flutter_markdown: ^0.7.6+2
   toastification: ^3.0.2
+  shimmer: ^3.0.0
 
   flutter_map: ^8.0.0
   flutter_map_cancellable_tile_provider: ^3.1.0

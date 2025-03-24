@@ -2,6 +2,8 @@ import 'package:dropdown_button2/dropdown_button2.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:mosaic_rs_application/state/chat_bloc.dart';
+import 'package:mosaic_rs_application/state/chat_state.dart';
 import 'package:mosaic_rs_application/state/mosaic_pipeline_state.dart';
 import 'package:mosaic_rs_application/state/pipeline_cubit.dart';
 import 'package:mosaic_rs_application/main.dart';
@@ -51,6 +53,8 @@ class _MosaicApplicationState extends State<MosaicApplication> {
           providers: [
             BlocProvider<TaskBloc>(
                 create: (context) => TaskBloc(TaskDoesNotExist())),
+            BlocProvider<ChatBloc>(
+                create: (context) => ChatBloc(NoChat('', ''))),
             BlocProvider<PipelineCubit>(
                 create: (context) =>
                     PipelineCubit(PipelineState.empty())..loadPipelineInfo()),

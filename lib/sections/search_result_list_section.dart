@@ -92,7 +92,7 @@ class _SearchResultListSectionState extends State<SearchResultListSection>
                         ),
                         const SizedBox(width: 16),
                         SizedBox(
-                          width: 120,
+                          width: 140,
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [

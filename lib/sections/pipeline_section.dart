@@ -4,6 +4,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:mosaic_rs_application/api/mosaic_rs.dart';
+import 'package:mosaic_rs_application/state/chat_bloc.dart';
+import 'package:mosaic_rs_application/state/chat_state.dart';
 import 'package:mosaic_rs_application/state/mosaic_pipeline_state.dart';
 import 'package:mosaic_rs_application/main.dart';
 import 'package:mosaic_rs_application/state/pipeline_cubit.dart';
@@ -61,9 +63,9 @@ class PipelineSection extends StatelessWidget {
                     flex: 2,
                     child: FredericButton(
                         switch (taskState) {
-                          TaskDoesNotExist() => 'Reset',
+                          TaskDoesNotExist() => 'Reset everything',
                           TaskInProgress() => 'Cancel',
-                          TaskFinished() => 'Reset',
+                          TaskFinished() => 'Reset everything',
                         },
                         mainColor: switch (taskState) {
                           TaskDoesNotExist() => theme.disabledGreyColor,
@@ -75,9 +77,12 @@ class PipelineSection extends StatelessWidget {
                               TaskInProgress() =>
                                 BlocProvider.of<TaskBloc>(context)
                                     .add(CancelTaskEvent()),
-                              TaskFinished() =>
-                                BlocProvider.of<TaskBloc>(context)
-                                    .add(ResetTaskEvent()),
+                              TaskFinished() => {
+                                  BlocProvider.of<TaskBloc>(context)
+                                      .add(ResetTaskEvent()),
+                                  BlocProvider.of<ChatBloc>(context)
+                                      .add(ResetChatEvent()),
+                                }
                             })),
                 const SizedBox(width: 32),
                 Flexible(
