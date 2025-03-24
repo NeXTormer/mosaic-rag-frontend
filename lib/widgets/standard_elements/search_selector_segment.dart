@@ -73,7 +73,7 @@ class _ActivityFilterSegmentState extends State<SearchSelectorSegment> {
                     });
                   }),
                   SizedBox(width: 72),
-                  _FilterButton('Data flow explorer',
+                  _FilterButton('Knowledge graph',
                       key: dataflowKey,
                       rightPadding: padding,
                       isActive: selectedIndex == 2, onPressed: () {
