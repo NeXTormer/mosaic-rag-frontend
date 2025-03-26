@@ -28,10 +28,9 @@ class SearchResultMetadataSection extends StatelessWidget {
                     FredericHeading(
                         state.taskInfo.aggregated_data.first['title']),
                     const SizedBox(height: 8),
-                    Markdown(
+                    MarkdownBody(
                         shrinkWrap: true,
-                        padding: EdgeInsets.zero,
-                        physics: NeverScrollableScrollPhysics(),
+                        selectable: true,
                         data: state.taskInfo.aggregated_data.first['data']),
                   ],
                 ),

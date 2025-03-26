@@ -6,7 +6,7 @@ perl -i -pe 's/^(version:\s+\d+\.\d+\.)(\d+)\+(\d+)$/$1.($2+1)."+".($3+1)/e' pub
 
 flutter clean
 flutter packages get
-flutter build web --release --web-renderer=canvaskit --pwa-strategy=none #--no-tree-shake-icons #--source-maps
+flutter build web --release --pwa-strategy=none #--no-tree-shake-icons #--source-maps
 
 
 

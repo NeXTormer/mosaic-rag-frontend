@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_markdown/flutter_markdown.dart';
 import 'package:mosaic_rs_application/main.dart';
 import 'package:mosaic_rs_application/widgets/standard_elements/frederic_card.dart';
 import 'package:shimmer/shimmer.dart';
@@ -71,12 +72,16 @@ class ChatMessage extends StatelessWidget {
                         isUser ? theme.cardBorderColor : Colors.transparent,
                     padding: const EdgeInsets.all(12),
                     child: IntrinsicWidth(
-                      child: Text(
-                        message,
-                        style: TextStyle(
-                            fontWeight: FontWeight.w500, fontSize: 14),
-                        textAlign: isUser ? TextAlign.end : TextAlign.start,
-                      ),
+                      child: !isUser
+                          ? MarkdownBody(
+                              shrinkWrap: true, data: message, selectable: true)
+                          : Text(
+                              message,
+                              style: TextStyle(
+                                  fontWeight: FontWeight.w500, fontSize: 14),
+                              textAlign:
+                                  isUser ? TextAlign.end : TextAlign.start,
+                            ),
                     )),
               ),
             ),
