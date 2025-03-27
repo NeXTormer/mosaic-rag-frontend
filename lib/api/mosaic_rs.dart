@@ -18,7 +18,7 @@ class MosaicRS {
           HttpHeaders.contentTypeHeader: "application/json",
         }),
         data: jsonEncode(parameters));
-    print("TaskID: ${response.data}");
+
     return response.data as String;
   }
 

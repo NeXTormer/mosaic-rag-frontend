@@ -125,8 +125,6 @@ class PipelineSection extends StatelessWidget {
               padding: const EdgeInsets.all(16),
               child: BlocBuilder<PipelineCubit, PipelineState>(
                   builder: (context, pipeline) {
-                if (pipeline.currentSteps.isNotEmpty)
-                  print(pipeline.currentSteps.first.parameterData);
                 return BlocBuilder<TaskBloc, TaskState>(
                     buildWhen: (last, current) {
                   if (current is TaskInProgress && last is TaskInProgress) {

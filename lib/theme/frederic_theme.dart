@@ -26,6 +26,31 @@ class FredericColorTheme {
       this.greyTextColor = const Color(0xBF3A3A3A),
       this.cardBorderColor = const Color(0xFFE2E2E2)});
 
+  FredericColorTheme.owsblue(
+      {this.name = "OWS Blue",
+      this.uid = 1,
+      this.mainColor = const Color(0xFF45598B),
+      this.mainColorInText = const Color(0xFF45598B),
+      this.mainColorLight = const Color(0x2AA1ADF8),
+      this.accentColor = const Color(0xFF7FA2FF),
+      this.accentColorLight = const Color(0xFFF4F7FE),
+      this.positiveColor = const Color(0xFF1CBB3F),
+      this.positiveColorLight = const Color(0x1A1CBB3F),
+      this.negativeColor = Colors.red,
+      this.negativeColorLight = const Color(0x1AB71C1C),
+      this.dividerColor = const Color(0xFFC9C9C9),
+      this.backgroundColor = Colors.white,
+      this.cardBackgroundColor = Colors.white,
+      this.greyColor = const Color(0xFFC4C4C4),
+      this.disabledGreyColor = const Color(0x66A5A5A5),
+      this.textColor = const Color(0xFF272727),
+      this.textColorBright = Colors.white,
+      this.textColorColorfulBackground = const Color(0xFF272727),
+      this.isDark = false,
+      this.isColorful = false,
+      this.greyTextColor = const Color(0xBF3A3A3A),
+      this.cardBorderColor = const Color(0xFFE2E2E2)});
+
   FredericColorTheme.blueColorful(
       {this.name = "Colorful Blue",
       this.uid = 2,

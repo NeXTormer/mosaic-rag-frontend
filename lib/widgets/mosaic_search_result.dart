@@ -32,14 +32,17 @@ class MosaicSearchResult extends StatelessWidget {
   Widget build(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.only(bottom: 16),
-      child: SizedBox(
-        // height: 200,
+      child: ConstrainedBox(
+        constraints: BoxConstraints(maxHeight: 300),
         child: IntrinsicHeight(
           child: Row(
             children: [
-              CalendarTimeLine(
-                isActive: true,
-                activeColor: theme.mainColor,
+              Container(
+                height: double.infinity,
+                child: CalendarTimeLine(
+                  isActive: true,
+                  activeColor: theme.mainColor,
+                ),
               ),
               SizedBox(width: 16),
               Expanded(
@@ -57,63 +60,72 @@ class MosaicSearchResult extends StatelessWidget {
                                 MosaicSearchResultLarge(data: rawData ?? {}));
                       },
                     ),
-                    child: FredericCard(
-                      height: 170,
-                      color: Colors.transparent,
-                      padding: EdgeInsets.only(
-                          top: 16, left: 16, right: 16, bottom: 0),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Row(
+                    child: IntrinsicHeight(
+                      child: FredericCard(
+                        color: Colors.transparent,
+                        padding: EdgeInsets.only(
+                            top: 16, left: 16, right: 16, bottom: 0),
+                        child: IntrinsicHeight(
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              Expanded(
-                                child: Linkify(
-                                  options: LinkifyOptions(),
+                              Row(
+                                children: [
+                                  Expanded(
+                                    child: Linkify(
+                                      options: LinkifyOptions(),
+                                      maxLines: 1,
+                                      overflow: TextOverflow.ellipsis,
+                                      style:
+                                          TextStyle(fontFamily: 'Montserrat'),
+                                      text: url,
+                                      onOpen: (e) =>
+                                          js.context.callMethod('open', [url]),
+                                    ),
+                                  ),
+                                  for (final chip in chips)
+                                    Padding(
+                                      padding: const EdgeInsets.only(left: 8),
+                                      child: FredericChip(chip),
+                                    ),
+                                ],
+                              ),
+                              SizedBox(height: 8),
+                              Flexible(
+                                child: Text(
+                                  title,
                                   maxLines: 1,
                                   overflow: TextOverflow.ellipsis,
-                                  style: TextStyle(fontFamily: 'Montserrat'),
-                                  text: url,
-                                  onOpen: (e) =>
-                                      js.context.callMethod('open', [url]),
+                                  style: GoogleFonts.montserrat(
+                                      color: theme.textColor,
+                                      fontWeight: FontWeight.w600,
+                                      fontSize: 16),
                                 ),
                               ),
-                              for (final chip in chips)
-                                Padding(
-                                  padding: const EdgeInsets.only(left: 8),
-                                  child: FredericChip(chip),
+                              SizedBox(height: 8),
+                              Text(
+                                textHeader,
+                                maxLines: 1,
+                                style: GoogleFonts.montserrat(
+                                    color: theme.greyTextColor, fontSize: 12),
+                              ),
+                              SizedBox(height: 4),
+                              IntrinsicHeight(
+                                child: Text(
+                                  text
+                                      .replaceAll('\s+', '')
+                                      .replaceAll('\n', ' '),
+                                  maxLines: 4,
+                                  overflow: TextOverflow.ellipsis,
+                                  style: GoogleFonts.montserrat(
+                                      color: theme.textColor,
+                                      fontWeight: FontWeight.w400),
                                 ),
+                              ),
+                              const SizedBox(height: 16),
                             ],
                           ),
-                          SizedBox(height: 8),
-                          Flexible(
-                            child: Text(
-                              title,
-                              maxLines: 1,
-                              overflow: TextOverflow.ellipsis,
-                              style: GoogleFonts.montserrat(
-                                  color: theme.textColor,
-                                  fontWeight: FontWeight.w600,
-                                  fontSize: 16),
-                            ),
-                          ),
-                          SizedBox(height: 8),
-                          Text(
-                            textHeader,
-                            maxLines: 1,
-                            style: GoogleFonts.montserrat(
-                                color: theme.greyTextColor, fontSize: 12),
-                          ),
-                          SizedBox(height: 4),
-                          Text(
-                            text.replaceAll('\s+', '').replaceAll('\n', ' '),
-                            maxLines: 3,
-                            overflow: TextOverflow.ellipsis,
-                            style: GoogleFonts.montserrat(
-                                color: theme.textColor,
-                                fontWeight: FontWeight.w400),
-                          )
-                        ],
+                        ),
                       ),
                     ),
                   ),

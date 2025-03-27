@@ -29,7 +29,7 @@ class _MosaicPipelineStepParameterCardState
   void initState() {
     super.initState();
     controller.addListener(textFieldListener);
-    print("initstate, default: " + (widget.defaultValue ?? 'null'));
+
     controller.text = widget.defaultValue ?? widget.parameter.defaultValue;
   }
 

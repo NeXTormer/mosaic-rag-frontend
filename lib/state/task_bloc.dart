@@ -69,9 +69,6 @@ class TaskBloc extends Bloc<TaskEvent, TaskState> {
       taskInfo.data.sort((a, b) => a[rankColumn] - b[rankColumn]);
     }
 
-    print("Chips");
-    print(taskInfo.chipColumns);
-
     final numberOfChipsToDisplay = min(taskInfo.chipColumns.length, 3);
     for (var i = 0; i < numberOfChipsToDisplay; i++) {
       activeChipColumns.add(taskInfo.chipColumns[i]);
