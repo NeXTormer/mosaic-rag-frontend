@@ -1,9 +1,9 @@
 import 'dart:js_interop';
 
 import 'package:flutter/material.dart';
-import 'package:mosaic_rs_application/state/mosaic_pipeline_step.dart';
-import 'package:mosaic_rs_application/widgets/standard_elements/frederic_drop_down_text_field.dart';
-import 'package:mosaic_rs_application/widgets/standard_elements/frederic_text_field.dart';
+import 'package:mosaic_rag_frontend/state/mosaic_pipeline_step.dart';
+import 'package:mosaic_rag_frontend/widgets/standard_elements/frederic_drop_down_text_field.dart';
+import 'package:mosaic_rag_frontend/widgets/standard_elements/frederic_text_field.dart';
 
 class MosaicPipelineStepParameterCard extends StatefulWidget {
   const MosaicPipelineStepParameterCard(

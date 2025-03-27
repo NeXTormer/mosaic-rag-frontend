@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_markdown/flutter_markdown.dart';
-import 'package:mosaic_rs_application/main.dart';
-import 'package:mosaic_rs_application/widgets/standard_elements/frederic_card.dart';
+import 'package:mosaic_rag_frontend/main.dart';
+import 'package:mosaic_rag_frontend/widgets/standard_elements/frederic_card.dart';
 import 'package:shimmer/shimmer.dart';
 
 class ChatMessage extends StatelessWidget {

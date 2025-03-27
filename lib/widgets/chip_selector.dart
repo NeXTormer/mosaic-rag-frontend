@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:mosaic_rs_application/main.dart';
+import 'package:mosaic_rag_frontend/main.dart';
 
 class ChipSelector extends StatelessWidget {
   const ChipSelector(

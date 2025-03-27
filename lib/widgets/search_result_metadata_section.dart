@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_markdown/flutter_markdown.dart';
-import 'package:mosaic_rs_application/state/task_bloc.dart';
-import 'package:mosaic_rs_application/state/task_state.dart';
-import 'package:mosaic_rs_application/widgets/standard_elements/frederic_card.dart';
-import 'package:mosaic_rs_application/widgets/standard_elements/frederic_heading.dart';
+import 'package:mosaic_rag_frontend/state/task_bloc.dart';
+import 'package:mosaic_rag_frontend/state/task_state.dart';
+import 'package:mosaic_rag_frontend/widgets/standard_elements/frederic_card.dart';
+import 'package:mosaic_rag_frontend/widgets/standard_elements/frederic_heading.dart';
 
 class SearchResultMetadataSection extends StatelessWidget {
   const SearchResultMetadataSection({super.key});

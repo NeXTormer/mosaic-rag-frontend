@@ -4,11 +4,11 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:mosaic_rs_application/state/pipeline_cubit.dart';
-import 'package:mosaic_rs_application/main.dart';
-import 'package:mosaic_rs_application/state/mosaic_pipeline_step.dart';
-import 'package:mosaic_rs_application/widgets/standard_elements/frederic_card.dart';
-import 'package:mosaic_rs_application/widgets/standard_elements/frederic_heading.dart';
+import 'package:mosaic_rag_frontend/state/pipeline_cubit.dart';
+import 'package:mosaic_rag_frontend/main.dart';
+import 'package:mosaic_rag_frontend/state/mosaic_pipeline_step.dart';
+import 'package:mosaic_rag_frontend/widgets/standard_elements/frederic_card.dart';
+import 'package:mosaic_rag_frontend/widgets/standard_elements/frederic_heading.dart';
 import 'package:provider/provider.dart';
 
 import 'mosaic_pipeline_step_card.dart';

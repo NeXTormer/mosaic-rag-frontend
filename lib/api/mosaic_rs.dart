@@ -2,9 +2,9 @@ import 'dart:convert';
 import 'dart:io';
 
 import 'package:dio/dio.dart';
-import 'package:mosaic_rs_application/state/mosaic_pipeline_step.dart';
-import 'package:mosaic_rs_application/state/task_progress.dart';
-import 'package:mosaic_rs_application/main.dart';
+import 'package:mosaic_rag_frontend/state/mosaic_pipeline_step.dart';
+import 'package:mosaic_rag_frontend/state/task_progress.dart';
+import 'package:mosaic_rag_frontend/main.dart';
 
 class MosaicRS {
   static final serverURL = kUseLocalMosaicRS

@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_linkify/flutter_linkify.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:mosaic_rs_application/main.dart';
-import 'package:mosaic_rs_application/widgets/mosaic_search_result_large.dart';
-import 'package:mosaic_rs_application/widgets/standard_elements/calendar_time_line.dart';
-import 'package:mosaic_rs_application/widgets/standard_elements/frederic_card.dart';
+import 'package:mosaic_rag_frontend/main.dart';
+import 'package:mosaic_rag_frontend/widgets/mosaic_search_result_large.dart';
+import 'package:mosaic_rag_frontend/widgets/standard_elements/calendar_time_line.dart';
+import 'package:mosaic_rag_frontend/widgets/standard_elements/frederic_card.dart';
 
 import 'standard_elements/frederic_chip.dart';
 

@@ -1,4 +1,4 @@
-import 'package:mosaic_rs_application/state/task_progress.dart';
+import 'package:mosaic_rag_frontend/state/task_progress.dart';
 
 import 'mosaic_pipeline_step.dart';
 

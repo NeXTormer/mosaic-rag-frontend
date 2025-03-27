@@ -1,6 +1,6 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:mosaic_rs_application/api/mosaic_rs.dart';
-import 'package:mosaic_rs_application/state/chat_state.dart';
+import 'package:mosaic_rag_frontend/api/mosaic_rs.dart';
+import 'package:mosaic_rag_frontend/state/chat_state.dart';
 
 class ChatBloc extends Bloc<ChatEvent, ChatState> {
   ChatBloc(super.initialState) {

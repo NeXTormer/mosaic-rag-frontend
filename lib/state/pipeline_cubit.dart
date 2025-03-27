@@ -1,6 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:mosaic_rs_application/state/mosaic_pipeline_state.dart';
+import 'package:mosaic_rag_frontend/state/mosaic_pipeline_state.dart';
 
 import 'mosaic_pipeline_step.dart';
 import '../api/mosaic_rs.dart';

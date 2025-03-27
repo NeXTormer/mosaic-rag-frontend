@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:mosaic_rs_application/state/task_bloc.dart';
-import 'package:mosaic_rs_application/state/task_state.dart';
-import 'package:mosaic_rs_application/widgets/standard_elements/frederic_card.dart';
+import 'package:mosaic_rag_frontend/state/task_bloc.dart';
+import 'package:mosaic_rag_frontend/state/task_state.dart';
+import 'package:mosaic_rag_frontend/widgets/standard_elements/frederic_card.dart';
 
 class LogSection extends StatelessWidget {
   LogSection({super.key});

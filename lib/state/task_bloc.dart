@@ -1,10 +1,10 @@
 import 'dart:math';
 
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:mosaic_rs_application/api/mosaic_rs.dart';
-import 'package:mosaic_rs_application/state/mosaic_pipeline_step.dart';
-import 'package:mosaic_rs_application/state/task_state.dart';
-import 'package:mosaic_rs_application/state/task_progress.dart';
+import 'package:mosaic_rag_frontend/api/mosaic_rs.dart';
+import 'package:mosaic_rag_frontend/state/mosaic_pipeline_step.dart';
+import 'package:mosaic_rag_frontend/state/task_state.dart';
+import 'package:mosaic_rag_frontend/state/task_progress.dart';
 
 class TaskBloc extends Bloc<TaskEvent, TaskState> {
   TaskBloc(super.initialState) {

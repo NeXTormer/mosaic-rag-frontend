@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:mosaic_rs_application/state/pipeline_cubit.dart';
+import 'package:mosaic_rag_frontend/state/pipeline_cubit.dart';
 
-import 'package:mosaic_rs_application/state/task_bloc.dart';
-import 'package:mosaic_rs_application/state/task_state.dart';
+import 'package:mosaic_rag_frontend/state/task_bloc.dart';
+import 'package:mosaic_rag_frontend/state/task_state.dart';
 
 import '../main.dart';
 

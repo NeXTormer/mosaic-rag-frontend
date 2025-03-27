@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:mosaic_rs_application/main.dart';
-import 'package:mosaic_rs_application/widgets/map_display.dart';
-import 'package:mosaic_rs_application/widgets/standard_elements/frederic_card.dart';
-import 'package:mosaic_rs_application/widgets/standard_elements/frederic_divider.dart';
-import 'package:mosaic_rs_application/widgets/standard_elements/frederic_heading.dart';
+import 'package:mosaic_rag_frontend/main.dart';
+import 'package:mosaic_rag_frontend/widgets/map_display.dart';
+import 'package:mosaic_rag_frontend/widgets/standard_elements/frederic_card.dart';
+import 'package:mosaic_rag_frontend/widgets/standard_elements/frederic_divider.dart';
+import 'package:mosaic_rag_frontend/widgets/standard_elements/frederic_heading.dart';
 
 class MosaicSearchResultLarge extends StatelessWidget {
   MosaicSearchResultLarge({super.key, required this.data});

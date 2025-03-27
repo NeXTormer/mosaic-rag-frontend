@@ -1,14 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:mosaic_rs_application/state/pipeline_cubit.dart';
-import 'package:mosaic_rs_application/main.dart';
-import 'package:mosaic_rs_application/state/mosaic_pipeline_step.dart';
-import 'package:mosaic_rs_application/state/task_bloc.dart';
-import 'package:mosaic_rs_application/state/task_state.dart';
-import 'package:mosaic_rs_application/widgets/mosaic_pipeline_step_parameter_card.dart';
-import 'package:mosaic_rs_application/widgets/standard_elements/frederic_card.dart';
-import 'package:mosaic_rs_application/widgets/standard_elements/hover_icon_button.dart';
+import 'package:mosaic_rag_frontend/state/pipeline_cubit.dart';
+import 'package:mosaic_rag_frontend/main.dart';
+import 'package:mosaic_rag_frontend/state/mosaic_pipeline_step.dart';
+import 'package:mosaic_rag_frontend/state/task_bloc.dart';
+import 'package:mosaic_rag_frontend/state/task_state.dart';
+import 'package:mosaic_rag_frontend/widgets/mosaic_pipeline_step_parameter_card.dart';
+import 'package:mosaic_rag_frontend/widgets/standard_elements/frederic_card.dart';
+import 'package:mosaic_rag_frontend/widgets/standard_elements/hover_icon_button.dart';
 import 'package:zo_animated_border/widget/zo_dual_border.dart';
 
 enum PipelineExecutionState { Idle, Running, Success, Error }

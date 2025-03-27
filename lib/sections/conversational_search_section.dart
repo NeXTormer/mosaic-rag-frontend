@@ -1,15 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:loading_indicator/loading_indicator.dart';
-import 'package:mosaic_rs_application/main.dart';
-import 'package:mosaic_rs_application/state/chat_bloc.dart';
-import 'package:mosaic_rs_application/state/chat_state.dart';
-import 'package:mosaic_rs_application/state/task_bloc.dart';
-import 'package:mosaic_rs_application/state/task_state.dart';
-import 'package:mosaic_rs_application/widgets/chat_message.dart';
-import 'package:mosaic_rs_application/widgets/standard_elements/frederic_button.dart';
-import 'package:mosaic_rs_application/widgets/standard_elements/frederic_card.dart';
-import 'package:mosaic_rs_application/widgets/standard_elements/frederic_drop_down_text_field.dart';
+import 'package:mosaic_rag_frontend/main.dart';
+import 'package:mosaic_rag_frontend/state/chat_bloc.dart';
+import 'package:mosaic_rag_frontend/state/chat_state.dart';
+import 'package:mosaic_rag_frontend/state/task_bloc.dart';
+import 'package:mosaic_rag_frontend/state/task_state.dart';
+import 'package:mosaic_rag_frontend/widgets/chat_message.dart';
+import 'package:mosaic_rag_frontend/widgets/standard_elements/frederic_button.dart';
+import 'package:mosaic_rag_frontend/widgets/standard_elements/frederic_card.dart';
+import 'package:mosaic_rag_frontend/widgets/standard_elements/frederic_drop_down_text_field.dart';
 import 'package:shimmer/shimmer.dart';
 
 class ConversationalSearchSection extends StatefulWidget {

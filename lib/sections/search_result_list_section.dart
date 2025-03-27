@@ -3,13 +3,13 @@ import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:loading_indicator/loading_indicator.dart';
-import 'package:mosaic_rs_application/main.dart';
-import 'package:mosaic_rs_application/state/task_bloc.dart';
-import 'package:mosaic_rs_application/state/task_state.dart';
-import 'package:mosaic_rs_application/widgets/chip_selector.dart';
-import 'package:mosaic_rs_application/widgets/mosaic_search_result.dart';
-import 'package:mosaic_rs_application/widgets/search_result_metadata_section.dart';
-import 'package:mosaic_rs_application/widgets/standard_elements/frederic_drop_down_text_field.dart';
+import 'package:mosaic_rag_frontend/main.dart';
+import 'package:mosaic_rag_frontend/state/task_bloc.dart';
+import 'package:mosaic_rag_frontend/state/task_state.dart';
+import 'package:mosaic_rag_frontend/widgets/chip_selector.dart';
+import 'package:mosaic_rag_frontend/widgets/mosaic_search_result.dart';
+import 'package:mosaic_rag_frontend/widgets/search_result_metadata_section.dart';
+import 'package:mosaic_rag_frontend/widgets/standard_elements/frederic_drop_down_text_field.dart';
 
 class SearchResultListSection extends StatefulWidget {
   const SearchResultListSection({super.key});
