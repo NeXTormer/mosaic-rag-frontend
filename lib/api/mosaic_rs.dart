@@ -7,9 +7,8 @@ import 'package:mosaic_rag_frontend/state/task_progress.dart';
 import 'package:mosaic_rag_frontend/main.dart';
 
 class MosaicRS {
-  static final serverURL = kUseLocalMosaicRS
-      ? 'http://127.0.0.1:5000'
-      : 'https://mosaicrs-api.felixholz.com';
+  static final serverURL =
+      kUseLocalMosaicRS ? 'http://127.0.0.1:5000' : 'https://mosaicrag.ows.eu';
 
   static Future<String> enqueueTask(Map<String, dynamic> parameters) async {
     final dio = Dio();

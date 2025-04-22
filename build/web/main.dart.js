@@ -911,7 +911,7 @@ baq(a){var s=0,r=A.S(t.Lk),q,p=2,o=[],n,m,l,k
 var $async$v4=A.T(function(b,c){if(b===1){o.push(c)
 s=p}while(true)switch(s){case 0:p=4
 s=7
-return A.V(A.hV(self.window.fetch(a + '?v=1.1.628'),t.e),$async$v4)
+return A.V(A.hV(self.window.fetch(a + '?v=1.1.729'),t.e),$async$v4)
 case 7:n=c
 q=new A.Rg(a,n)
 s=1
@@ -108767,7 +108767,7 @@ c=j[1]
 i=j[2]
 h=[400*d/(d+27.13),400*c/(c+27.13),400*i/(i+27.13)]
 return new A.auS(l,(40*h[0]+20*h[1]+h[2])/20*k,k,k,a1,1,q,m,A.Ah(m,0.25),1.48+e)})
-s($,"bdN","Am",()=>$.aYE()?"http://127.0.0.1:5000":"https://mosaicrs-api.felixholz.com")
+s($,"bdN","Am",()=>$.aYE()?"http://127.0.0.1:5000":"https://mosaicrag.ows.eu")
 s($,"bhV","cd",()=>{A.ek()
 A.ek()
 A.ek()
