@@ -57,7 +57,7 @@ class _FredericDropDownTextFieldState extends State<FredericDropDownTextField> {
     return Container(
       width: double.infinity,
       decoration: BoxDecoration(
-          color: Colors.white, borderRadius: BorderRadius.circular(10)),
+          color: Colors.transparent, borderRadius: BorderRadius.circular(10)),
       child: LayoutBuilder(builder: (context, constraints) {
         return DropdownMenu(
           controller: widget.controller,
@@ -74,7 +74,7 @@ class _FredericDropDownTextFieldState extends State<FredericDropDownTextField> {
             Icons.keyboard_arrow_down,
             color: theme.greyTextColor,
           ),
-          textStyle: TextStyle(fontSize: 13),
+          textStyle: TextStyle(fontSize: 13, color: theme.textColor),
           inputDecorationTheme: InputDecorationTheme(
             constraints: BoxConstraints.tight(Size.fromHeight(widget.height)),
             hintStyle: TextStyle(

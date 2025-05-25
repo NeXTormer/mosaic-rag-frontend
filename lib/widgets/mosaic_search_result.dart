@@ -47,7 +47,7 @@ class MosaicSearchResult extends StatelessWidget {
               SizedBox(width: 16),
               Expanded(
                 child: Material(
-                  color: Colors.white,
+                  color: Colors.transparent,
                   borderRadius: BorderRadius.circular(14),
                   child: InkWell(
                     borderRadius: BorderRadius.circular(14),
@@ -63,6 +63,9 @@ class MosaicSearchResult extends StatelessWidget {
                     child: IntrinsicHeight(
                       child: FredericCard(
                         color: Colors.transparent,
+                        borderColor: theme.isDark
+                            ? theme.mainColorLight
+                            : theme.cardBorderColor,
                         padding: EdgeInsets.only(
                             top: 16, left: 16, right: 16, bottom: 0),
                         child: IntrinsicHeight(

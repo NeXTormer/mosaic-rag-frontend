@@ -73,7 +73,7 @@ class _FredericTextFieldState extends State<FredericTextField> {
         inputFormatters: [LengthLimitingTextInputFormatter(widget.maxLength)],
         obscureText: widget.isPasswordField && !showPassword,
         decoration: InputDecoration(
-          fillColor: Colors.white,
+          fillColor: Colors.transparent,
           filled: true,
           hoverColor: null,
           hintStyle: TextStyle(

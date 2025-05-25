@@ -5,6 +5,8 @@ import 'package:mosaic_rag_frontend/state/mosaic_pipeline_step.dart';
 import 'package:mosaic_rag_frontend/widgets/standard_elements/frederic_drop_down_text_field.dart';
 import 'package:mosaic_rag_frontend/widgets/standard_elements/frederic_text_field.dart';
 
+import '../main.dart';
+
 class MosaicPipelineStepParameterCard extends StatefulWidget {
   const MosaicPipelineStepParameterCard(
       {super.key,
@@ -48,7 +50,10 @@ class _MosaicPipelineStepParameterCardState
             const SizedBox(height: 6),
             Text(
               widget.parameter.title,
-              style: TextStyle(fontSize: 12, fontWeight: FontWeight.w600),
+              style: TextStyle(
+                  fontSize: 12,
+                  fontWeight: FontWeight.w600,
+                  color: theme.greyTextColor),
             ),
             const SizedBox(height: 4),
             if (widget.parameter.type == 'string')

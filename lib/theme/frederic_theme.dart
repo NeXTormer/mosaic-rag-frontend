@@ -31,9 +31,9 @@ class FredericColorTheme {
       this.uid = 1,
       this.mainColor = const Color(0xFF45598B),
       this.mainColorInText = const Color(0xFF45598B),
-      this.mainColorLight = const Color(0x2AA1ADF8),
-      this.accentColor = const Color(0xFF7FA2FF),
-      this.accentColorLight = const Color(0xFFF4F7FE),
+      this.mainColorLight = const Color(0xFFC7DCFF),
+      this.accentColor = const Color(0xFFF4F5FF),
+      this.accentColorLight = const Color(0xFFFAFCFF),
       this.positiveColor = const Color(0xFF1CBB3F),
       this.positiveColorLight = const Color(0x1A1CBB3F),
       this.negativeColor = Colors.red,
@@ -51,30 +51,30 @@ class FredericColorTheme {
       this.greyTextColor = const Color(0xBF3A3A3A),
       this.cardBorderColor = const Color(0xFFE2E2E2)});
 
-  FredericColorTheme.blueColorful(
-      {this.name = "Colorful Blue",
-      this.uid = 2,
-      this.mainColor = const Color(0xFF3E4FD8),
-      this.mainColorInText = const Color(0xFF3E4FD8),
-      this.mainColorLight = const Color(0x1A3E4FD8),
-      this.accentColor = const Color(0xFF4791FF),
-      this.accentColorLight = const Color(0xFFF4F7FE),
+  FredericColorTheme.owsblueDark(
+      {this.name = "OWS Blue Dark",
+      this.uid = 1,
+      this.mainColor = const Color(0xFF45598B),
+      this.mainColorInText = const Color(0xFF45598B),
+      this.mainColorLight = const Color(0xFF353535),
+      this.accentColor = const Color(0xFFF4F5FF),
+      this.accentColorLight = const Color(0x1A353535),
       this.positiveColor = const Color(0xFF1CBB3F),
       this.positiveColorLight = const Color(0x1A1CBB3F),
       this.negativeColor = Colors.red,
       this.negativeColorLight = const Color(0x1AB71C1C),
       this.dividerColor = const Color(0xFFC9C9C9),
-      this.backgroundColor = Colors.white,
-      this.cardBackgroundColor = Colors.white,
+      this.backgroundColor = const Color(0xFF1E1E1E),
+      this.cardBackgroundColor = const Color(0xFF2B2B2B),
       this.greyColor = const Color(0xFFC4C4C4),
       this.disabledGreyColor = const Color(0x66A5A5A5),
-      this.textColor = const Color(0xFF272727),
+      this.textColor = Colors.white,
+      this.textColorBright = Colors.black,
       this.textColorColorfulBackground = Colors.white,
-      this.textColorBright = Colors.white,
-      this.isDark = false,
+      this.isDark = true,
       this.isColorful = true,
-      this.greyTextColor = const Color(0xBF3A3A3A),
-      this.cardBorderColor = const Color(0xFFE2E2E2)});
+      this.greyTextColor = const Color(0xFFC4C4C4),
+      this.cardBorderColor = Colors.transparent});
 
   FredericColorTheme.blueDark(
       {this.name = "Dark Blue",
@@ -126,31 +126,6 @@ class FredericColorTheme {
       this.greyTextColor = const Color(0xBF3A3A3A),
       this.cardBorderColor = const Color(0xFFE2E2E2)});
 
-  FredericColorTheme.orangeColorful(
-      {this.name = "Colorful Orange",
-      this.uid = 5,
-      this.mainColor = const Color(0xFFF49F0A),
-      this.mainColorInText = const Color(0xFFF49F0A),
-      this.mainColorLight = const Color(0x1AF49F0A),
-      this.accentColor = const Color(0xFFEAB420),
-      this.accentColorLight = const Color(0x1AEAB420),
-      this.positiveColor = const Color(0xFF1CBB3F),
-      this.positiveColorLight = const Color(0x1A1CBB3F),
-      this.negativeColor = Colors.red,
-      this.negativeColorLight = const Color(0x1AB71C1C),
-      this.dividerColor = const Color(0xFFC9C9C9),
-      this.backgroundColor = Colors.white,
-      this.cardBackgroundColor = Colors.white,
-      this.greyColor = const Color(0xFFC4C4C4),
-      this.disabledGreyColor = const Color(0x66A5A5A5),
-      this.textColor = const Color(0xFF272727),
-      this.textColorBright = Colors.white,
-      this.textColorColorfulBackground = Colors.white,
-      this.isDark = false,
-      this.isColorful = true,
-      this.greyTextColor = const Color(0xBF3A3A3A),
-      this.cardBorderColor = const Color(0xFFE2E2E2)});
-
   FredericColorTheme.orangeDark(
       {this.name = "Dark Orange",
       this.uid = 6,
@@ -198,31 +173,6 @@ class FredericColorTheme {
       this.textColorColorfulBackground = const Color(0xFF272727),
       this.isDark = false,
       this.isColorful = false,
-      this.greyTextColor = const Color(0xBF3A3A3A),
-      this.cardBorderColor = const Color(0xFFE2E2E2)});
-
-  FredericColorTheme.purpleColorful(
-      {this.name = "Colorful Purple",
-      this.uid = 8,
-      this.mainColor = const Color(0xFF9370DB),
-      this.mainColorInText = const Color(0xFF9370DB),
-      this.mainColorLight = const Color(0x1A9370DB),
-      this.accentColor = const Color(0xFF9370DB),
-      this.accentColorLight = const Color(0x1A6E44DA),
-      this.positiveColor = const Color(0xFF1CBB3F),
-      this.positiveColorLight = const Color(0x1A1CBB3F),
-      this.negativeColor = Colors.red,
-      this.negativeColorLight = const Color(0x1AB71C1C),
-      this.dividerColor = const Color(0xFFC9C9C9),
-      this.backgroundColor = Colors.white,
-      this.cardBackgroundColor = Colors.white,
-      this.greyColor = const Color(0xFFC4C4C4),
-      this.disabledGreyColor = const Color(0x66A5A5A5),
-      this.textColor = const Color(0xFF272727),
-      this.textColorBright = Colors.white,
-      this.textColorColorfulBackground = Colors.white,
-      this.isDark = false,
-      this.isColorful = true,
       this.greyTextColor = const Color(0xBF3A3A3A),
       this.cardBorderColor = const Color(0xFFE2E2E2)});
 
@@ -465,11 +415,6 @@ class FredericColorTheme {
         assert(theme.uid == id,
             'Color theme UIDs not matching! [${theme.uid} != $id]');
         return theme;
-      case 2:
-        FredericColorTheme theme = FredericColorTheme.blueColorful();
-        assert(theme.uid == id,
-            'Color theme UIDs not matching! [${theme.uid} != $id]');
-        return theme;
       case 3:
         FredericColorTheme theme = FredericColorTheme.blueDark();
         assert(theme.uid == id,
@@ -477,11 +422,6 @@ class FredericColorTheme {
         return theme;
       case 4:
         FredericColorTheme theme = FredericColorTheme.orange();
-        assert(theme.uid == id,
-            'Color theme UIDs not matching! [${theme.uid} != $id]');
-        return theme;
-      case 5:
-        FredericColorTheme theme = FredericColorTheme.orangeColorful();
         assert(theme.uid == id,
             'Color theme UIDs not matching! [${theme.uid} != $id]');
         return theme;
@@ -495,11 +435,6 @@ class FredericColorTheme {
         assert(theme.uid == id,
             'Color theme UIDs not matching! [${theme.uid} != $id]');
         return theme;
-      case 8:
-        FredericColorTheme theme = FredericColorTheme.purpleColorful();
-        assert(theme.uid == id,
-            'Color theme UIDs not matching! [${theme.uid} != $id]');
-        return theme;
       case 9:
         FredericColorTheme theme = FredericColorTheme.purpleDark();
         assert(theme.uid == id,
@@ -507,11 +442,6 @@ class FredericColorTheme {
         return theme;
       case 10:
         FredericColorTheme theme = FredericColorTheme.pink();
-        assert(theme.uid == id,
-            'Color theme UIDs not matching! [${theme.uid} != $id]');
-        return theme;
-      case 11:
-        FredericColorTheme theme = FredericColorTheme.pinkColorful();
         assert(theme.uid == id,
             'Color theme UIDs not matching! [${theme.uid} != $id]');
         return theme;
@@ -528,11 +458,6 @@ class FredericColorTheme {
         return theme;
       case 15:
         FredericColorTheme theme = FredericColorTheme.red();
-        assert(theme.uid == id,
-            'Color theme UIDs not matching! [${theme.uid} != $id]');
-        return theme;
-      case 16:
-        FredericColorTheme theme = FredericColorTheme.redColorful();
         assert(theme.uid == id,
             'Color theme UIDs not matching! [${theme.uid} != $id]');
         return theme;

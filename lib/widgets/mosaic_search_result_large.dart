@@ -114,8 +114,8 @@ class _DataValue extends StatelessWidget {
         ),
         SelectableText(value,
             style: typewriter
-                ? GoogleFonts.robotoMono()
-                : GoogleFonts.montserrat())
+                ? GoogleFonts.robotoMono(color: theme.textColor)
+                : GoogleFonts.montserrat(color: theme.textColor))
       ],
     );
   }

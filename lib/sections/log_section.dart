@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:mosaic_rag_frontend/main.dart';
 import 'package:mosaic_rag_frontend/state/task_bloc.dart';
 import 'package:mosaic_rag_frontend/state/task_state.dart';
 import 'package:mosaic_rag_frontend/widgets/standard_elements/frederic_card.dart';
@@ -30,7 +31,8 @@ class LogSection extends StatelessWidget {
                     itemBuilder: (context, index) => Padding(
                           padding: const EdgeInsets.only(left: 8, top: 4),
                           child: SelectableText(logs[index],
-                              style: GoogleFonts.robotoMono(fontSize: 13)),
+                              style: GoogleFonts.robotoMono(
+                                  fontSize: 13, color: theme.textColor)),
                         ),
                     itemCount: logs.length)
               ],

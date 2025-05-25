@@ -124,15 +124,21 @@ class _ConversationalSearchSectionState
                   child: switch ((chatState, taskState)) {
                     (NoChat(), TaskDoesNotExist()) => Center(
                         child: Text(
-                            'Make a search request and press \'Start chat\' to have a conversation about the search results.'),
+                          'Make a search request and press \'Start chat\' to have a conversation about the search results.',
+                          style: TextStyle(color: theme.greyTextColor),
+                        ),
                       ),
                     (NoChat(), TaskInProgress()) => Center(
                         child: Text(
-                            'Wait until the current task is completed before starting a conversation.'),
+                          'Wait until the current task is completed before starting a conversation.',
+                          style: TextStyle(color: theme.greyTextColor),
+                        ),
                       ),
                     (NoChat(), TaskFinished()) => Center(
                         child: Text(
-                            'Press \'Start chat\' to have a conversation about the current search results.'),
+                          'Press \'Start chat\' to have a conversation about the current search results.',
+                          style: TextStyle(color: theme.greyTextColor),
+                        ),
                       ),
                     (InitializingChat(), _) => Center(
                           child: SizedBox(

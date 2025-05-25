@@ -63,9 +63,9 @@ class PipelineSection extends StatelessWidget {
                     flex: 2,
                     child: FredericButton(
                         switch (taskState) {
-                          TaskDoesNotExist() => 'Reset everything',
+                          TaskDoesNotExist() => 'Reset search',
                           TaskInProgress() => 'Cancel',
-                          TaskFinished() => 'Reset everything',
+                          TaskFinished() => 'Reset search',
                         },
                         mainColor: switch (taskState) {
                           TaskDoesNotExist() => theme.disabledGreyColor,
@@ -178,7 +178,7 @@ class PipelineSection extends StatelessWidget {
     return Material(
       borderRadius: BorderRadius.circular(12),
       elevation: 10,
-      color: Colors.white,
+      color: Colors.transparent,
       child: child,
     );
   }

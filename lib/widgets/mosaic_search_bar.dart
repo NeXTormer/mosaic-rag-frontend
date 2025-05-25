@@ -35,7 +35,7 @@ class _MosaicSearchBarState extends State<MosaicSearchBar> {
             .add(StartTaskEvent(controller.text, pipelineSteps));
       },
       decoration: InputDecoration(
-        fillColor: Colors.white,
+        fillColor: Colors.transparent,
         filled: true,
         hoverColor: null,
         hintStyle: TextStyle(color: theme.greyTextColor),

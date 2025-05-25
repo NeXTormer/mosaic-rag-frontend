@@ -29,7 +29,8 @@ class _AddPipelineDialogState extends State<AddPipelineDialog> {
     return Center(
       child: Container(
         decoration: BoxDecoration(
-            color: Colors.white, borderRadius: BorderRadius.circular(20)),
+            color: theme.cardBackgroundColor,
+            borderRadius: BorderRadius.circular(20)),
         child: LayoutBuilder(builder: (context, constraints) {
           return SizedBox(
             width: constraints.maxWidth * 0.6,
@@ -46,6 +47,7 @@ class _AddPipelineDialogState extends State<AddPipelineDialog> {
                         for (final cat in pipeline.state.categories) ...[
                           const SizedBox(height: 16),
                           Material(
+                            color: theme.mainColorLight,
                             borderRadius: BorderRadius.circular(10),
                             child: InkWell(
                                 onTap: () {
@@ -62,6 +64,7 @@ class _AddPipelineDialogState extends State<AddPipelineDialog> {
                         const SizedBox(height: 64),
                         Material(
                           borderRadius: BorderRadius.circular(10),
+                          color: theme.mainColorLight,
                           child: InkWell(
                               onTap: () {
                                 setState(() {
@@ -95,6 +98,7 @@ class _AddPipelineDialogState extends State<AddPipelineDialog> {
                                           const EdgeInsets.only(bottom: 24),
                                       child: Material(
                                         borderRadius: BorderRadius.circular(10),
+                                        color: Colors.transparent,
                                         child: Container(
                                             height: 200,
                                             child: InkWell(
