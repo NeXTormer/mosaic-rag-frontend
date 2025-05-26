@@ -74,11 +74,19 @@ class ChatMessage extends StatelessWidget {
                     child: IntrinsicWidth(
                       child: !isUser
                           ? MarkdownBody(
-                              shrinkWrap: true, data: message, selectable: true)
+                              styleSheet: MarkdownStyleSheet.fromTheme(
+                                      Theme.of(context))
+                                  .copyWith(
+                                      p: TextStyle(color: theme.textColor)),
+                              shrinkWrap: true,
+                              data: message,
+                              selectable: true)
                           : Text(
                               message,
                               style: TextStyle(
-                                  fontWeight: FontWeight.w500, fontSize: 14),
+                                  fontWeight: FontWeight.w500,
+                                  fontSize: 14,
+                                  color: theme.textColor),
                               textAlign:
                                   isUser ? TextAlign.end : TextAlign.start,
                             ),

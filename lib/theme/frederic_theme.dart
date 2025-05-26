@@ -54,8 +54,8 @@ class FredericColorTheme {
   FredericColorTheme.owsblueDark(
       {this.name = "OWS Blue Dark",
       this.uid = 1,
-      this.mainColor = const Color(0xFF45598B),
-      this.mainColorInText = const Color(0xFF45598B),
+      this.mainColor = const Color(0xFF5D83E4),
+      this.mainColorInText = const Color(0xFF5876C2),
       this.mainColorLight = const Color(0xFF353535),
       this.accentColor = const Color(0xFFF4F5FF),
       this.accentColorLight = const Color(0x1A353535),

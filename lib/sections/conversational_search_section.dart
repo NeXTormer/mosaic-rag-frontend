@@ -43,7 +43,7 @@ class _ConversationalSearchSectionState
                           switch (chatState) {
                             NoChat() => 'Start chat',
                             InitializingChat() => 'Starting...',
-                            _ => 'Reset chat',
+                            _ => 'Delete chat',
                           },
                           mainColor: switch ((chatState, taskState)) {
                             (NoChat(), TaskFinished()) => theme.mainColor,
@@ -186,7 +186,7 @@ class _ConversationalSearchSectionState
                               }
                             },
                             decoration: InputDecoration(
-                              fillColor: Colors.white,
+                              fillColor: Colors.transparent,
                               filled: true,
                               hoverColor: null,
                               hintStyle: TextStyle(color: theme.greyTextColor),

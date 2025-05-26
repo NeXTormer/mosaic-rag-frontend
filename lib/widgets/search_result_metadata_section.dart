@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_markdown/flutter_markdown.dart';
+import 'package:mosaic_rag_frontend/main.dart';
 import 'package:mosaic_rag_frontend/state/task_bloc.dart';
 import 'package:mosaic_rag_frontend/state/task_state.dart';
 import 'package:mosaic_rag_frontend/widgets/standard_elements/frederic_card.dart';
@@ -29,6 +30,9 @@ class SearchResultMetadataSection extends StatelessWidget {
                         state.taskInfo.aggregated_data.first['title']),
                     const SizedBox(height: 8),
                     MarkdownBody(
+                        styleSheet:
+                            MarkdownStyleSheet.fromTheme(Theme.of(context))
+                                .copyWith(p: TextStyle(color: theme.textColor)),
                         shrinkWrap: true,
                         selectable: true,
                         data: state.taskInfo.aggregated_data.first['data']),
