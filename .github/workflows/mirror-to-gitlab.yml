@@ -32,6 +32,7 @@ jobs:
 
           # Mirror push to GitLab (pushes all branches and tags, overwrites)
           # The --prune option removes refs from GitLab that no longer exist in GitHub
-          git push --prune --mirror gitlab_mirror
+          # git push --prune --mirror gitlab_mirror
+          git push --prune gitlab_mirror "+refs/heads/*:refs/heads/*" "+refs/tags/*:refs/tags/*"
 
           echo "Mirroring complete."
