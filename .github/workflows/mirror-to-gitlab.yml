@@ -1,0 +1,37 @@
+name: Mirror to GitLab
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  mirror:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0 # Important: Fetches all history for all branches and tags for a true mirror
+
+      - name: Mirror to GitLab
+        env:
+          GITLAB_PAT: ${{ secrets.GITLAB_PAT }}
+          # Your GitLab username (often 'oauth2' when using a PAT for HTTPS Git access)
+          GITLAB_USERNAME: 'oauth2'
+          # The full HTTPS URL to your GitLab project
+          GITLAB_PROJECT_URL: 'https://opencode.it4i.eu/openwebsearcheu-public/mosaic-rag-frontend.git'
+        run: |
+          echo "Mirroring to GitLab..."
+          # Construct the remote URL with authentication
+          # The part after '@' is your GitLab project URL without the 'https://' prefix
+          GITLAB_REMOTE_URL_WITH_AUTH="https://${GITLAB_USERNAME}:${GITLAB_PAT}@${GITLAB_PROJECT_URL#https://}"
+
+          # Add GitLab as a remote
+          git remote add gitlab_mirror "${GITLAB_REMOTE_URL_WITH_AUTH}"
+
+          # Mirror push to GitLab (pushes all branches and tags, overwrites)
+          # The --prune option removes refs from GitLab that no longer exist in GitHub
+          git push --prune --mirror gitlab_mirror
+
+          echo "Mirroring complete."
