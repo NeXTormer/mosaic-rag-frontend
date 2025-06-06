@@ -7,10 +7,18 @@ import 'dart:convert';
 late final theme;
 
 late final bool kUseLocalMosaicRS = Uri.base.queryParameters['local'] == 'true';
+late final String kColorTheme =
+    Uri.base.queryParameters['colorTheme'] ?? 'blue';
+late final String kColorThemeMode =
+    Uri.base.queryParameters['colorMode'] ?? 'dark';
+
+late final String kDefaultPipelineConfig =
+    Uri.base.queryParameters['pipeline'] ?? '';
 
 void main() async {
   final config = await loadAppConfiguration();
-  theme = switch ((config['colorTheme'], config['colorThemeMode'])) {
+  // theme = switch ((config['colorTheme'], config['colorThemeMode'])) {
+  theme = switch ((kColorTheme, kColorThemeMode)) {
     ('blue', 'dark') => FredericColorTheme.owsblueDark(),
     ('blue', 'light') => FredericColorTheme.owsblue(),
     ('orange', 'dark') => FredericColorTheme.orangeDark(),
