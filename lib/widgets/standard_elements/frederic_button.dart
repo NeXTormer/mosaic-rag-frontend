@@ -12,6 +12,7 @@ class FredericButton extends StatelessWidget {
       this.inverted = false,
       this.loading = false,
       this.fontSize = 15,
+      this.onTapDown,
       this.haptics = false,
       this.fontWeight = FontWeight.w600}) {
     this.mainColor = mainColor ?? theme.mainColor;
@@ -33,10 +34,12 @@ class FredericButton extends StatelessWidget {
 
   final void Function() onPressed;
   final void Function()? onLongPress;
+  final void Function(TapDownDetails)? onTapDown;
 
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
+      onTapDown: onTapDown,
       onTap: () {
         if (haptics) {
           HapticFeedback.mediumImpact();

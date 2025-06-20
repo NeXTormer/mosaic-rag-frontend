@@ -56,8 +56,7 @@ class _MosaicApplicationState extends State<MosaicApplication> {
             BlocProvider<ChatBloc>(
                 create: (context) => ChatBloc(NoChat('', ''))),
             BlocProvider<PipelineCubit>(
-                create: (context) =>
-                    PipelineCubit(PipelineState.empty())..loadPipelineInfo()),
+                create: (context) => PipelineCubit(PipelineState.empty())),
           ],
           child: Builder(builder: (context) {
             return Column(

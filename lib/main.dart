@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:mosaic_rag_frontend/api/mosaic_rs.dart';
 import 'package:mosaic_rag_frontend/mosaic_application.dart';
 import 'package:mosaic_rag_frontend/theme/frederic_theme.dart';
 import 'package:http/http.dart' as http;
@@ -7,18 +8,32 @@ import 'dart:convert';
 late final theme;
 
 late final bool kUseLocalMosaicRS = Uri.base.queryParameters['local'] == 'true';
-late final String kColorTheme =
-    Uri.base.queryParameters['colorTheme'] ?? 'blue';
-late final String kColorThemeMode =
-    Uri.base.queryParameters['colorMode'] ?? 'dark';
 
-late final String kDefaultPipelineConfig =
-    Uri.base.queryParameters['pipeline'] ?? '';
+late final String kColorThemeString;
 
 void main() async {
   final config = await loadAppConfiguration();
-  // theme = switch ((config['colorTheme'], config['colorThemeMode'])) {
-  theme = switch ((kColorTheme, kColorThemeMode)) {
+
+  print(Uri.base.path);
+  if (Uri.base.path.length > 10) {
+    final pipelineID = Uri.base.path.substring(1);
+    print(pipelineID);
+
+    MosaicRS.restorePipelineState(pipelineID);
+  }
+
+  String defaultPipelineConfig =
+      Uri.base.queryParameters['pipeline'] ?? config['pipeline'] ?? '';
+
+  String colorTheme =
+      Uri.base.queryParameters['colorTheme'] ?? config['colorTheme'] ?? 'blue';
+  String colorThemeMode = Uri.base.queryParameters['colorMode'] ??
+      config['colorThemeMode'] ??
+      'light';
+
+  kColorThemeString = '$colorTheme $colorThemeMode';
+
+  theme = switch ((colorTheme, colorThemeMode)) {
     ('blue', 'dark') => FredericColorTheme.owsblueDark(),
     ('blue', 'light') => FredericColorTheme.owsblue(),
     ('orange', 'dark') => FredericColorTheme.orangeDark(),

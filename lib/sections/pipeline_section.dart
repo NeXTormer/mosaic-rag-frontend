@@ -1,5 +1,7 @@
 import 'dart:convert';
 
+import 'package:contextmenu/contextmenu.dart';
+import 'package:dropdown_button2/dropdown_button2.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -15,6 +17,7 @@ import 'package:mosaic_rag_frontend/widgets/add_pipeline_dialog.dart';
 import 'package:mosaic_rag_frontend/widgets/mosaic_pipeline_step_card.dart';
 import 'package:mosaic_rag_frontend/widgets/standard_elements/frederic_button.dart';
 import 'package:mosaic_rag_frontend/widgets/standard_elements/frederic_card.dart';
+import 'package:mosaic_rag_frontend/widgets/standard_elements/frederic_dropdown_menu.dart';
 import 'package:mosaic_rag_frontend/widgets/standard_elements/frederic_heading.dart';
 import 'package:mosaic_rag_frontend/widgets/standard_elements/progress_bar.dart';
 import 'package:toastification/toastification.dart';
@@ -86,28 +89,75 @@ class PipelineSection extends StatelessWidget {
                             })),
                 const SizedBox(width: 32),
                 Flexible(
-                  child: FredericButton('Get link', onPressed: () {
-                    final pipeline = BlocProvider.of<PipelineCubit>(context)
-                        .state
-                        .currentSteps;
-                    final command =
-                        MosaicRS.generateCurlCommandForPipeline(pipeline);
-                    Clipboard.setData(ClipboardData(text: command));
-                    toastification.show(
-                      context: context,
-                      type: ToastificationType.success,
-                      style: ToastificationStyle.flat,
-                      title: Text("Copied to clipboard"),
-                      description: Text(
-                          "A curl command with the parameters to run the currently configured pipeline has been copied to your clipboard.\nDon't forget to add a query before running the command."),
-                      alignment: Alignment.topRight,
-                      icon: Icon(Icons.copy),
-                      autoCloseDuration: const Duration(seconds: 2),
-                      borderRadius: BorderRadius.circular(12.0),
-                      boxShadow: lowModeShadow,
-                    );
-                  }),
-                )
+                    child: FredericDropdownMenu(
+                      'Save pipeline',
+                      items: [
+                        'Get CURL command',
+                        'Get pipeline ID',
+                        'Save to JSON file'
+                      ],
+                      onPressed: (item) async {
+                        if (item == 'Get CURL command') {
+                          final pipeline =
+                              BlocProvider.of<PipelineCubit>(context)
+                                  .state
+                                  .currentSteps;
+                          final command =
+                              MosaicRS.generateCurlCommandForPipeline(pipeline);
+                          Clipboard.setData(ClipboardData(text: command));
+                          toastification.show(
+                            context: context,
+                            type: ToastificationType.success,
+                            style: ToastificationStyle.flat,
+                            title: Text("Copied to clipboard"),
+                            description: Text(
+                                "A curl command with the parameters to run the currently configured pipeline has been copied to your clipboard.\nDon't forget to add a query before running the command."),
+                            alignment: Alignment.topRight,
+                            icon: Icon(Icons.copy),
+                            autoCloseDuration: const Duration(seconds: 2),
+                            borderRadius: BorderRadius.circular(12.0),
+                            boxShadow: lowModeShadow,
+                          );
+                        } else if (item == 'Get pipeline ID') {
+                          final pipeline =
+                              BlocProvider.of<PipelineCubit>(context)
+                                  .state
+                                  .currentSteps;
+                          String pipelineID =
+                              await MosaicRS.getPipelineID(pipeline);
+
+                          Clipboard.setData(ClipboardData(text: pipelineID));
+                          toastification.show(
+                            context: context,
+                            type: ToastificationType.success,
+                            style: ToastificationStyle.flat,
+                            title: Text("Copied to clipboard"),
+                            description: Text(
+                                "The pipeline ID has been copied to your clipboard!"),
+                            alignment: Alignment.topRight,
+                            icon: Icon(Icons.copy),
+                            autoCloseDuration: const Duration(seconds: 2),
+                            borderRadius: BorderRadius.circular(12.0),
+                            boxShadow: lowModeShadow,
+                          );
+                        } else if (item == 'Save to JSON file') {
+                          toastification.show(
+                            context: context,
+                            type: ToastificationType.warning,
+                            style: ToastificationStyle.flat,
+                            title: Text("Coming soon"),
+                            description: Text(
+                                "We are working hard to implement this feature"),
+                            alignment: Alignment.topRight,
+                            icon: Icon(Icons.warning),
+                            autoCloseDuration: const Duration(seconds: 2),
+                            borderRadius: BorderRadius.circular(12.0),
+                            boxShadow: lowModeShadow,
+                          );
+                        }
+                      },
+                    ),
+                    flex: 2)
               ],
             ),
             SizedBox(height: 8),

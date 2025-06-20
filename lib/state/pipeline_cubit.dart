@@ -10,8 +10,6 @@ class PipelineCubit extends Cubit<PipelineState> {
     _getPipelineInfo();
   }
 
-  void loadPipelineInfo() {}
-
   void _getPipelineInfo() async {
     List<MosaicPipelineStep> allSteps = <MosaicPipelineStep>[];
     List<MosaicPipelineStep> currentSteps = <MosaicPipelineStep>[];
@@ -80,6 +78,10 @@ class PipelineCubit extends Cubit<PipelineState> {
 
   void emitNewState() {
     emit(state);
+  }
+
+  void restorePipeline(List<MosaicPipelineStep> steps) {
+    emit(state.copyWith(currentSteps: steps));
   }
 
   void addStep(MosaicPipelineStep step) {

@@ -21,6 +21,17 @@ class MosaicRS {
     return response.data as String;
   }
 
+  static Future<String> _savePipeline(String pipelineJSON) async {
+    final dio = Dio();
+    final response = await dio.post(serverURL + '/pipeline/save',
+        options: Options(headers: {
+          HttpHeaders.contentTypeHeader: "application/json",
+        }),
+        data: pipelineJSON);
+
+    return response.data as String;
+  }
+
   static Future<TaskInfo> getTaskProgress(String taskID) async {
     final dio = Dio();
     final response = await dio.get(serverURL + '/task/progress/$taskID');
@@ -82,9 +93,50 @@ class MosaicRS {
     return response.data;
   }
 
+  static String generateJSONForPipeline(List<MosaicPipelineStep> steps) {
+    final parameters = getPipelineParameters(steps, '');
+    return jsonEncode(parameters);
+  }
+
   static String generateCurlCommandForPipeline(List<MosaicPipelineStep> steps) {
     final parameters = getPipelineParameters(steps, '');
     final jsonBody = jsonEncode(parameters);
     return "curl -X POST ${serverURL}/task/run -H 'Content-Type: application/json' -d '$jsonBody'";
+  }
+
+  static Future<String> getPipelineID(List<MosaicPipelineStep> steps) {
+    final parameters = getPipelineParameters(steps, '');
+    parameters['colorTheme'] = kColorThemeString;
+
+    final jsonBody = jsonEncode(parameters);
+
+    return _savePipeline(jsonBody);
+  }
+
+  static Future<Map<String, dynamic>> restorePipelineState(
+      String pipelineID) async {
+    final Map<String, dynamic> data = {};
+
+    final dio = Dio();
+    final response =
+        (await dio.get(serverURL + '/pipeline/restore/$pipelineID')).data;
+
+    String colorTheme = response['colorTheme'];
+    Map<String, dynamic> pipeline = response['pipeline'];
+    List<MosaicPipelineStep> steps = [];
+
+    for(int i = 1; i <= pipeline.length; i++) {
+      if(pipeline.containsKey('$i')) {
+       final step = pipeline['$i'];
+
+       steps.add(MosaicPipelineStep(
+
+      }else{break;}
+
+    }
+
+
+
+    return data;
   }
 }
