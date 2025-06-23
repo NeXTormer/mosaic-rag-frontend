@@ -1,4 +1,5 @@
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:mosaic_rag_frontend/state/mosaic_pipeline_state.dart';
 
@@ -6,11 +7,30 @@ import 'mosaic_pipeline_step.dart';
 import '../api/mosaic_rs.dart';
 
 class PipelineCubit extends Cubit<PipelineState> {
-  PipelineCubit(super.initialState) {
-    _getPipelineInfo();
+  PipelineCubit(super.initialState) {}
+
+  @override
+  void emit(PipelineState state) {
+    // --- YOUR CUSTOM TRACING LOGIC GOES HERE ---
+
+    // Optional: Only run this logic in debug mode to avoid performance
+    // impact in your production app.
+    if (false) {
+      print('--- CUBIT EMIT TRACE ---');
+      print('(${this.runtimeType}) Emitting new state: $state');
+      print(StackTrace.current);
+      print('--------------------------');
+    }
+
+    // --- END OF CUSTOM LOGIC ---
+
+    // CRITICAL: You MUST call super.emit(state).
+    // If you forget this line, the state will not actually be updated
+    // and no listeners or observers will be notified.
+    super.emit(state);
   }
 
-  void _getPipelineInfo() async {
+  void loadInitialConfiguration() async {
     List<MosaicPipelineStep> allSteps = <MosaicPipelineStep>[];
     List<MosaicPipelineStep> currentSteps = <MosaicPipelineStep>[];
 
@@ -58,6 +78,13 @@ class PipelineCubit extends Cubit<PipelineState> {
       }
     });
 
+    // TODO: error handling
+    if (Uri.base.path.length > 10) {
+      final pipelineID = Uri.base.path.substring(1);
+      currentSteps = await MosaicRS.getPipelineStateFromID(pipelineID);
+    }
+
+    print('emit initial state');
     emit(state.copyWith(
         allSteps: allSteps,
         currentSteps: currentSteps,
@@ -73,14 +100,6 @@ class PipelineCubit extends Cubit<PipelineState> {
     final item = steps.removeAt(oldIndex);
     steps.insert(newIndex, item);
 
-    emit(state.copyWith(currentSteps: steps));
-  }
-
-  void emitNewState() {
-    emit(state);
-  }
-
-  void restorePipeline(List<MosaicPipelineStep> steps) {
     emit(state.copyWith(currentSteps: steps));
   }
 

@@ -1,6 +1,5 @@
 import 'dart:convert';
 
-import 'package:contextmenu/contextmenu.dart';
 import 'package:dropdown_button2/dropdown_button2.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -175,6 +174,8 @@ class PipelineSection extends StatelessWidget {
               padding: const EdgeInsets.all(16),
               child: BlocBuilder<PipelineCubit, PipelineState>(
                   builder: (context, pipeline) {
+                print('wernerfindenig');
+                print(pipeline.currentSteps.lastOrNull?.parameterData);
                 return BlocBuilder<TaskBloc, TaskState>(
                     buildWhen: (last, current) {
                   if (current is TaskInProgress && last is TaskInProgress) {

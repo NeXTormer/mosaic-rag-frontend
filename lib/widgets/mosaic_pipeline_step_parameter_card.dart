@@ -61,7 +61,7 @@ class _MosaicPipelineStepParameterCardState
                 height: 44,
                 child: FredericTextField(
                   widget.parameter.title,
-                  text: widget.parameter.defaultValue,
+                  text: widget.defaultValue ?? widget.parameter.defaultValue,
                   defaultValue: null,
                   controller: controller,
                   icon: null,
@@ -72,7 +72,8 @@ class _MosaicPipelineStepParameterCardState
               FredericDropDownTextField(
                 height: 44,
                 controller: controller,
-                defaultValue: widget.parameter.defaultValue,
+                defaultValue:
+                    widget.defaultValue ?? widget.parameter.defaultValue,
                 suggestedValues: widget.parameter.supportedValues,
                 onSubmit: (data) {
                   if (data.isEmpty)

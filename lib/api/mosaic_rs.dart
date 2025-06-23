@@ -5,6 +5,7 @@ import 'package:dio/dio.dart';
 import 'package:mosaic_rag_frontend/state/mosaic_pipeline_step.dart';
 import 'package:mosaic_rag_frontend/state/task_progress.dart';
 import 'package:mosaic_rag_frontend/main.dart';
+import 'package:mosaic_rag_frontend/widgets/mosaic_pipeline_step_card.dart';
 
 class MosaicRS {
   static final serverURL =
@@ -113,9 +114,44 @@ class MosaicRS {
     return _savePipeline(jsonBody);
   }
 
-  static Future<Map<String, dynamic>> restorePipelineState(
+  static Future<List<MosaicPipelineStep>> getPipelineStateFromID(
       String pipelineID) async {
-    final Map<String, dynamic> data = {};
+    // ======== DUPLICATE CODE
+    final pipelineInfo = await getPipelineInfo();
+    final Map<String, MosaicPipelineStep> allSteps = {};
+    pipelineInfo.keys.forEach((key) {
+      final parameters = Map.from(pipelineInfo[key]['parameters']);
+      final parameterDescriptions = <String, MosaicPipelineStepParameter>{};
+      for (final parameter in parameters.entries) {
+        final p = MosaicPipelineStepParameter(
+            title: parameter.value['title'], type: parameter.value['type']);
+
+        if (parameter.value.containsKey('description'))
+          p.description = parameter.value['description'];
+
+        if (parameter.value.containsKey('enforce-limit'))
+          p.enforceLimit = parameter.value['enforce-limit'];
+
+        if (parameter.value.containsKey('required'))
+          p.required = parameter.value['required'];
+
+        if (parameter.value.containsKey('supported-values'))
+          p.supportedValues =
+              List<String>.from(parameter.value['supported-values']);
+
+        if (parameter.value.containsKey('default'))
+          p.defaultValue = parameter.value['default'];
+
+        parameterDescriptions[parameter.key] = p;
+      }
+
+      final category = pipelineInfo[key]['category'];
+      final step = MosaicPipelineStep(pipelineInfo[key]['name'], category,
+          pipelineInfo[key]['description'], key, parameterDescriptions);
+
+      allSteps[key] = step;
+    });
+    // ======== END DUPLICATE CODE
 
     final dio = Dio();
     final response =
@@ -125,18 +161,23 @@ class MosaicRS {
     Map<String, dynamic> pipeline = response['pipeline'];
     List<MosaicPipelineStep> steps = [];
 
-    for(int i = 1; i <= pipeline.length; i++) {
-      if(pipeline.containsKey('$i')) {
-       final step = pipeline['$i'];
+    for (int i = 1; i <= pipeline.length; i++) {
+      if (pipeline.containsKey('$i')) {
+        final step = pipeline['$i'];
 
-       steps.add(MosaicPipelineStep(
+        if (allSteps.containsKey(step['id'])) {
+          final newStep = MosaicPipelineStep.clone(allSteps[step['id']]!);
 
-      }else{break;}
-
+          newStep.parameterData = Map.from(step['parameters']);
+          steps.add(newStep);
+        } else {
+          print('Pipeline step not found: ${step['id']}');
+        }
+      } else {
+        break;
+      }
     }
 
-
-
-    return data;
+    return steps;
   }
 }

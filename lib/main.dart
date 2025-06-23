@@ -15,15 +15,6 @@ void main() async {
   final config = await loadAppConfiguration();
 
   print(Uri.base.path);
-  if (Uri.base.path.length > 10) {
-    final pipelineID = Uri.base.path.substring(1);
-    print(pipelineID);
-
-    MosaicRS.restorePipelineState(pipelineID);
-  }
-
-  String defaultPipelineConfig =
-      Uri.base.queryParameters['pipeline'] ?? config['pipeline'] ?? '';
 
   String colorTheme =
       Uri.base.queryParameters['colorTheme'] ?? config['colorTheme'] ?? 'blue';
