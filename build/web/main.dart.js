@@ -112255,7 +112255,7 @@ c=j[1]
 i=j[2]
 h=[400*d/(d+27.13),400*c/(c+27.13),400*i/(i+27.13)]
 return new A.awW(l,(40*h[0]+20*h[1]+h[2])/20*k,k,k,a1,1,q,m,A.AZ(m,0.25),1.48+e)})
-s($,"bgG","r8",()=>$.b0p()?"http://127.0.0.1:5000":"https://mosaicrs-api.felixholz.com")
+s($,"bgG","r8",()=>$.b0p()?"http://127.0.0.1:5000":"https://mosaicrag.felixholz.com")
 s($,"bkp","b0p",()=>A.nX().gtt().i(0,"local")==="true")
 s($,"bgL","aQ6",()=>new A.I())
 r($,"b5b","aZg",()=>{var q=new A.amK()
