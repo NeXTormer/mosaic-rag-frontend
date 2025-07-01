@@ -13,6 +13,7 @@ import 'package:mosaic_rag_frontend/state/pipeline_cubit.dart';
 import 'package:mosaic_rag_frontend/state/task_bloc.dart';
 import 'package:mosaic_rag_frontend/state/task_state.dart';
 import 'package:mosaic_rag_frontend/widgets/add_pipeline_dialog.dart';
+import 'package:mosaic_rag_frontend/widgets/get_pipeline_id_dialog.dart';
 import 'package:mosaic_rag_frontend/widgets/mosaic_pipeline_step_card.dart';
 import 'package:mosaic_rag_frontend/widgets/standard_elements/frederic_button.dart';
 import 'package:mosaic_rag_frontend/widgets/standard_elements/frederic_card.dart';
@@ -118,26 +119,14 @@ class PipelineSection extends StatelessWidget {
                             boxShadow: lowModeShadow,
                           );
                         } else if (item == 'Get pipeline ID') {
-                          final pipeline =
-                              BlocProvider.of<PipelineCubit>(context)
-                                  .state
-                                  .currentSteps;
-                          String pipelineID =
-                              await MosaicRS.getPipelineID(pipeline);
-
-                          Clipboard.setData(ClipboardData(text: pipelineID));
-                          toastification.show(
+                          showDialog<void>(
                             context: context,
-                            type: ToastificationType.success,
-                            style: ToastificationStyle.flat,
-                            title: Text("Copied to clipboard"),
-                            description: Text(
-                                "The pipeline ID has been copied to your clipboard!"),
-                            alignment: Alignment.topRight,
-                            icon: Icon(Icons.copy),
-                            autoCloseDuration: const Duration(seconds: 2),
-                            borderRadius: BorderRadius.circular(12.0),
-                            boxShadow: lowModeShadow,
+                            barrierDismissible: true,
+                            builder: (BuildContext innerContext) {
+                              return BlocProvider.value(
+                                  value: context.watch<PipelineCubit>(),
+                                  child: GetPipelineIdDialog());
+                            },
                           );
                         } else if (item == 'Save to JSON file') {
                           toastification.show(

@@ -79,8 +79,8 @@ class PipelineCubit extends Cubit<PipelineState> {
     });
 
     // TODO: error handling
-    if (Uri.base.path.length > 10) {
-      final pipelineID = Uri.base.path.substring(1);
+    if (Uri.base.queryParameters['id'] != null) {
+      final pipelineID = Uri.base.queryParameters['id']!;
       currentSteps = await MosaicRS.getPipelineStateFromID(pipelineID);
     }
 

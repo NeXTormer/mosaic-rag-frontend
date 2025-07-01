@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:mosaic_rag_frontend/sections/conversational_search_section.dart';
 import 'package:mosaic_rag_frontend/sections/log_section.dart';
 import 'package:mosaic_rag_frontend/sections/search_result_list_section.dart';
+import 'package:mosaic_rag_frontend/widgets/get_pipeline_id_dialog.dart';
 import '../widgets/standard_elements/search_selector_segment.dart';
 
 class ResultSection extends StatefulWidget {

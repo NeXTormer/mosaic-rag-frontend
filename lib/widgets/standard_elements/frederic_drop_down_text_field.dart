@@ -60,6 +60,8 @@ class _FredericDropDownTextFieldState extends State<FredericDropDownTextField> {
           color: Colors.transparent, borderRadius: BorderRadius.circular(10)),
       child: LayoutBuilder(builder: (context, constraints) {
         return DropdownMenu(
+          enableSearch: false,
+          requestFocusOnTap: false,
           controller: widget.controller,
           onSelected: (data) => widget.onSubmit(data ?? ''),
           width: constraints.maxWidth,
