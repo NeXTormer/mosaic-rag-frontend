@@ -43,9 +43,9 @@ class _ResultSectionState extends State<ResultSection> {
           children: [
             SearchResultListSection(),
             ConversationalSearchSection(),
-            Placeholder(
-              child: Center(child: Text("Coming soon")),
-            ),
+            // Placeholder(
+            //   child: Center(child: Text("Coming soon")),
+            // ),
             LogSection(),
 
             // Center(

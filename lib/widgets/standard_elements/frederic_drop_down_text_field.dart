@@ -13,6 +13,7 @@ class FredericDropDownTextField extends StatefulWidget {
       this.height = 44,
       this.maxLines = 1,
       this.suffixIcon,
+      this.allowCustomText = true,
       this.onColorfulBackground = false,
       this.onSuffixIconTap,
       this.verticalContentPadding = 0,
@@ -32,6 +33,7 @@ class FredericDropDownTextField extends StatefulWidget {
   final double verticalContentPadding;
   final int maxLength;
   final String? text;
+  final bool allowCustomText;
 
   final void Function(String) onSubmit;
   final void Function()? onSuffixIconTap;
@@ -60,8 +62,8 @@ class _FredericDropDownTextFieldState extends State<FredericDropDownTextField> {
           color: Colors.transparent, borderRadius: BorderRadius.circular(10)),
       child: LayoutBuilder(builder: (context, constraints) {
         return DropdownMenu(
-          enableSearch: false,
-          requestFocusOnTap: false,
+          enableSearch: widget.allowCustomText,
+          requestFocusOnTap: widget.allowCustomText,
           controller: widget.controller,
           onSelected: (data) => widget.onSubmit(data ?? ''),
           width: constraints.maxWidth,

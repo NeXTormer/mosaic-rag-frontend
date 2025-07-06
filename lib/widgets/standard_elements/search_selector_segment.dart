@@ -33,7 +33,7 @@ class _ActivityFilterSegmentState extends State<SearchSelectorSegment> {
   void initState() {
     keys.add(resultListKey);
     keys.add(conversationalKey);
-    keys.add(dataflowKey);
+    // keys.add(dataflowKey);
     keys.add(historyKey);
 
     super.initState();
@@ -73,24 +73,24 @@ class _ActivityFilterSegmentState extends State<SearchSelectorSegment> {
                     });
                   }),
                   if (config['logsAllowed']) ...[
-                    SizedBox(width: 72),
-                    _FilterButton('Knowledge graph',
-                        key: dataflowKey,
-                        rightPadding: padding,
-                        isActive: selectedIndex == 2, onPressed: () {
-                      setState(() {
-                        handleMuscleFilters(SearchMode.DataFlowExplorer);
-                        selectedIndex = 2;
-                      });
-                    }),
+                    // SizedBox(width: 72),
+                    // _FilterButton('Knowledge graph',
+                    //     key: dataflowKey,
+                    //     rightPadding: padding,
+                    //     isActive: selectedIndex == 2, onPressed: () {
+                    //   setState(() {
+                    //     handleMuscleFilters(SearchMode.DataFlowExplorer);
+                    //     selectedIndex = 2;
+                    //   });
+                    // }),
                     SizedBox(width: 72),
                     _FilterButton('Logs',
                         key: historyKey,
                         rightPadding: padding,
-                        isActive: selectedIndex == 3, onPressed: () {
+                        isActive: selectedIndex == 2, onPressed: () {
                       setState(() {
                         handleMuscleFilters(SearchMode.History);
-                        selectedIndex = 3;
+                        selectedIndex = 2;
                       });
                     }),
                   ],
@@ -135,7 +135,7 @@ class _ActivityFilterSegmentState extends State<SearchSelectorSegment> {
         widget.filterController.selection = 2;
         break;
       case SearchMode.History:
-        widget.filterController.selection = 3;
+        widget.filterController.selection = 2;
         break;
     }
   }

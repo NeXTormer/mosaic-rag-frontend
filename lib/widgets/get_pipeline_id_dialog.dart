@@ -122,6 +122,7 @@ class _GetPipelineIdDialogState extends State<GetPipelineIdDialog> {
                                       padding: const EdgeInsets.symmetric(
                                           vertical: 4),
                                       child: FredericDropDownTextField(
+                                          allowCustomText: false,
                                           height: 42,
                                           maxLength: 100,
                                           onSubmit: (x) {
