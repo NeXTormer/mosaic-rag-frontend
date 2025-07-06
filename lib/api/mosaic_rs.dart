@@ -8,10 +8,6 @@ import 'package:mosaic_rag_frontend/main.dart';
 import 'package:mosaic_rag_frontend/widgets/mosaic_pipeline_step_card.dart';
 
 class MosaicRS {
-  static final serverURL = kUseLocalMosaicRS
-      ? 'http://127.0.0.1:5000'
-      : (true ? 'https://mosaicrag.felixholz.com' : 'https://mosaicrag.ows.eu');
-
   static Future<String> enqueueTask(Map<String, dynamic> parameters) async {
     final dio = Dio();
     final response = await dio.post(serverURL + '/task/enqueue',
@@ -106,9 +102,10 @@ class MosaicRS {
     return "curl -X POST ${serverURL}/task/run -H 'Content-Type: application/json' -d '$jsonBody'";
   }
 
-  static Future<String> getPipelineID(List<MosaicPipelineStep> steps) {
+  static Future<String> getPipelineID(
+      List<MosaicPipelineStep> steps, Map<String, dynamic> settings) {
     final parameters = getPipelineParameters(steps, '');
-    parameters['colorTheme'] = kColorThemeString;
+    parameters.addAll(settings);
 
     final jsonBody = jsonEncode(parameters);
 
@@ -158,7 +155,6 @@ class MosaicRS {
     final response =
         (await dio.get(serverURL + '/pipeline/restore/$pipelineID')).data;
 
-    String colorTheme = response['colorTheme'];
     Map<String, dynamic> pipeline = response['pipeline'];
     List<MosaicPipelineStep> steps = [];
 

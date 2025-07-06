@@ -1,3 +1,4 @@
+import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:mosaic_rag_frontend/api/mosaic_rs.dart';
 import 'package:mosaic_rag_frontend/mosaic_application.dart';
@@ -6,25 +7,33 @@ import 'package:http/http.dart' as http;
 import 'dart:convert';
 
 late final theme;
+late final config;
 
-late final bool kUseLocalMosaicRS = Uri.base.queryParameters['local'] == 'true';
+final bool kUseLocalMosaicRS = Uri.base.queryParameters['local'] == 'true';
+final String kDefaultBackendURL = 'https://mosaicrag.felixholz.com';
 
-late final String kColorThemeString;
+final String serverURL = kUseLocalMosaicRS
+    ? 'http://127.0.0.1:5000'
+    : (true ? kDefaultBackendURL : 'https://mosaicrag.ows.eu');
 
 void main() async {
-  final config = await loadAppConfiguration();
+  var c = await loadAppConfiguration();
 
-  print(Uri.base.path);
+  c['colorTheme'] = c['colorTheme'] ?? 'blue-dark';
+  c['title'] = c['title'] ?? 'mosaicRAG';
+  c['subTitle'] = c['subTitle'] ?? '';
+  c['pipelineConfigAllowed'] = c['pipelineConfigAllowed'] ?? true;
+  c['logsAllowed'] = c['logsAllowed'] ?? true;
 
-  String colorTheme =
-      Uri.base.queryParameters['colorTheme'] ?? config['colorTheme'] ?? 'blue';
-  String colorThemeMode = Uri.base.queryParameters['colorMode'] ??
-      config['colorThemeMode'] ??
-      'light';
+  config = await loadAppConfigurationFromID(c);
 
-  kColorThemeString = '$colorTheme $colorThemeMode';
+  String colorTheme = Uri.base.queryParameters['colorTheme'] ??
+      config['colorTheme'] ??
+      'blue-dark';
 
-  theme = switch ((colorTheme, colorThemeMode)) {
+  var [colorThemeName, colorThemeMode] = colorTheme.split('-');
+
+  theme = switch ((colorThemeName, colorThemeMode)) {
     ('blue', 'dark') => FredericColorTheme.owsblueDark(),
     ('blue', 'light') => FredericColorTheme.owsblue(),
     ('orange', 'dark') => FredericColorTheme.orangeDark(),
@@ -50,4 +59,24 @@ Future<Map<String, dynamic>> loadAppConfiguration() async {
   } catch (e) {
     throw Exception('Error fetching app_config.json: $e');
   }
+}
+
+Future<Map<String, dynamic>> loadAppConfigurationFromID(
+    Map<String, dynamic> config) async {
+  if (Uri.base.queryParameters['id'] != null) {
+    final pipelineID = Uri.base.queryParameters['id']!;
+
+    final dio = Dio();
+    final response =
+        (await dio.get(serverURL + '/pipeline/restore/$pipelineID')).data;
+
+    print("WERNER");
+    print(response);
+    config['colorTheme'] = response['colorTheme'];
+    config['title'] = response['title'];
+    config['subTitle'] = response['subTitle'];
+    config['pipelineConfigAllowed'] = response['pipelineConfigAllowed'];
+    config['logsAllowed'] = response['logsAllowed'];
+  }
+  return config;
 }

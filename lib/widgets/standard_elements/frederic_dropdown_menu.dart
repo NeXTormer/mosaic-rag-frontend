@@ -13,10 +13,7 @@ class FredericDropdownMenu extends StatelessWidget {
       this.haptics = false,
       this.fontWeight = FontWeight.w600}) {
     this.mainColor = mainColor ?? theme.mainColor;
-    this.textColor = textColor ??
-        (theme.isBright
-            ? theme.backgroundColor
-            : theme.textColorColorfulBackground);
+    this.textColor = textColor ?? theme.textColor;
   }
 
   late final Color mainColor;
@@ -51,7 +48,9 @@ class FredericDropdownMenu extends StatelessWidget {
                   text,
                   key: ValueKey<String>(text),
                   style: TextStyle(
-                      color: inverted ? mainColor : textColor,
+                      color: (theme.isBright
+                          ? theme.backgroundColor
+                          : theme.textColorColorfulBackground),
                       fontWeight: fontWeight,
                       fontSize: fontSize),
                 ),

@@ -84,7 +84,6 @@ class PipelineCubit extends Cubit<PipelineState> {
       currentSteps = await MosaicRS.getPipelineStateFromID(pipelineID);
     }
 
-    print('emit initial state');
     emit(state.copyWith(
         allSteps: allSteps,
         currentSteps: currentSteps,

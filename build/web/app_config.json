@@ -1,5 +1,4 @@
 {
   "backendUrl": "http://localhost:8080/",
-  "colorTheme": "blue",
-  "colorThemeMode": "dark"
+  "colorTheme": "blue-dark"
 }

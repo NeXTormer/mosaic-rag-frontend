@@ -72,26 +72,28 @@ class _ActivityFilterSegmentState extends State<SearchSelectorSegment> {
                       selectedIndex = 1;
                     });
                   }),
-                  SizedBox(width: 72),
-                  _FilterButton('Knowledge graph',
-                      key: dataflowKey,
-                      rightPadding: padding,
-                      isActive: selectedIndex == 2, onPressed: () {
-                    setState(() {
-                      handleMuscleFilters(SearchMode.DataFlowExplorer);
-                      selectedIndex = 2;
-                    });
-                  }),
-                  SizedBox(width: 72),
-                  _FilterButton('Logs',
-                      key: historyKey,
-                      rightPadding: padding,
-                      isActive: selectedIndex == 3, onPressed: () {
-                    setState(() {
-                      handleMuscleFilters(SearchMode.History);
-                      selectedIndex = 3;
-                    });
-                  }),
+                  if (config['logsAllowed']) ...[
+                    SizedBox(width: 72),
+                    _FilterButton('Knowledge graph',
+                        key: dataflowKey,
+                        rightPadding: padding,
+                        isActive: selectedIndex == 2, onPressed: () {
+                      setState(() {
+                        handleMuscleFilters(SearchMode.DataFlowExplorer);
+                        selectedIndex = 2;
+                      });
+                    }),
+                    SizedBox(width: 72),
+                    _FilterButton('Logs',
+                        key: historyKey,
+                        rightPadding: padding,
+                        isActive: selectedIndex == 3, onPressed: () {
+                      setState(() {
+                        handleMuscleFilters(SearchMode.History);
+                        selectedIndex = 3;
+                      });
+                    }),
+                  ],
                   SizedBox(width: 12)
                 ],
               ),

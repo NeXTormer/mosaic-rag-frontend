@@ -199,12 +199,12 @@ class _GetPipelineIdDialogState extends State<GetPipelineIdDialog> {
                                       padding: const EdgeInsets.symmetric(
                                           vertical: 4),
                                       child: FredericTextField(
-                                        'mosaicRAG',
+                                        '',
                                         onSubmit: (x) {
                                           subTitle = x;
                                         },
                                         icon: null,
-                                        defaultValue: 'mosaicRAG',
+                                        defaultValue: '',
                                       ),
                                     ),
                                   )
@@ -226,7 +226,13 @@ class _GetPipelineIdDialogState extends State<GetPipelineIdDialog> {
 
   Future<void> CopyIDToClipboard(BuildContext context) async {
     final pipeline = BlocProvider.of<PipelineCubit>(context).state.currentSteps;
-    String pipelineID = await MosaicRS.getPipelineID(pipeline);
+    String pipelineID = await MosaicRS.getPipelineID(pipeline, {
+      'colorTheme': colorTheme,
+      'title': title,
+      'subTitle': subTitle,
+      'pipelineConfigAllowed': pipelineConfigAllowed,
+      'logsAllowed': logsAllowed,
+    });
 
     Clipboard.setData(ClipboardData(text: pipelineID));
     toastification.show(

@@ -26,7 +26,7 @@ class MosaicApplication extends StatefulWidget {
 }
 
 class _MosaicApplicationState extends State<MosaicApplication> {
-  bool pipelineEditorExpanded = true;
+  bool pipelineEditorExpanded = config['pipelineConfigAllowed'];
 
   String versionString = '';
 
@@ -40,7 +40,7 @@ class _MosaicApplicationState extends State<MosaicApplication> {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'mosaicRAG',
+      title: config['title'],
       theme: ThemeData(
         colorScheme: ColorScheme.fromSeed(seedColor: theme.mainColor),
         fontFamily: 'Montserrat',
@@ -70,7 +70,7 @@ class _MosaicApplicationState extends State<MosaicApplication> {
                       Stack(
                         children: [
                           Text(
-                            'mosaicRAG',
+                            config['title'],
                             style: GoogleFonts.montserrat(
                                 fontWeight: FontWeight.w800,
                                 color: theme.mainColor,
@@ -78,9 +78,12 @@ class _MosaicApplicationState extends State<MosaicApplication> {
                           ),
                           Positioned(
                             bottom: 0,
-                            right: 0,
+                            right: config['subTitle'].isEmpty ? 0 : null,
+                            left: config['subTitle'].isEmpty ? null : 0,
                             child: Text(
-                              versionString,
+                              config['subTitle'].isEmpty
+                                  ? versionString
+                                  : config['subTitle'],
                               style: GoogleFonts.montserrat(
                                   fontWeight: FontWeight.w700,
                                   color: theme.mainColor,
@@ -154,17 +157,20 @@ class _MosaicApplicationState extends State<MosaicApplication> {
                               color: theme.textColor, fontSize: 16),
                         ),
                       ),
-                      SizedBox(width: 48),
-                      SizedBox(
-                          width: 148,
-                          child: FredericButton(
-                              !pipelineEditorExpanded
-                                  ? 'Show pipeline'
-                                  : 'Hide pipeline', onPressed: () {
-                            setState(() {
-                              pipelineEditorExpanded = !pipelineEditorExpanded;
-                            });
-                          }))
+                      if (config['pipelineConfigAllowed']) ...[
+                        SizedBox(width: 48),
+                        SizedBox(
+                            width: 148,
+                            child: FredericButton(
+                                !pipelineEditorExpanded
+                                    ? 'Show pipeline'
+                                    : 'Hide pipeline', onPressed: () {
+                              setState(() {
+                                pipelineEditorExpanded =
+                                    !pipelineEditorExpanded;
+                              });
+                            }))
+                      ],
                     ],
                   ),
                 ),
@@ -173,12 +179,13 @@ class _MosaicApplicationState extends State<MosaicApplication> {
                   child: Row(
                     children: [
                       Expanded(child: ResultSection()),
-                      AnimatedContainer(
-                        width: pipelineEditorExpanded ? 450 : 0,
-                        duration: Duration(milliseconds: 220),
-                        curve: Curves.easeInOut,
-                        child: PipelineSection(),
-                      ),
+                      if (config['pipelineConfigAllowed'])
+                        AnimatedContainer(
+                          width: pipelineEditorExpanded ? 450 : 0,
+                          duration: Duration(milliseconds: 220),
+                          curve: Curves.easeInOut,
+                          child: PipelineSection(),
+                        ),
                     ],
                   ),
                 ),
