@@ -185,4 +185,68 @@ class MosaicRS {
 
     return steps;
   }
+
+  static Future<List<MosaicPipelineStep>> getPipelineStateFromJSON(
+      String jsonData) async {
+    // ======== DUPLICATE CODE
+    final pipelineInfo = await getPipelineInfo();
+    final Map<String, MosaicPipelineStep> allSteps = {};
+    pipelineInfo.keys.forEach((key) {
+      final parameters = Map.from(pipelineInfo[key]['parameters']);
+      final parameterDescriptions = <String, MosaicPipelineStepParameter>{};
+      for (final parameter in parameters.entries) {
+        final p = MosaicPipelineStepParameter(
+            title: parameter.value['title'], type: parameter.value['type']);
+
+        if (parameter.value.containsKey('description'))
+          p.description = parameter.value['description'];
+
+        if (parameter.value.containsKey('enforce-limit'))
+          p.enforceLimit = parameter.value['enforce-limit'];
+
+        if (parameter.value.containsKey('required'))
+          p.required = parameter.value['required'];
+
+        if (parameter.value.containsKey('supported-values'))
+          p.supportedValues =
+              List<String>.from(parameter.value['supported-values']);
+
+        if (parameter.value.containsKey('default'))
+          p.defaultValue = parameter.value['default'];
+
+        parameterDescriptions[parameter.key] = p;
+      }
+
+      final category = pipelineInfo[key]['category'];
+      final step = MosaicPipelineStep(pipelineInfo[key]['name'], category,
+          pipelineInfo[key]['description'], key, parameterDescriptions);
+
+      allSteps[key] = step;
+    });
+    // ======== END DUPLICATE CODE
+
+    final data = jsonDecode(jsonData);
+
+    Map<String, dynamic> pipeline = data['pipeline'];
+    List<MosaicPipelineStep> steps = [];
+
+    for (int i = 1; i <= pipeline.length; i++) {
+      if (pipeline.containsKey('$i')) {
+        final step = pipeline['$i'];
+
+        if (allSteps.containsKey(step['id'])) {
+          final newStep = MosaicPipelineStep.clone(allSteps[step['id']]!);
+
+          newStep.parameterData = Map.from(step['parameters']);
+          steps.add(newStep);
+        } else {
+          print('Pipeline step not found: ${step['id']}');
+        }
+      } else {
+        break;
+      }
+    }
+
+    return steps;
+  }
 }

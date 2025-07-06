@@ -248,6 +248,19 @@ class _GetPipelineIdDialogState extends State<GetPipelineIdDialog> {
                                     mimeType: MimeType.json,
                                     bytes:
                                         Uint8List.fromList(jsonData.codeUnits));
+                                toastification.show(
+                                    context: context,
+                                    type: ToastificationType.success,
+                                    style: ToastificationStyle.flat,
+                                    title: Text("JSON file downloaded"),
+                                    description: Text(
+                                        "Custom settings, other than the pipeline configuration, are currently not supported with JSON configs."),
+                                    alignment: Alignment.topRight,
+                                    icon: Icon(Icons.copy),
+                                    autoCloseDuration:
+                                        const Duration(seconds: 2),
+                                    borderRadius: BorderRadius.circular(12.0),
+                                    boxShadow: lowModeShadow);
                               }),
                             ),
                           ],

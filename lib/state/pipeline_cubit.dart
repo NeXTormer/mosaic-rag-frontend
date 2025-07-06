@@ -90,6 +90,10 @@ class PipelineCubit extends Cubit<PipelineState> {
         categories: categories));
   }
 
+  void restorePipeline(List<MosaicPipelineStep> steps) {
+    emit(state.copyWith(currentSteps: steps));
+  }
+
   void reorderStep(int oldIndex, int newIndex) {
     // final steps = List<MosaicPipelineStep>.from(state.currentSteps);
     final steps = state.currentSteps;

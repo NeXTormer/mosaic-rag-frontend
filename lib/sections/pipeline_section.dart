@@ -133,9 +133,19 @@ class PipelineSection extends StatelessWidget {
                         } else if (item == 'Load from JSON file') {
                           final result = await FilePicker.platform.pickFiles(
                             type: FileType.custom,
+                            allowMultiple: false,
+                            dialogTitle:
+                                'Select a JSON file containing a valid pipeline configuration',
                             allowedExtensions: ['json'],
                           );
                           if (result == null) return;
+                          String jsonData =
+                              await result.xFiles.first.readAsString();
+
+                          BlocProvider.of<PipelineCubit>(context)
+                              .restorePipeline(
+                                  await MosaicRS.getPipelineStateFromJSON(
+                                      jsonData));
                         }
                       },
                     ),
