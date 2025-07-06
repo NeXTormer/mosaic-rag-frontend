@@ -1,4 +1,6 @@
 import 'package:dio/dio.dart';
+import 'package:file_picker/_internal/file_picker_web.dart';
+import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:mosaic_rag_frontend/api/mosaic_rs.dart';
 import 'package:mosaic_rag_frontend/mosaic_application.dart';
@@ -70,8 +72,6 @@ Future<Map<String, dynamic>> loadAppConfigurationFromID(
     final response =
         (await dio.get(serverURL + '/pipeline/restore/$pipelineID')).data;
 
-    print("WERNER");
-    print(response);
     config['colorTheme'] = response['colorTheme'];
     config['title'] = response['title'];
     config['subTitle'] = response['subTitle'];

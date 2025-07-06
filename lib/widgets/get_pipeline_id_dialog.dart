@@ -1,3 +1,5 @@
+import 'package:file_picker/file_picker.dart';
+import 'package:file_saver/file_saver.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -214,10 +216,42 @@ class _GetPipelineIdDialogState extends State<GetPipelineIdDialog> {
                           ),
                         ),
                         const SizedBox(height: 16),
-                        FredericButton('Copy pipeline ID', onPressed: () {
-                          CopyIDToClipboard(context);
-                          Navigator.of(context).pop();
-                        }),
+                        Row(
+                          children: [
+                            Flexible(
+                              child: FredericButton('Copy ID', onPressed: () {
+                                CopyIDToClipboard(context);
+                                Navigator.of(context).pop();
+                              }),
+                            ),
+                            const SizedBox(width: 16),
+                            Flexible(
+                              child: FredericButton('Download JSON',
+                                  onPressed: () {
+                                final pipeline =
+                                    BlocProvider.of<PipelineCubit>(context)
+                                        .state
+                                        .currentSteps;
+                                String jsonData =
+                                    MosaicRS.getPipelineJSON(pipeline, {
+                                  'colorTheme': colorTheme,
+                                  'title': title,
+                                  'subTitle': subTitle,
+                                  'pipelineConfigAllowed':
+                                      pipelineConfigAllowed,
+                                  'logsAllowed': logsAllowed,
+                                });
+
+                                FileSaver.instance.saveFile(
+                                    name: 'pipeline',
+                                    ext: 'json',
+                                    mimeType: MimeType.json,
+                                    bytes:
+                                        Uint8List.fromList(jsonData.codeUnits));
+                              }),
+                            ),
+                          ],
+                        ),
                       ],
                     ),
                   ));

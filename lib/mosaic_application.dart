@@ -157,20 +157,48 @@ class _MosaicApplicationState extends State<MosaicApplication> {
                               color: theme.textColor, fontSize: 16),
                         ),
                       ),
-                      if (config['pipelineConfigAllowed']) ...[
-                        SizedBox(width: 48),
-                        SizedBox(
-                            width: 148,
-                            child: FredericButton(
-                                !pipelineEditorExpanded
-                                    ? 'Show pipeline'
-                                    : 'Hide pipeline', onPressed: () {
-                              setState(() {
-                                pipelineEditorExpanded =
-                                    !pipelineEditorExpanded;
-                              });
-                            }))
-                      ],
+                      SizedBox(width: 48),
+                      SizedBox(
+                          width: 148,
+                          child: config['pipelineConfigAllowed']
+                              ? FredericButton(
+                                  !pipelineEditorExpanded
+                                      ? 'Show pipeline'
+                                      : 'Hide pipeline', onPressed: () {
+                                  setState(() {
+                                    pipelineEditorExpanded =
+                                        !pipelineEditorExpanded;
+                                  });
+                                })
+                              : BlocBuilder<TaskBloc, TaskState>(
+                                  builder: (context, taskState) {
+                                  return FredericButton(
+                                      switch (taskState) {
+                                        TaskDoesNotExist() => 'Reset search',
+                                        TaskInProgress() => 'Cancel',
+                                        TaskFinished() => 'Reset search',
+                                      },
+                                      mainColor: switch (taskState) {
+                                        TaskDoesNotExist() =>
+                                          theme.disabledGreyColor,
+                                        TaskInProgress() => theme.negativeColor,
+                                        TaskFinished() => theme.mainColor
+                                      },
+                                      onPressed: () => switch (taskState) {
+                                            TaskDoesNotExist() => null,
+                                            TaskInProgress() =>
+                                              BlocProvider.of<TaskBloc>(context)
+                                                  .add(CancelTaskEvent()),
+                                            TaskFinished() => {
+                                                BlocProvider.of<TaskBloc>(
+                                                        context)
+                                                    .add(ResetTaskEvent()),
+                                                BlocProvider.of<ChatBloc>(
+                                                        context)
+                                                    .add(ResetChatEvent()),
+                                              }
+                                          });
+                                }))
                     ],
                   ),
                 ),

@@ -112,6 +112,14 @@ class MosaicRS {
     return _savePipeline(jsonBody);
   }
 
+  static String getPipelineJSON(
+      List<MosaicPipelineStep> steps, Map<String, dynamic> settings) {
+    final parameters = getPipelineParameters(steps, '');
+    parameters.addAll(settings);
+
+    return jsonEncode(parameters);
+  }
+
   static Future<List<MosaicPipelineStep>> getPipelineStateFromID(
       String pipelineID) async {
     // ======== DUPLICATE CODE

@@ -1,6 +1,8 @@
 import 'dart:convert';
 
 import 'package:dropdown_button2/dropdown_button2.dart';
+import 'package:file_picker/_internal/file_picker_web.dart';
+import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -87,14 +89,14 @@ class PipelineSection extends StatelessWidget {
                                       .add(ResetChatEvent()),
                                 }
                             })),
-                const SizedBox(width: 32),
+                const SizedBox(width: 24),
                 Flexible(
                     child: FredericDropdownMenu(
-                      'Save pipeline',
+                      'Configurations',
                       items: [
                         'Get CURL command',
-                        'Get pipeline ID',
-                        'Save to JSON file'
+                        'Save custom config',
+                        'Load from JSON file'
                       ],
                       onPressed: (item) async {
                         if (item == 'Get CURL command') {
@@ -118,7 +120,7 @@ class PipelineSection extends StatelessWidget {
                             borderRadius: BorderRadius.circular(12.0),
                             boxShadow: lowModeShadow,
                           );
-                        } else if (item == 'Get pipeline ID') {
+                        } else if (item == 'Save custom config') {
                           showDialog<void>(
                             context: context,
                             barrierDismissible: true,
@@ -128,20 +130,12 @@ class PipelineSection extends StatelessWidget {
                                   child: GetPipelineIdDialog());
                             },
                           );
-                        } else if (item == 'Save to JSON file') {
-                          toastification.show(
-                            context: context,
-                            type: ToastificationType.warning,
-                            style: ToastificationStyle.flat,
-                            title: Text("Coming soon"),
-                            description: Text(
-                                "We are working hard to implement this feature"),
-                            alignment: Alignment.topRight,
-                            icon: Icon(Icons.warning),
-                            autoCloseDuration: const Duration(seconds: 2),
-                            borderRadius: BorderRadius.circular(12.0),
-                            boxShadow: lowModeShadow,
+                        } else if (item == 'Load from JSON file') {
+                          final result = await FilePicker.platform.pickFiles(
+                            type: FileType.custom,
+                            allowedExtensions: ['json'],
                           );
+                          if (result == null) return;
                         }
                       },
                     ),
