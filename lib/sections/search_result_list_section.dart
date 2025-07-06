@@ -71,7 +71,9 @@ class _SearchResultListSectionState extends State<SearchResultListSection>
                           padding: const EdgeInsets.only(top: 200),
                           child: Center(
                             child: Text(
-                              'Enter a search query to get started. You can modify the retrieval pipeline on the right.',
+                              config['pipelineConfigAllowed']
+                                  ? 'Enter a search query to get started. You can modify the retrieval pipeline on the right.'
+                                  : 'Enter a search query to get started.',
                               style: TextStyle(color: theme.greyTextColor),
                             ),
                           ),

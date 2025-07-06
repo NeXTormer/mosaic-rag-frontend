@@ -66,7 +66,7 @@ class TaskBloc extends Bloc<TaskEvent, TaskState> {
 
     if (taskInfo.rankColumns.isNotEmpty) {
       rankColumn = taskInfo.rankColumns.last;
-      taskInfo.data.sort((a, b) => a[rankColumn] - b[rankColumn]);
+      taskInfo.data.sort((a, b) => (a[rankColumn] - b[rankColumn]).round());
     }
 
     final numberOfChipsToDisplay = min(taskInfo.chipColumns.length, 3);
@@ -90,7 +90,8 @@ class TaskBloc extends Bloc<TaskEvent, TaskState> {
     final s = state as TaskFinished;
 
     if (event.rankColumn != null) {
-      s.taskInfo.data.sort((a, b) => a[event.rankColumn] - b[event.rankColumn]);
+      s.taskInfo.data
+          .sort((a, b) => (a[event.rankColumn] - b[event.rankColumn]).round());
     }
 
     emit(TaskFinished(
