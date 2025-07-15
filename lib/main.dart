@@ -29,9 +29,6 @@ void main() async {
   await loadAppConfiguration(config);
   await loadAppConfigurationFromID(config);
 
-  serverURL =
-      kUseLocalMosaicRS ? 'http://127.0.0.1:5000' : config['backendUrl'];
-
   String colorTheme = Uri.base.queryParameters['colorTheme'] ??
       config['colorTheme'] ??
       'blue-dark';

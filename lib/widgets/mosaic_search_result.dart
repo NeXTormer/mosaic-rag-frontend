@@ -1,5 +1,8 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_linkify/flutter_linkify.dart';
+import 'package:flutter_markdown/flutter_markdown.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:mosaic_rag_frontend/main.dart';
 import 'package:mosaic_rag_frontend/widgets/mosaic_search_result_large.dart';
@@ -114,15 +117,34 @@ class MosaicSearchResult extends StatelessWidget {
                               ),
                               SizedBox(height: 4),
                               IntrinsicHeight(
-                                child: Text(
-                                  text
-                                      .replaceAll('\s+', '')
-                                      .replaceAll('\n', ' '),
-                                  maxLines: 4,
-                                  overflow: TextOverflow.ellipsis,
-                                  style: GoogleFonts.montserrat(
-                                      color: theme.textColor,
-                                      fontWeight: FontWeight.w400),
+                                child: LimitedBox(
+                                  maxHeight: 120,
+                                  child: MarkdownBody(
+                                    fitContent: true,
+                                    data: text //TODO: improve
+                                        .replaceAll('\s+', '')
+                                        .replaceAll('\n', ' ')
+                                        .substring(
+                                            0,
+                                            min(
+                                                text
+                                                    .replaceAll('\s+', '')
+                                                    .replaceAll('\n', ' ')
+                                                    .length,
+                                                400)),
+
+                                    styleSheet: MarkdownStyleSheet.fromTheme(
+                                            Theme.of(context))
+                                        .copyWith(
+                                            p: TextStyle(
+                                                color: theme.textColor)),
+                                    shrinkWrap: true,
+                                    // maxLines: 4,
+                                    // overflow: TextOverflow.ellipsis,
+                                    // style: GoogleFonts.montserrat(
+                                    //     color: theme.textColor,
+                                    //     fontWeight: FontWeight.w400),
+                                  ),
                                 ),
                               ),
                               const SizedBox(height: 16),

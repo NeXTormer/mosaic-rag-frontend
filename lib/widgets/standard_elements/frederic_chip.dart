@@ -5,7 +5,7 @@ import '../../main.dart';
 class FredericChip extends StatelessWidget {
   FredericChip(this.text, {Key? key, this.fontSize = 10, Color? color})
       : super(key: key) {
-    this.color = color ?? theme.accentColor;
+    this.color = color ?? theme.mainColor;
   }
 
   final String text;
@@ -22,7 +22,9 @@ class FredericChip extends StatelessWidget {
         text,
         maxLines: 1,
         style: TextStyle(
-            color: Colors.white, fontSize: fontSize, letterSpacing: 0.3),
+            color: theme.textColorColorfulBackground,
+            fontSize: fontSize,
+            letterSpacing: 0.3),
       ),
     );
   }

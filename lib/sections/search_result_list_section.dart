@@ -172,7 +172,11 @@ class _SearchResultListSectionState extends State<SearchResultListSection>
                                               padding:
                                                   const EdgeInsets.symmetric(
                                                       horizontal: 16),
-                                              child: Text(column),
+                                              child: Text(
+                                                column,
+                                                style: TextStyle(
+                                                    color: theme.textColor),
+                                              ),
                                             ),
                                           ),
                                           selected: taskState.activeChipColumns
