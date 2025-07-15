@@ -37,7 +37,7 @@ class _SearchResultListSectionState extends State<SearchResultListSection>
 
   @override
   void initState() {
-    showPacman = Random().nextInt(10) == 1;
+    showPacman = Random().nextInt(5) == 1;
     super.initState();
   }
 

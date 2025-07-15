@@ -1,6 +1,9 @@
+import 'dart:convert';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:mosaic_rag_frontend/main.dart';
 import 'package:mosaic_rag_frontend/state/mosaic_pipeline_state.dart';
 
 import 'mosaic_pipeline_step.dart';
@@ -82,6 +85,9 @@ class PipelineCubit extends Cubit<PipelineState> {
     if (Uri.base.queryParameters['id'] != null) {
       final pipelineID = Uri.base.queryParameters['id']!;
       currentSteps = await MosaicRS.getPipelineStateFromID(pipelineID);
+    } else if (config['pipeline'] != null) {
+      currentSteps = await MosaicRS.getPipelineStateFromJSON(
+          jsonEncode({'pipeline': config['pipeline']}));
     }
 
     emit(state.copyWith(

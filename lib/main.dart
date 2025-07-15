@@ -9,32 +9,34 @@ import 'package:http/http.dart' as http;
 import 'dart:convert';
 
 late final theme;
-late final config;
+final config = Map<String, dynamic>();
 
 final bool kUseLocalMosaicRS = Uri.base.queryParameters['local'] == 'true';
-final String kDefaultBackendURL = 'https://mosaicrag.felixholz.com';
 
-final String serverURL = kUseLocalMosaicRS
+// Fall back to mosaicrag.felixholz.com if running locally, otherwise use the current host
+String serverURL = kUseLocalMosaicRS
     ? 'http://127.0.0.1:5000'
-    : (true ? kDefaultBackendURL : 'https://mosaicrag.ows.eu');
+    : (Uri.base.origin.contains('localhost')
+        ? 'https://mosaicrag.felixholz.com'
+        : Uri.base.origin);
 
 void main() async {
-  var c = await loadAppConfiguration();
+  config['colorTheme'] = config['colorTheme'] ?? 'blue-dark';
+  config['title'] = config['title'] ?? 'mosaicRAG';
+  config['subTitle'] = config['subTitle'] ?? '';
+  config['pipelineConfigAllowed'] = config['pipelineConfigAllowed'] ?? true;
+  config['logsAllowed'] = config['logsAllowed'] ?? true;
+  await loadAppConfiguration(config);
+  await loadAppConfigurationFromID(config);
 
-  c['colorTheme'] = c['colorTheme'] ?? 'blue-dark';
-  c['title'] = c['title'] ?? 'mosaicRAG';
-  c['subTitle'] = c['subTitle'] ?? '';
-  c['pipelineConfigAllowed'] = c['pipelineConfigAllowed'] ?? true;
-  c['logsAllowed'] = c['logsAllowed'] ?? true;
-
-  config = await loadAppConfigurationFromID(c);
+  serverURL =
+      kUseLocalMosaicRS ? 'http://127.0.0.1:5000' : config['backendUrl'];
 
   String colorTheme = Uri.base.queryParameters['colorTheme'] ??
       config['colorTheme'] ??
       'blue-dark';
 
   var [colorThemeName, colorThemeMode] = colorTheme.split('-');
-
   theme = switch ((colorThemeName, colorThemeMode)) {
     ('blue', 'dark') => FredericColorTheme.owsblueDark(),
     ('blue', 'light') => FredericColorTheme.owsblue(),
@@ -50,16 +52,24 @@ void main() async {
   runApp(MosaicApplication());
 }
 
-Future<Map<String, dynamic>> loadAppConfiguration() async {
+Future<Map<String, dynamic>> loadAppConfiguration(
+    Map<String, dynamic> config) async {
   try {
-    final response = await http.get(Uri.parse('app_config.json'));
-    if (response.statusCode == 200) {
-      return json.decode(response.body) as Map<String, dynamic>;
-    } else {
-      throw Exception('Failed to load app_config.json: ${response.statusCode}');
-    }
+    final dio = Dio();
+    final response = (await dio.get('${serverURL}/app_config')).data;
+
+    config['colorTheme'] = response['colorTheme'];
+    config['title'] = response['title'];
+    config['subTitle'] = response['subTitle'];
+    config['pipelineConfigAllowed'] = response['pipelineConfigAllowed'];
+    config['logsAllowed'] = response['logsAllowed'];
+    config['pipeline'] = response['pipeline'];
+
+    return config;
   } catch (e) {
-    throw Exception('Error fetching app_config.json: $e');
+    print('failed to load app config2');
+    print(e);
+    return config;
   }
 }
 
