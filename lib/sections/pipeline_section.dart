@@ -7,6 +7,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:mosaic_rag_frontend/api/mosaic_rs.dart';
+import 'package:mosaic_rag_frontend/mosaic_application.dart';
 import 'package:mosaic_rag_frontend/state/chat_bloc.dart';
 import 'package:mosaic_rag_frontend/state/chat_state.dart';
 import 'package:mosaic_rag_frontend/state/mosaic_pipeline_state.dart';
@@ -126,8 +127,11 @@ class PipelineSection extends StatelessWidget {
                             barrierDismissible: true,
                             builder: (BuildContext innerContext) {
                               return BlocProvider.value(
-                                  value: context.watch<PipelineCubit>(),
-                                  child: GetPipelineIdDialog());
+                                value: context.watch<TaskBloc>(),
+                                child: BlocProvider.value(
+                                    value: context.watch<PipelineCubit>(),
+                                    child: GetPipelineIdDialog()),
+                              );
                             },
                           );
                         } else if (item == 'Load from JSON file') {
@@ -146,6 +150,7 @@ class PipelineSection extends StatelessWidget {
                               .restorePipeline(
                                   await MosaicRS.getPipelineStateFromJSON(
                                       jsonData));
+                          MosaicApplication.loadFromJSON(context, jsonData);
                         }
                       },
                     ),

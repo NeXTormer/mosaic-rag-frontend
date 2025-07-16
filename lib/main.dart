@@ -8,7 +8,7 @@ import 'package:mosaic_rag_frontend/theme/frederic_theme.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 
-late final theme;
+var theme;
 final config = Map<String, dynamic>();
 
 final bool kUseLocalMosaicRS = Uri.base.queryParameters['local'] == 'true';
@@ -26,6 +26,11 @@ void main() async {
   config['subTitle'] = config['subTitle'] ?? '';
   config['pipelineConfigAllowed'] = config['pipelineConfigAllowed'] ?? true;
   config['logsAllowed'] = config['logsAllowed'] ?? true;
+
+  config['defaultTextColumn'] = '';
+  config['defaultRankColumn'] = '';
+  config['defaultChips'] = [];
+
   await loadAppConfiguration(config);
   await loadAppConfigurationFromID(config);
 

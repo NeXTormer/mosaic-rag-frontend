@@ -6,6 +6,8 @@ import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:mosaic_rag_frontend/main.dart';
 import 'package:mosaic_rag_frontend/state/pipeline_cubit.dart';
+import 'package:mosaic_rag_frontend/state/task_bloc.dart';
+import 'package:mosaic_rag_frontend/state/task_state.dart';
 import 'package:mosaic_rag_frontend/widgets/standard_elements/frederic_button.dart';
 import 'package:mosaic_rag_frontend/widgets/standard_elements/frederic_card.dart';
 import 'package:mosaic_rag_frontend/widgets/standard_elements/frederic_divider.dart';
@@ -233,15 +235,30 @@ class _GetPipelineIdDialogState extends State<GetPipelineIdDialog> {
                                     BlocProvider.of<PipelineCubit>(context)
                                         .state
                                         .currentSteps;
-                                String jsonData =
-                                    MosaicRS.getPipelineJSON(pipeline, {
+
+                                final taskState =
+                                    BlocProvider.of<TaskBloc>(context).state;
+
+                                var data = {
                                   'colorTheme': colorTheme,
                                   'title': title,
                                   'subTitle': subTitle,
                                   'pipelineConfigAllowed':
                                       pipelineConfigAllowed,
                                   'logsAllowed': logsAllowed,
-                                });
+                                };
+
+                                if (taskState is TaskFinished) {
+                                  data['defaultTextColumn'] =
+                                      taskState.textPreviewColumn;
+                                  data['defaultRankColumn'] =
+                                      taskState.rankColumn;
+                                  data['defaultChips'] =
+                                      taskState.activeChipColumns;
+                                }
+
+                                String jsonData =
+                                    MosaicRS.getPipelineJSON(pipeline, data);
 
                                 FileSaver.instance.saveFile(
                                     name: 'pipeline',
@@ -254,8 +271,7 @@ class _GetPipelineIdDialogState extends State<GetPipelineIdDialog> {
                                     type: ToastificationType.success,
                                     style: ToastificationStyle.flat,
                                     title: Text("JSON file downloaded"),
-                                    description: Text(
-                                        "Custom settings, other than the pipeline configuration, are currently not supported with JSON configs."),
+                                    description: Text(''),
                                     alignment: Alignment.topRight,
                                     icon: Icon(Icons.copy),
                                     autoCloseDuration:
@@ -274,13 +290,24 @@ class _GetPipelineIdDialogState extends State<GetPipelineIdDialog> {
 
   Future<void> CopyIDToClipboard(BuildContext context) async {
     final pipeline = BlocProvider.of<PipelineCubit>(context).state.currentSteps;
-    String pipelineID = await MosaicRS.getPipelineID(pipeline, {
+
+    final taskState = BlocProvider.of<TaskBloc>(context).state;
+
+    var data = {
       'colorTheme': colorTheme,
       'title': title,
       'subTitle': subTitle,
       'pipelineConfigAllowed': pipelineConfigAllowed,
       'logsAllowed': logsAllowed,
-    });
+    };
+
+    if (taskState is TaskFinished) {
+      data['defaultTextColumn'] = taskState.textPreviewColumn;
+      data['defaultRankColumn'] = taskState.rankColumn;
+      data['defaultChips'] = taskState.activeChipColumns;
+    }
+
+    String pipelineID = await MosaicRS.getPipelineID(pipeline, data);
 
     Clipboard.setData(ClipboardData(text: pipelineID));
     toastification.show(

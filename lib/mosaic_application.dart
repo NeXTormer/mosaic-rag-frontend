@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:dropdown_button2/dropdown_button2.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -11,6 +13,7 @@ import 'package:mosaic_rag_frontend/sections/pipeline_section.dart';
 import 'package:mosaic_rag_frontend/sections/result_section.dart';
 import 'package:mosaic_rag_frontend/state/task_bloc.dart';
 import 'package:mosaic_rag_frontend/state/task_state.dart';
+import 'package:mosaic_rag_frontend/theme/frederic_theme.dart';
 import 'package:mosaic_rag_frontend/widgets/mosaic_search_bar.dart';
 import 'package:mosaic_rag_frontend/widgets/standard_elements/frederic_button.dart';
 import 'package:mosaic_rag_frontend/widgets/standard_elements/frederic_divider.dart';
@@ -21,25 +24,68 @@ import 'dart:js' as js;
 class MosaicApplication extends StatefulWidget {
   const MosaicApplication({super.key});
 
+  static void loadFromJSON(BuildContext context, String jsonString) {
+    context
+        .findAncestorStateOfType<_MosaicApplicationState>()!
+        .loadFromJSON(jsonString);
+  }
+
   @override
   State<MosaicApplication> createState() => _MosaicApplicationState();
 }
 
 class _MosaicApplicationState extends State<MosaicApplication> {
+  UniqueKey? key;
+
   bool pipelineEditorExpanded = config['pipelineConfigAllowed'];
 
   String versionString = '';
 
+  void loadFromJSON(String jsonString) {
+    final data = jsonDecode(jsonString);
+
+    String colorTheme = data['colorTheme'];
+
+    var [colorThemeName, colorThemeMode] = colorTheme.split('-');
+    theme = switch ((colorThemeName, colorThemeMode)) {
+      ('blue', 'dark') => FredericColorTheme.owsblueDark(),
+      ('blue', 'light') => FredericColorTheme.owsblue(),
+      ('orange', 'dark') => FredericColorTheme.orangeDark(),
+      ('orange', 'light') => FredericColorTheme.orange(),
+      ('red', 'dark') => FredericColorTheme.redDark(),
+      ('red', 'light') => FredericColorTheme.red(),
+      ('pink', 'dark') => FredericColorTheme.pinkDark(),
+      ('pink', 'light') => FredericColorTheme.pink(),
+      _ => FredericColorTheme.owsblue()
+    };
+
+    config['pipelineConfigAllowed'] = data['pipelineConfigAllowed'];
+    config['logsAllowed'] = data['logsAllowed'];
+    config['title'] = data['title'];
+    config['subTitle'] = data['subTitle'];
+
+    config['defaultTextColumn'] = data['defaultTextColumn'];
+    config['defaultRankColumn'] = data['defaultRankColumn'];
+    config['defaultChips'] = data['defaultChips'];
+
+    print(config);
+
+    setState(() {
+      // key = UniqueKey();
+    });
+  }
+
   @override
   void initState() {
     super.initState();
-
+    key = UniqueKey();
     getVersionString();
   }
 
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      key: key,
       title: config['title'],
       theme: ThemeData(
         colorScheme: ColorScheme.fromSeed(seedColor: theme.mainColor),

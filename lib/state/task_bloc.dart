@@ -2,6 +2,7 @@ import 'dart:math';
 
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:mosaic_rag_frontend/api/mosaic_rs.dart';
+import 'package:mosaic_rag_frontend/main.dart';
 import 'package:mosaic_rag_frontend/state/mosaic_pipeline_step.dart';
 import 'package:mosaic_rag_frontend/state/task_state.dart';
 import 'package:mosaic_rag_frontend/state/task_progress.dart';
@@ -56,22 +57,38 @@ class TaskBloc extends Bloc<TaskEvent, TaskState> {
     String rankColumn = '';
     List<String> activeChipColumns = [];
 
-    if (taskInfo.textColumns.contains('summary')) {
-      textPreviewColumn = 'summary';
-    } else if (taskInfo.textColumns.contains('full-text')) {
-      textPreviewColumn = 'full-text';
-    } else if (taskInfo.textColumns.isNotEmpty) {
-      textPreviewColumn = taskInfo.textColumns.last;
+    if (config['defaultTextColumn'].isNotEmpty) {
+      textPreviewColumn = config['defaultTextColumn'];
+    } else {
+      if (taskInfo.textColumns.contains('summary')) {
+        textPreviewColumn = 'summary';
+      } else if (taskInfo.textColumns.contains('full-text')) {
+        textPreviewColumn = 'full-text';
+      } else if (taskInfo.textColumns.isNotEmpty) {
+        textPreviewColumn = taskInfo.textColumns.last;
+      }
+    }
+    if (config['defaultRankColumn'].isNotEmpty) {
+      print('restoring rank column');
+      rankColumn = config['defaultRankColumn'];
+      if (taskInfo.rankColumns.isNotEmpty) {
+        taskInfo.data.sort((a, b) => (a[rankColumn] - b[rankColumn]).round());
+      }
+    } else {
+      print('finding best rank column');
+      if (taskInfo.rankColumns.isNotEmpty) {
+        rankColumn = taskInfo.rankColumns.last;
+        taskInfo.data.sort((a, b) => (a[rankColumn] - b[rankColumn]).round());
+      }
     }
 
-    if (taskInfo.rankColumns.isNotEmpty) {
-      rankColumn = taskInfo.rankColumns.last;
-      taskInfo.data.sort((a, b) => (a[rankColumn] - b[rankColumn]).round());
-    }
-
-    final numberOfChipsToDisplay = min(taskInfo.chipColumns.length, 3);
-    for (var i = 0; i < numberOfChipsToDisplay; i++) {
-      activeChipColumns.add(taskInfo.chipColumns[i]);
+    if (config['defaultChips'].length > 0) {
+      activeChipColumns = config['defaultChips'];
+    } else {
+      final numberOfChipsToDisplay = min(taskInfo.chipColumns.length, 3);
+      for (var i = 0; i < numberOfChipsToDisplay; i++) {
+        activeChipColumns.add(taskInfo.chipColumns[i]);
+      }
     }
 
     emit(TaskFinished(
