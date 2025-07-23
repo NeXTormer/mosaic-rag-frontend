@@ -57,7 +57,8 @@ class TaskBloc extends Bloc<TaskEvent, TaskState> {
     String rankColumn = '';
     List<String> activeChipColumns = [];
 
-    if (config['defaultTextColumn'].isNotEmpty) {
+    //TODO: better null checking
+    if ((config['defaultTextColumn'] ?? '').isNotEmpty) {
       textPreviewColumn = config['defaultTextColumn'];
     } else {
       if (taskInfo.textColumns.contains('summary')) {
@@ -68,7 +69,7 @@ class TaskBloc extends Bloc<TaskEvent, TaskState> {
         textPreviewColumn = taskInfo.textColumns.last;
       }
     }
-    if (config['defaultRankColumn'].isNotEmpty) {
+    if ((config['defaultRankColumn'] ?? '').isNotEmpty) {
       print('restoring rank column');
       rankColumn = config['defaultRankColumn'];
       if (taskInfo.rankColumns.isNotEmpty) {
@@ -82,7 +83,7 @@ class TaskBloc extends Bloc<TaskEvent, TaskState> {
       }
     }
 
-    if (config['defaultChips'].length > 0) {
+    if ((config['defaultChips'] ?? []).length > 0) {
       activeChipColumns = config['defaultChips'];
     } else {
       final numberOfChipsToDisplay = min(taskInfo.chipColumns.length, 3);

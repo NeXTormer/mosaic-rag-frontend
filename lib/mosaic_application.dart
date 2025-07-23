@@ -67,9 +67,7 @@ class _MosaicApplicationState extends State<MosaicApplication> {
     config['defaultTextColumn'] = data['defaultTextColumn'];
     config['defaultRankColumn'] = data['defaultRankColumn'];
     config['defaultChips'] = data['defaultChips'];
-
-    print(config);
-
+    //TODO: why does this not handle pipeline state?
     setState(() {
       // key = UniqueKey();
     });

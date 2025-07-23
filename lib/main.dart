@@ -32,6 +32,7 @@ void main() async {
   config['defaultChips'] = [];
 
   await loadAppConfiguration(config);
+
   await loadAppConfigurationFromID(config);
 
   String colorTheme = Uri.base.queryParameters['colorTheme'] ??
@@ -63,8 +64,10 @@ Future<Map<String, dynamic>> loadAppConfiguration(
     config['colorTheme'] = response['colorTheme'];
     config['title'] = response['title'];
     config['subTitle'] = response['subTitle'];
-    config['pipelineConfigAllowed'] = response['pipelineConfigAllowed'];
-    config['logsAllowed'] = response['logsAllowed'];
+    config['pipelineConfigAllowed'] =
+        response['pipelineConfigAllowed'].toString().toLowerCase() == 'true';
+    config['logsAllowed'] =
+        response['logsAllowed'].toString().toLowerCase() == 'true';
     config['pipeline'] = response['pipeline'];
 
     return config;
@@ -87,8 +90,10 @@ Future<Map<String, dynamic>> loadAppConfigurationFromID(
     config['colorTheme'] = response['colorTheme'];
     config['title'] = response['title'];
     config['subTitle'] = response['subTitle'];
-    config['pipelineConfigAllowed'] = response['pipelineConfigAllowed'];
-    config['logsAllowed'] = response['logsAllowed'];
+    config['pipelineConfigAllowed'] =
+        response['pipelineConfigAllowed'].toString().toLowerCase() == 'true';
+    config['logsAllowed'] =
+        response['logsAllowed'].toString().toLowerCase() == 'true';
   }
   return config;
 }

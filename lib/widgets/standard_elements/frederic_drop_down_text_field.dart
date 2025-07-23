@@ -51,6 +51,10 @@ class _FredericDropDownTextFieldState extends State<FredericDropDownTextField> {
   void initState() {
     widget.controller?.text = widget.text ?? '';
 
+    if (!widget.suggestedValues.contains(widget.defaultValue)) {
+      widget.suggestedValues.add(widget.defaultValue);
+    }
+
     super.initState();
   }
 
@@ -62,7 +66,8 @@ class _FredericDropDownTextFieldState extends State<FredericDropDownTextField> {
           color: Colors.transparent, borderRadius: BorderRadius.circular(10)),
       child: LayoutBuilder(builder: (context, constraints) {
         return DropdownMenu(
-          enableSearch: widget.allowCustomText,
+          // widget.allowCustomText,
+
           requestFocusOnTap: widget.allowCustomText,
           controller: widget.controller,
           onSelected: (data) => widget.onSubmit(data ?? ''),
