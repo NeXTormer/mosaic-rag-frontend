@@ -1,7 +1,3 @@
-import 'dart:convert';
-
-import 'package:dropdown_button2/dropdown_button2.dart';
-import 'package:file_picker/_internal/file_picker_web.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -16,8 +12,8 @@ import 'package:mosaic_rag_frontend/state/pipeline_cubit.dart';
 import 'package:mosaic_rag_frontend/state/task_bloc.dart';
 import 'package:mosaic_rag_frontend/state/task_state.dart';
 import 'package:mosaic_rag_frontend/widgets/add_pipeline_dialog.dart';
-import 'package:mosaic_rag_frontend/widgets/get_pipeline_id_dialog.dart';
 import 'package:mosaic_rag_frontend/widgets/mosaic_pipeline_step_card.dart';
+import 'package:mosaic_rag_frontend/widgets/settings_dialog.dart';
 import 'package:mosaic_rag_frontend/widgets/standard_elements/frederic_button.dart';
 import 'package:mosaic_rag_frontend/widgets/standard_elements/frederic_card.dart';
 import 'package:mosaic_rag_frontend/widgets/standard_elements/frederic_dropdown_menu.dart';
@@ -93,10 +89,12 @@ class PipelineSection extends StatelessWidget {
                 const SizedBox(width: 24),
                 Flexible(
                     child: FredericDropdownMenu(
-                      'Configurations',
+                      'Configuration',
                       items: [
+                        'Change Settings',
                         'Get CURL command',
-                        'Save custom config',
+                        'Get pipeline ID',
+                        'Save to JSON file',
                         'Load from JSON file'
                       ],
                       onPressed: (item) async {
@@ -121,7 +119,7 @@ class PipelineSection extends StatelessWidget {
                             borderRadius: BorderRadius.circular(12.0),
                             boxShadow: lowModeShadow,
                           );
-                        } else if (item == 'Save custom config') {
+                        } else if (item == 'Change Settings') {
                           showDialog<void>(
                             context: context,
                             barrierDismissible: true,
@@ -130,10 +128,12 @@ class PipelineSection extends StatelessWidget {
                                 value: context.watch<TaskBloc>(),
                                 child: BlocProvider.value(
                                     value: context.watch<PipelineCubit>(),
-                                    child: GetPipelineIdDialog()),
+                                    child: SettingsDialog()),
                               );
                             },
                           );
+                        } else if (item == 'Get pipeline ID') {
+                          CopyIDToClipboard(context);
                         } else if (item == 'Load from JSON file') {
                           final result = await FilePicker.platform.pickFiles(
                             type: FileType.custom,

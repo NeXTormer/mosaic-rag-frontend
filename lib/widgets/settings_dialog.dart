@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:mosaic_rag_frontend/main.dart';
+import 'package:mosaic_rag_frontend/mosaic_application.dart';
 import 'package:mosaic_rag_frontend/state/pipeline_cubit.dart';
 import 'package:mosaic_rag_frontend/state/task_bloc.dart';
 import 'package:mosaic_rag_frontend/state/task_state.dart';
@@ -18,19 +19,22 @@ import 'package:toastification/toastification.dart';
 
 import '../api/mosaic_rs.dart';
 
-class GetPipelineIdDialog extends StatefulWidget {
-  const GetPipelineIdDialog({super.key});
+class SettingsDialog extends StatefulWidget {
+  const SettingsDialog({super.key});
 
   @override
-  State<GetPipelineIdDialog> createState() => _GetPipelineIdDialogState();
+  State<SettingsDialog> createState() => _SettingsDialogState();
 }
 
-class _GetPipelineIdDialogState extends State<GetPipelineIdDialog> {
-  bool pipelineConfigAllowed = true;
-  bool logsAllowed = true;
-  String colorTheme = 'blue-dark';
-  String title = 'mosaicRAG';
-  String subTitle = '';
+class _SettingsDialogState extends State<SettingsDialog> {
+  bool pipelineConfigAllowed = config['pipelineConfigAllowed'];
+  bool logsAllowed = config['logsAllowed'];
+  String colorTheme = config['colorTheme'];
+  String title = config['title'];
+  String subTitle = config['subTitle'];
+
+  String aboutLinkTitle = config['aboutLinkText'];
+  String aboutLinkURL = config['aboutLinkURL'];
 
   @override
   Widget build(BuildContext context) {
@@ -42,7 +46,7 @@ class _GetPipelineIdDialogState extends State<GetPipelineIdDialog> {
             child: LayoutBuilder(builder: (context, constraints) {
               return SizedBox(
                   width: 400, //constraints.maxWidth * 0.4,
-                  height: 440, //constraints.maxHeight * 0.4,
+                  height: 580, //constraints.maxHeight * 0.4,
                   child: Padding(
                     padding: const EdgeInsets.all(16),
                     child: Column(
@@ -175,7 +179,7 @@ class _GetPipelineIdDialogState extends State<GetPipelineIdDialog> {
                                           title = x;
                                         },
                                         icon: null,
-                                        defaultValue: 'mosaicRAG',
+                                        defaultValue: title,
                                       ),
                                     ),
                                   )
@@ -209,7 +213,79 @@ class _GetPipelineIdDialogState extends State<GetPipelineIdDialog> {
                                           subTitle = x;
                                         },
                                         icon: null,
-                                        defaultValue: '',
+                                        defaultValue: subTitle,
+                                      ),
+                                    ),
+                                  )
+                                ],
+                              ),
+                            ),
+                          ),
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.only(top: 8),
+                          child: FredericCard(
+                            borderColor: theme.greyColor,
+                            borderWidth: 0.5,
+                            padding: EdgeInsets.symmetric(
+                                horizontal: 8, vertical: 4),
+                            child: Container(
+                              child: Row(
+                                children: [
+                                  Text('Info Link Title',
+                                      style: TextStyle(color: theme.textColor)),
+                                  const SizedBox(width: 16),
+                                  Expanded(child: Container()),
+                                  SizedBox(
+                                    width: 160,
+                                    child: Padding(
+                                      padding: const EdgeInsets.symmetric(
+                                          vertical: 4),
+                                      child: FredericTextField(
+                                        '',
+                                        onSubmit: (x) {
+                                          setState(() {
+                                            aboutLinkTitle = x;
+                                          });
+                                        },
+                                        icon: null,
+                                        defaultValue: aboutLinkTitle,
+                                      ),
+                                    ),
+                                  )
+                                ],
+                              ),
+                            ),
+                          ),
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.only(top: 8),
+                          child: FredericCard(
+                            borderColor: theme.greyColor,
+                            borderWidth: 0.5,
+                            padding: EdgeInsets.symmetric(
+                                horizontal: 8, vertical: 4),
+                            child: Container(
+                              child: Row(
+                                children: [
+                                  Text('Info Link URL',
+                                      style: TextStyle(color: theme.textColor)),
+                                  const SizedBox(width: 16),
+                                  Expanded(child: Container()),
+                                  SizedBox(
+                                    width: 160,
+                                    child: Padding(
+                                      padding: const EdgeInsets.symmetric(
+                                          vertical: 4),
+                                      child: FredericTextField(
+                                        '',
+                                        onSubmit: (x) {
+                                          setState(() {
+                                            aboutLinkURL = x;
+                                          });
+                                        },
+                                        icon: null,
+                                        defaultValue: aboutLinkURL,
                                       ),
                                     ),
                                   )
@@ -219,69 +295,83 @@ class _GetPipelineIdDialogState extends State<GetPipelineIdDialog> {
                           ),
                         ),
                         const SizedBox(height: 16),
-                        Row(
-                          children: [
-                            Flexible(
-                              child: FredericButton('Copy ID', onPressed: () {
-                                CopyIDToClipboard(context);
-                                Navigator.of(context).pop();
-                              }),
-                            ),
-                            const SizedBox(width: 16),
-                            Flexible(
-                              child: FredericButton('Download JSON',
-                                  onPressed: () {
-                                final pipeline =
-                                    BlocProvider.of<PipelineCubit>(context)
-                                        .state
-                                        .currentSteps;
+                        FredericButton('Save Settings', onPressed: () {
+                          config['colorTheme'] = colorTheme;
+                          config['title'] = title;
+                          config['subTitle'] = subTitle;
+                          config['pipelineConfigAllowed'] =
+                              pipelineConfigAllowed;
 
-                                final taskState =
-                                    BlocProvider.of<TaskBloc>(context).state;
+                          config['aboutLinkText'] = aboutLinkTitle;
+                          config['aboutLinkURL'] = aboutLinkURL;
 
-                                var data = {
-                                  'colorTheme': colorTheme,
-                                  'title': title,
-                                  'subTitle': subTitle,
-                                  'pipelineConfigAllowed':
-                                      pipelineConfigAllowed,
-                                  'logsAllowed': logsAllowed,
-                                };
+                          MosaicApplication.rebuildApplication(context);
+                          Navigator.of(context).pop();
+                        }),
+                        if (false)
+                          Row(
+                            children: [
+                              Flexible(
+                                child: FredericButton('Copy ID', onPressed: () {
+                                  CopyIDToClipboard(context);
+                                  Navigator.of(context).pop();
+                                }),
+                              ),
+                              const SizedBox(width: 16),
+                              Flexible(
+                                child: FredericButton('Download JSON',
+                                    onPressed: () {
+                                  final pipeline =
+                                      BlocProvider.of<PipelineCubit>(context)
+                                          .state
+                                          .currentSteps;
 
-                                if (taskState is TaskFinished) {
-                                  data['defaultTextColumn'] =
-                                      taskState.textPreviewColumn;
-                                  data['defaultRankColumn'] =
-                                      taskState.rankColumn;
-                                  data['defaultChips'] =
-                                      taskState.activeChipColumns;
-                                }
+                                  final taskState =
+                                      BlocProvider.of<TaskBloc>(context).state;
 
-                                String jsonData =
-                                    MosaicRS.getPipelineJSON(pipeline, data);
+                                  var data = {
+                                    'colorTheme': colorTheme,
+                                    'title': title,
+                                    'subTitle': subTitle,
+                                    'pipelineConfigAllowed':
+                                        pipelineConfigAllowed,
+                                    'logsAllowed': logsAllowed,
+                                  };
 
-                                FileSaver.instance.saveFile(
-                                    name: 'pipeline',
-                                    ext: 'json',
-                                    mimeType: MimeType.json,
-                                    bytes:
-                                        Uint8List.fromList(jsonData.codeUnits));
-                                toastification.show(
-                                    context: context,
-                                    type: ToastificationType.success,
-                                    style: ToastificationStyle.flat,
-                                    title: Text("JSON file downloaded"),
-                                    description: Text(''),
-                                    alignment: Alignment.topRight,
-                                    icon: Icon(Icons.copy),
-                                    autoCloseDuration:
-                                        const Duration(seconds: 2),
-                                    borderRadius: BorderRadius.circular(12.0),
-                                    boxShadow: lowModeShadow);
-                              }),
-                            ),
-                          ],
-                        ),
+                                  if (taskState is TaskFinished) {
+                                    data['defaultTextColumn'] =
+                                        taskState.textPreviewColumn;
+                                    data['defaultRankColumn'] =
+                                        taskState.rankColumn;
+                                    data['defaultChips'] =
+                                        taskState.activeChipColumns;
+                                  }
+
+                                  String jsonData =
+                                      MosaicRS.getPipelineJSON(pipeline, data);
+
+                                  FileSaver.instance.saveFile(
+                                      name: 'pipeline',
+                                      ext: 'json',
+                                      mimeType: MimeType.json,
+                                      bytes: Uint8List.fromList(
+                                          jsonData.codeUnits));
+                                  toastification.show(
+                                      context: context,
+                                      type: ToastificationType.success,
+                                      style: ToastificationStyle.flat,
+                                      title: Text("JSON file downloaded"),
+                                      description: Text(''),
+                                      alignment: Alignment.topRight,
+                                      icon: Icon(Icons.copy),
+                                      autoCloseDuration:
+                                          const Duration(seconds: 2),
+                                      borderRadius: BorderRadius.circular(12.0),
+                                      boxShadow: lowModeShadow);
+                                }),
+                              ),
+                            ],
+                          ),
                       ],
                     ),
                   ));

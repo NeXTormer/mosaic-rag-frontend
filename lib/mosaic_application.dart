@@ -30,6 +30,12 @@ class MosaicApplication extends StatefulWidget {
         .loadFromJSON(jsonString);
   }
 
+  static void rebuildApplication(BuildContext context) {
+    context
+        .findAncestorStateOfType<_MosaicApplicationState>()!
+        .rebuildApplication();
+  }
+
   @override
   State<MosaicApplication> createState() => _MosaicApplicationState();
 }
@@ -40,6 +46,25 @@ class _MosaicApplicationState extends State<MosaicApplication> {
   bool pipelineEditorExpanded = config['pipelineConfigAllowed'];
 
   String versionString = '';
+
+  void rebuildApplication() {
+    String colorTheme = config['colorTheme'];
+
+    var [colorThemeName, colorThemeMode] = colorTheme.split('-');
+    theme = switch ((colorThemeName, colorThemeMode)) {
+      ('blue', 'dark') => FredericColorTheme.owsblueDark(),
+      ('blue', 'light') => FredericColorTheme.owsblue(),
+      ('orange', 'dark') => FredericColorTheme.orangeDark(),
+      ('orange', 'light') => FredericColorTheme.orange(),
+      ('red', 'dark') => FredericColorTheme.redDark(),
+      ('red', 'light') => FredericColorTheme.red(),
+      ('pink', 'dark') => FredericColorTheme.pinkDark(),
+      ('pink', 'light') => FredericColorTheme.pink(),
+      _ => FredericColorTheme.owsblue()
+    };
+
+    setState(() {});
+  }
 
   void loadFromJSON(String jsonString) {
     final data = jsonDecode(jsonString);
@@ -109,7 +134,6 @@ class _MosaicApplicationState extends State<MosaicApplication> {
                 Padding(
                   padding: EdgeInsets.symmetric(horizontal: 16, vertical: 16),
                   child: LayoutBuilder(builder: (context, constraints) {
-                    print(constraints.maxWidth);
                     return Row(
                       mainAxisAlignment: MainAxisAlignment.start,
                       children: [
