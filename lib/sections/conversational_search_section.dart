@@ -65,56 +65,58 @@ class _ConversationalSearchSectionState
                         }
                       })),
                   Expanded(child: Container()),
-                  SizedBox(
-                    width: 140,
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          'Language model',
-                          style: TextStyle(
-                              fontSize: 11, color: theme.greyTextColor),
-                        ),
-                        IgnorePointer(
-                          ignoring: true, //!(chatState is NoChat),
-                          child: FredericDropDownTextField(
-                              onSubmit: (s) => null,
-                              defaultValue: 'gemma2',
-                              suggestedValues: [
-                                'gemma2',
-                                'qwen2.5',
-                                'llama3.1'
-                              ]),
-                        ),
-                      ],
+                  if (false) ...[
+                    SizedBox(
+                      width: 140,
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            'Language model',
+                            style: TextStyle(
+                                fontSize: 11, color: theme.greyTextColor),
+                          ),
+                          IgnorePointer(
+                            ignoring: true, //!(chatState is NoChat),
+                            child: FredericDropDownTextField(
+                                onSubmit: (s) => null,
+                                defaultValue: 'gemma2',
+                                suggestedValues: [
+                                  'gemma2',
+                                  'qwen2.5',
+                                  'llama3.1'
+                                ]),
+                          ),
+                        ],
+                      ),
                     ),
-                  ),
-                  const SizedBox(width: 16),
-                  SizedBox(
-                    width: 140,
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          'Text column',
-                          style: TextStyle(
-                              fontSize: 11, color: theme.greyTextColor),
-                        ),
-                        const SizedBox(height: 2),
-                        IgnorePointer(
-                          ignoring: true, //!(chatState is NoChat),
-                          child: FredericDropDownTextField(
-                              onSubmit: (s) => null,
-                              defaultValue: 'full-text',
-                              suggestedValues: [
-                                'full-text',
-                                'summary',
-                                'filtered-text'
-                              ]),
-                        ),
-                      ],
+                    const SizedBox(width: 16),
+                    SizedBox(
+                      width: 140,
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            'Text column',
+                            style: TextStyle(
+                                fontSize: 11, color: theme.greyTextColor),
+                          ),
+                          const SizedBox(height: 2),
+                          IgnorePointer(
+                            ignoring: true, //!(chatState is NoChat),
+                            child: FredericDropDownTextField(
+                                onSubmit: (s) => null,
+                                defaultValue: 'full-text',
+                                suggestedValues: [
+                                  'full-text',
+                                  'summary',
+                                  'filtered-text'
+                                ]),
+                          ),
+                        ],
+                      ),
                     ),
-                  ),
+                  ]
                 ],
               ),
               const SizedBox(height: 14),

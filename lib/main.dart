@@ -27,6 +27,9 @@ void main() async {
   config['pipelineConfigAllowed'] = config['pipelineConfigAllowed'] ?? true;
   config['logsAllowed'] = config['logsAllowed'] ?? true;
 
+  config['aboutLinkText'] = config['aboutLinkText'] ?? 'About MOSAIC';
+  config['aboutLinkURL'] = config['aboutLinkURL'] ?? 'https://mosaic.ows.eu';
+
   config['defaultTextColumn'] = '';
   config['defaultRankColumn'] = '';
   config['defaultChips'] = [];

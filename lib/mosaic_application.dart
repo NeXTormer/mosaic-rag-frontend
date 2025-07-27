@@ -108,158 +108,121 @@ class _MosaicApplicationState extends State<MosaicApplication> {
               children: [
                 Padding(
                   padding: EdgeInsets.symmetric(horizontal: 16, vertical: 16),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    children: [
-                      Stack(
-                        children: [
-                          Text(
-                            config['title'],
-                            style: GoogleFonts.montserrat(
-                                fontWeight: FontWeight.w800,
-                                color: theme.mainColor,
-                                fontSize: 32),
-                          ),
-                          Positioned(
-                            bottom: 0,
-                            right: config['subTitle'].isEmpty ? 0 : null,
-                            left: config['subTitle'].isEmpty ? null : 0,
-                            child: Text(
-                              config['subTitle'].isEmpty
-                                  ? versionString
-                                  : config['subTitle'],
-                              style: GoogleFonts.montserrat(
-                                  fontWeight: FontWeight.w700,
-                                  color: theme.mainColor,
-                                  fontSize: 10),
-                            ),
-                          ),
-                        ],
-                      ),
-                      SizedBox(width: 48),
-                      Expanded(child: MosaicSearchBar()),
-                      SizedBox(width: 48),
-                      SizedBox(width: 220),
-                      if (false)
-                        DropdownButtonHideUnderline(
-                          child: DropdownButton2(
-                            customButton: Text(
-                              'Preconfigured pipelines',
-                              style: GoogleFonts.montserrat(
-                                  color: theme.textColor, fontSize: 16),
-                            ),
-                            items: [
-                              ...MenuItems.firstItems.map(
-                                (item) => DropdownMenuItem<MenuItem>(
-                                  value: item,
-                                  child: MenuItems.buildItem(item),
-                                ),
+                  child: LayoutBuilder(builder: (context, constraints) {
+                    print(constraints.maxWidth);
+                    return Row(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      children: [
+                        if (constraints.maxWidth > 450) ...[
+                          Stack(
+                            children: [
+                              Text(
+                                config['title'],
+                                style: GoogleFonts.montserrat(
+                                    fontWeight: FontWeight.w800,
+                                    color: theme.mainColor,
+                                    fontSize: 32),
                               ),
-                              const DropdownMenuItem<Divider>(
-                                  enabled: false, child: Divider()),
-                              ...MenuItems.secondItems.map(
-                                (item) => DropdownMenuItem<MenuItem>(
-                                  value: item,
-                                  child: MenuItems.buildItem(item),
+                              Positioned(
+                                bottom: 0,
+                                right: config['subTitle'].isEmpty ? 0 : null,
+                                left: config['subTitle'].isEmpty ? null : 0,
+                                child: Text(
+                                  config['subTitle'].isEmpty
+                                      ? versionString
+                                      : config['subTitle'],
+                                  style: GoogleFonts.montserrat(
+                                      fontWeight: FontWeight.w700,
+                                      color: theme.mainColor,
+                                      fontSize: 10),
                                 ),
                               ),
                             ],
-                            onChanged: (value) {
-                              print(value);
-                            },
-                            dropdownStyleData: DropdownStyleData(
-                              width: 450,
-                              openInterval:
-                                  Interval(0, 0, curve: Curves.easeInOut),
-                              padding: const EdgeInsets.symmetric(vertical: 6),
-                              decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(10),
-                                color: Colors.white,
-                              ),
-                              offset: const Offset(0, 0),
-                            ),
-                            menuItemStyleData: MenuItemStyleData(
-                              customHeights: [
-                                ...List<double>.filled(
-                                    MenuItems.firstItems.length, 48),
-                                8,
-                                ...List<double>.filled(
-                                    MenuItems.secondItems.length, 48),
-                              ],
-                              padding:
-                                  const EdgeInsets.only(left: 16, right: 16),
+                          ),
+                          SizedBox(width: 48),
+                        ],
+                        Expanded(flex: 3, child: MosaicSearchBar()),
+                        if (constraints.maxWidth > 766)
+                          Expanded(child: Container()),
+                        if (constraints.maxWidth > 766 &&
+                            config['aboutLinkURL'].isNotEmpty) ...[
+                          GestureDetector(
+                            onTap: () => js.context
+                                .callMethod('open', [config['aboutLinkURL']]),
+                            child: Text(
+                              config['aboutLinkText'],
+                              style: GoogleFonts.montserrat(
+                                  color: theme.textColor, fontSize: 16),
                             ),
                           ),
-                        ),
-                      SizedBox(width: 48),
-                      GestureDetector(
-                        onTap: () => js.context
-                            .callMethod('open', ['https://mosaic.ows.eu']),
-                        child: Text(
-                          'About MOSAIC',
-                          style: GoogleFonts.montserrat(
-                              color: theme.textColor, fontSize: 16),
-                        ),
-                      ),
-                      SizedBox(width: 48),
-                      SizedBox(
-                          width: 148,
-                          child: config['pipelineConfigAllowed']
-                              ? FredericButton(
-                                  !pipelineEditorExpanded
-                                      ? 'Show pipeline'
-                                      : 'Hide pipeline', onPressed: () {
-                                  setState(() {
-                                    pipelineEditorExpanded =
-                                        !pipelineEditorExpanded;
-                                  });
-                                })
-                              : BlocBuilder<TaskBloc, TaskState>(
-                                  builder: (context, taskState) {
-                                  return FredericButton(
-                                      switch (taskState) {
-                                        TaskDoesNotExist() => 'Reset search',
-                                        TaskInProgress() => 'Cancel',
-                                        TaskFinished() => 'Reset search',
-                                      },
-                                      mainColor: switch (taskState) {
-                                        TaskDoesNotExist() =>
-                                          theme.disabledGreyColor,
-                                        TaskInProgress() => theme.negativeColor,
-                                        TaskFinished() => theme.mainColor
-                                      },
-                                      onPressed: () => switch (taskState) {
-                                            TaskDoesNotExist() => null,
+                          SizedBox(width: 48),
+                        ],
+                        if (constraints.maxWidth > 766)
+                          SizedBox(
+                              width: 148,
+                              child: config['pipelineConfigAllowed']
+                                  ? FredericButton(
+                                      !pipelineEditorExpanded
+                                          ? 'Show pipeline'
+                                          : 'Hide pipeline', onPressed: () {
+                                      setState(() {
+                                        pipelineEditorExpanded =
+                                            !pipelineEditorExpanded;
+                                      });
+                                    })
+                                  : BlocBuilder<TaskBloc, TaskState>(
+                                      builder: (context, taskState) {
+                                      return FredericButton(
+                                          switch (taskState) {
+                                            TaskDoesNotExist() =>
+                                              'Reset search',
+                                            TaskInProgress() => 'Cancel',
+                                            TaskFinished() => 'Reset search',
+                                          },
+                                          mainColor: switch (taskState) {
+                                            TaskDoesNotExist() =>
+                                              theme.disabledGreyColor,
                                             TaskInProgress() =>
-                                              BlocProvider.of<TaskBloc>(context)
-                                                  .add(CancelTaskEvent()),
-                                            TaskFinished() => {
-                                                BlocProvider.of<TaskBloc>(
-                                                        context)
-                                                    .add(ResetTaskEvent()),
-                                                BlocProvider.of<ChatBloc>(
-                                                        context)
-                                                    .add(ResetChatEvent()),
-                                              }
-                                          });
-                                }))
-                    ],
-                  ),
+                                              theme.negativeColor,
+                                            TaskFinished() => theme.mainColor
+                                          },
+                                          onPressed: () => switch (taskState) {
+                                                TaskDoesNotExist() => null,
+                                                TaskInProgress() =>
+                                                  BlocProvider.of<TaskBloc>(
+                                                          context)
+                                                      .add(CancelTaskEvent()),
+                                                TaskFinished() => {
+                                                    BlocProvider.of<TaskBloc>(
+                                                            context)
+                                                        .add(ResetTaskEvent()),
+                                                    BlocProvider.of<ChatBloc>(
+                                                            context)
+                                                        .add(ResetChatEvent()),
+                                                  }
+                                              });
+                                    }))
+                      ],
+                    );
+                  }),
                 ),
                 FredericDivider(),
                 Expanded(
-                  child: Row(
-                    children: [
-                      Expanded(child: ResultSection()),
-                      if (config['pipelineConfigAllowed'])
-                        AnimatedContainer(
-                          width: pipelineEditorExpanded ? 450 : 0,
-                          duration: Duration(milliseconds: 220),
-                          curve: Curves.easeInOut,
-                          child: PipelineSection(),
-                        ),
-                    ],
-                  ),
+                  child: LayoutBuilder(builder: (context, constraints) {
+                    return Row(
+                      children: [
+                        Expanded(child: ResultSection()),
+                        if (config['pipelineConfigAllowed'] &&
+                            constraints.maxWidth > 800)
+                          AnimatedContainer(
+                            width: pipelineEditorExpanded ? 450 : 0,
+                            duration: Duration(milliseconds: 220),
+                            curve: Curves.easeInOut,
+                            child: PipelineSection(),
+                          ),
+                      ],
+                    );
+                  }),
                 ),
               ],
             );
