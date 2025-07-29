@@ -1,23 +1,13 @@
-import 'package:file_picker/file_picker.dart';
-import 'package:file_saver/file_saver.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:mosaic_rag_frontend/main.dart';
 import 'package:mosaic_rag_frontend/mosaic_application.dart';
-import 'package:mosaic_rag_frontend/state/pipeline_cubit.dart';
-import 'package:mosaic_rag_frontend/state/task_bloc.dart';
-import 'package:mosaic_rag_frontend/state/task_state.dart';
 import 'package:mosaic_rag_frontend/widgets/standard_elements/frederic_button.dart';
 import 'package:mosaic_rag_frontend/widgets/standard_elements/frederic_card.dart';
 import 'package:mosaic_rag_frontend/widgets/standard_elements/frederic_divider.dart';
 import 'package:mosaic_rag_frontend/widgets/standard_elements/frederic_drop_down_text_field.dart';
 import 'package:mosaic_rag_frontend/widgets/standard_elements/frederic_heading.dart';
 import 'package:mosaic_rag_frontend/widgets/standard_elements/frederic_text_field.dart';
-import 'package:toastification/toastification.dart';
-
-import '../api/mosaic_rs.dart';
 
 class SettingsDialog extends StatefulWidget {
   const SettingsDialog({super.key});
@@ -301,6 +291,7 @@ class _SettingsDialogState extends State<SettingsDialog> {
                           config['subTitle'] = subTitle;
                           config['pipelineConfigAllowed'] =
                               pipelineConfigAllowed;
+                          config['logsAllowed'] = logsAllowed;
 
                           config['aboutLinkText'] = aboutLinkTitle;
                           config['aboutLinkURL'] = aboutLinkURL;
@@ -308,109 +299,9 @@ class _SettingsDialogState extends State<SettingsDialog> {
                           MosaicApplication.rebuildApplication(context);
                           Navigator.of(context).pop();
                         }),
-                        if (false)
-                          Row(
-                            children: [
-                              Flexible(
-                                child: FredericButton('Copy ID', onPressed: () {
-                                  CopyIDToClipboard(context);
-                                  Navigator.of(context).pop();
-                                }),
-                              ),
-                              const SizedBox(width: 16),
-                              Flexible(
-                                child: FredericButton('Download JSON',
-                                    onPressed: () {
-                                  final pipeline =
-                                      BlocProvider.of<PipelineCubit>(context)
-                                          .state
-                                          .currentSteps;
-
-                                  final taskState =
-                                      BlocProvider.of<TaskBloc>(context).state;
-
-                                  var data = {
-                                    'colorTheme': colorTheme,
-                                    'title': title,
-                                    'subTitle': subTitle,
-                                    'pipelineConfigAllowed':
-                                        pipelineConfigAllowed,
-                                    'logsAllowed': logsAllowed,
-                                  };
-
-                                  if (taskState is TaskFinished) {
-                                    data['defaultTextColumn'] =
-                                        taskState.textPreviewColumn;
-                                    data['defaultRankColumn'] =
-                                        taskState.rankColumn;
-                                    data['defaultChips'] =
-                                        taskState.activeChipColumns;
-                                  }
-
-                                  String jsonData =
-                                      MosaicRS.getPipelineJSON(pipeline, data);
-
-                                  FileSaver.instance.saveFile(
-                                      name: 'pipeline',
-                                      ext: 'json',
-                                      mimeType: MimeType.json,
-                                      bytes: Uint8List.fromList(
-                                          jsonData.codeUnits));
-                                  toastification.show(
-                                      context: context,
-                                      type: ToastificationType.success,
-                                      style: ToastificationStyle.flat,
-                                      title: Text("JSON file downloaded"),
-                                      description: Text(''),
-                                      alignment: Alignment.topRight,
-                                      icon: Icon(Icons.copy),
-                                      autoCloseDuration:
-                                          const Duration(seconds: 2),
-                                      borderRadius: BorderRadius.circular(12.0),
-                                      boxShadow: lowModeShadow);
-                                }),
-                              ),
-                            ],
-                          ),
                       ],
                     ),
                   ));
             })));
-  }
-
-  Future<void> CopyIDToClipboard(BuildContext context) async {
-    final pipeline = BlocProvider.of<PipelineCubit>(context).state.currentSteps;
-
-    final taskState = BlocProvider.of<TaskBloc>(context).state;
-
-    var data = {
-      'colorTheme': colorTheme,
-      'title': title,
-      'subTitle': subTitle,
-      'pipelineConfigAllowed': pipelineConfigAllowed,
-      'logsAllowed': logsAllowed,
-    };
-
-    if (taskState is TaskFinished) {
-      data['defaultTextColumn'] = taskState.textPreviewColumn;
-      data['defaultRankColumn'] = taskState.rankColumn;
-      data['defaultChips'] = taskState.activeChipColumns;
-    }
-
-    String pipelineID = await MosaicRS.getPipelineID(pipeline, data);
-
-    Clipboard.setData(ClipboardData(text: pipelineID));
-    toastification.show(
-      context: context,
-      type: ToastificationType.success,
-      style: ToastificationStyle.flat,
-      title: Text("Copied to clipboard"),
-      description: Text("The pipeline ID has been copied to your clipboard!"),
-      alignment: Alignment.topRight,
-      icon: Icon(Icons.copy),
-      autoCloseDuration: const Duration(seconds: 2),
-      borderRadius: BorderRadius.circular(12.0),
-      boxShadow: lowModeShadow,
-    );
   }
 }

@@ -72,6 +72,8 @@ Future<Map<String, dynamic>> loadAppConfiguration(
     config['logsAllowed'] =
         response['logsAllowed'].toString().toLowerCase() == 'true';
     config['pipeline'] = response['pipeline'];
+    config['aboutLinkText'] = response['aboutLinkText'];
+    config['aboutLinkURL'] = response['aboutLinkURL'];
 
     return config;
   } catch (e) {
@@ -97,6 +99,9 @@ Future<Map<String, dynamic>> loadAppConfigurationFromID(
         response['pipelineConfigAllowed'].toString().toLowerCase() == 'true';
     config['logsAllowed'] =
         response['logsAllowed'].toString().toLowerCase() == 'true';
+
+    config['aboutLinkText'] = response['aboutLinkText'];
+    config['aboutLinkURL'] = response['aboutLinkURL'];
   }
   return config;
 }

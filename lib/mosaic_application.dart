@@ -15,6 +15,7 @@ import 'package:mosaic_rag_frontend/state/task_bloc.dart';
 import 'package:mosaic_rag_frontend/state/task_state.dart';
 import 'package:mosaic_rag_frontend/theme/frederic_theme.dart';
 import 'package:mosaic_rag_frontend/widgets/mosaic_search_bar.dart';
+import 'package:mosaic_rag_frontend/widgets/settings_dialog.dart';
 import 'package:mosaic_rag_frontend/widgets/standard_elements/frederic_button.dart';
 import 'package:mosaic_rag_frontend/widgets/standard_elements/frederic_divider.dart';
 import 'package:package_info_plus/package_info_plus.dart';
@@ -88,6 +89,9 @@ class _MosaicApplicationState extends State<MosaicApplication> {
     config['logsAllowed'] = data['logsAllowed'];
     config['title'] = data['title'];
     config['subTitle'] = data['subTitle'];
+
+    config['aboutLinkURL'] = data['aboutLinkURL'];
+    config['aboutLinkText'] = data['aboutLinkText'];
 
     config['defaultTextColumn'] = data['defaultTextColumn'];
     config['defaultRankColumn'] = data['defaultRankColumn'];
@@ -179,7 +183,29 @@ class _MosaicApplicationState extends State<MosaicApplication> {
                                   color: theme.textColor, fontSize: 16),
                             ),
                           ),
-                          SizedBox(width: 48),
+                          Padding(
+                            padding: const EdgeInsets.symmetric(horizontal: 24),
+                            child: InkWell(
+                              child: Icon(
+                                Icons.settings,
+                                color: theme.textColor,
+                              ),
+                              onTap: () {
+                                showDialog<void>(
+                                  context: context,
+                                  barrierDismissible: true,
+                                  builder: (BuildContext innerContext) {
+                                    return BlocProvider.value(
+                                      value: context.watch<TaskBloc>(),
+                                      child: BlocProvider.value(
+                                          value: context.watch<PipelineCubit>(),
+                                          child: SettingsDialog()),
+                                    );
+                                  },
+                                );
+                              },
+                            ),
+                          ),
                         ],
                         if (constraints.maxWidth > 766)
                           SizedBox(
