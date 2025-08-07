@@ -13,10 +13,19 @@ class LogSection extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocBuilder<TaskBloc, TaskState>(builder: (context, taskState) {
       List<String> logs = [];
-      if (taskState is TaskInProgress) logs = taskState.taskProgress.logs;
+      List<String> warnings = [];
+      String error = '';
+      if (taskState is TaskInProgress) {
+        logs = taskState.taskProgress.logs;
+        warnings = taskState.taskProgress.warnings;
+        error = taskState.taskProgress.error;
+      }
 
-      if (taskState is TaskFinished)
+      if (taskState is TaskFinished) {
         logs = taskState.taskInfo.taskProgress.logs;
+        warnings = taskState.taskInfo.taskProgress.warnings;
+        error = taskState.taskInfo.taskProgress.error;
+      }
 
       return Padding(
         padding:
@@ -27,14 +36,30 @@ class LogSection extends StatelessWidget {
             child: CustomScrollView(
               reverse: true,
               slivers: [
+                SliverToBoxAdapter(
+                  child: Padding(
+                    padding: const EdgeInsets.only(left: 8, top: 4),
+                    child: SelectableText(error,
+                        style: GoogleFonts.robotoMono(
+                            fontSize: 14, color: theme.negativeColor)),
+                  ),
+                ),
+                SliverList.builder(
+                    itemBuilder: (context, index) => Padding(
+                          padding: const EdgeInsets.only(left: 8, top: 4),
+                          child: SelectableText(warnings[index],
+                              style: GoogleFonts.robotoMono(
+                                  fontSize: 14, color: theme.mainColorInText)),
+                        ),
+                    itemCount: warnings.length),
                 SliverList.builder(
                     itemBuilder: (context, index) => Padding(
                           padding: const EdgeInsets.only(left: 8, top: 4),
                           child: SelectableText(logs[index],
                               style: GoogleFonts.robotoMono(
-                                  fontSize: 13, color: theme.textColor)),
+                                  fontSize: 14, color: theme.textColor)),
                         ),
-                    itemCount: logs.length)
+                    itemCount: logs.length),
               ],
             )),
       );
