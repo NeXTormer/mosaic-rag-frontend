@@ -56,7 +56,9 @@ class PipelineSection extends StatelessWidget {
                         builder: (BuildContext innerContext) {
                           return BlocProvider.value(
                               value: context.watch<PipelineCubit>(),
-                              child: AddPipelineDialog());
+                              child: BlocProvider.value(
+                                  value: context.watch<TaskBloc>(),
+                                  child: AddPipelineDialog()));
                         },
                       );
                     })),
@@ -66,16 +68,20 @@ class PipelineSection extends StatelessWidget {
                     child: FredericButton(
                         switch (taskState) {
                           TaskDoesNotExist() => 'Reset search',
+                          TaskError() => 'Reset search',
                           TaskInProgress() => 'Cancel',
                           TaskFinished() => 'Reset search',
                         },
                         mainColor: switch (taskState) {
                           TaskDoesNotExist() => theme.disabledGreyColor,
+                          TaskError() => theme.mainColor,
                           TaskInProgress() => theme.negativeColor,
                           TaskFinished() => theme.mainColor
                         },
                         onPressed: () => switch (taskState) {
                               TaskDoesNotExist() => null,
+                              TaskError() => BlocProvider.of<TaskBloc>(context)
+                                  .add(ResetTaskEvent()),
                               TaskInProgress() =>
                                 BlocProvider.of<TaskBloc>(context)
                                     .add(CancelTaskEvent()),
@@ -163,6 +169,7 @@ class PipelineSection extends StatelessWidget {
                   builder: (context, pipeline) {
                 return BlocBuilder<TaskBloc, TaskState>(
                     buildWhen: (last, current) {
+                  return true;
                   if (current is TaskInProgress && last is TaskInProgress) {
                     if (current.taskProgress.currentStepIndex !=
                         last.taskProgress.currentStepIndex) {
@@ -173,6 +180,7 @@ class PipelineSection extends StatelessWidget {
                     return true;
                   if (!(current is TaskInProgress) && last is TaskInProgress)
                     return true;
+                  if (current is TaskError) return true;
                   return false;
                 }, builder: (context, taskState) {
                   final activeStepIndex = (taskState is TaskInProgress)
@@ -196,6 +204,17 @@ class PipelineSection extends StatelessWidget {
                             key: pipeline.currentSteps[index].key,
                             child: MosaicPipelineStepCard(
                                 activeStepIndex: activeStepIndex,
+                                errorText: () {
+                                  if (taskState is TaskError) {
+                                    if ((index + 1) ==
+                                        taskState.errorStepIndex) {
+                                      return taskState.errorText;
+                                    } else {
+                                      return '';
+                                    }
+                                  }
+                                  return '';
+                                }(),
                                 index: index,
                                 step: pipeline.currentSteps[index]),
                           );

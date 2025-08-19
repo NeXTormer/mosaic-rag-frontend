@@ -124,7 +124,7 @@ class _ConversationalSearchSectionState
                 child: FredericCard(
                   padding: const EdgeInsets.all(10),
                   child: switch ((chatState, taskState)) {
-                    (NoChat(), TaskDoesNotExist()) => Center(
+                    (NoChat(), (TaskDoesNotExist() || TaskError())) => Center(
                         child: Text(
                           'Make a search request and press \'Start chat\' to have a conversation about the search results.',
                           style: TextStyle(color: theme.greyTextColor),

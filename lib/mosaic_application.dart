@@ -228,9 +228,12 @@ class _MosaicApplicationState extends State<MosaicApplication> {
                                               'Reset search',
                                             TaskInProgress() => 'Cancel',
                                             TaskFinished() => 'Reset search',
+                                            TaskError() => 'Reset search',
                                           },
                                           mainColor: switch (taskState) {
                                             TaskDoesNotExist() =>
+                                              theme.disabledGreyColor,
+                                            TaskError() =>
                                               theme.disabledGreyColor,
                                             TaskInProgress() =>
                                               theme.negativeColor,
@@ -238,6 +241,7 @@ class _MosaicApplicationState extends State<MosaicApplication> {
                                           },
                                           onPressed: () => switch (taskState) {
                                                 TaskDoesNotExist() => null,
+                                                TaskError() => null,
                                                 TaskInProgress() =>
                                                   BlocProvider.of<TaskBloc>(
                                                           context)

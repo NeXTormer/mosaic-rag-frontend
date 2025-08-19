@@ -13,6 +13,16 @@ class TaskInProgress extends TaskState {
   final String currentTaskID;
 }
 
+class TaskError extends TaskState {
+  TaskError(this.errorText, this.errorStepIndex, this.log, this.warnings);
+
+  final String errorText;
+  final int errorStepIndex;
+
+  final List<String> log;
+  final List<String> warnings;
+}
+
 class TaskFinished extends TaskState {
   TaskFinished(
       {required this.currentTaskID,

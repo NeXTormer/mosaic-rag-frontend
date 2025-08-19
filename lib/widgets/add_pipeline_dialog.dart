@@ -7,6 +7,8 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:mosaic_rag_frontend/state/pipeline_cubit.dart';
 import 'package:mosaic_rag_frontend/main.dart';
 import 'package:mosaic_rag_frontend/state/mosaic_pipeline_step.dart';
+import 'package:mosaic_rag_frontend/state/task_bloc.dart';
+import 'package:mosaic_rag_frontend/state/task_state.dart';
 import 'package:mosaic_rag_frontend/widgets/standard_elements/frederic_card.dart';
 import 'package:mosaic_rag_frontend/widgets/standard_elements/frederic_heading.dart';
 import 'package:provider/provider.dart';
@@ -107,11 +109,16 @@ class _AddPipelineDialogState extends State<AddPipelineDialog> {
                                               child: IgnorePointer(
                                                   child: MosaicPipelineStepCard(
                                                       showDescription: true,
+                                                      errorText: '',
                                                       bottomPadding: 0,
                                                       step: step,
                                                       index: 1)),
                                               onTap: () {
                                                 pipeline.addStep(step);
+                                                BlocProvider.of<TaskBloc>(
+                                                        context,
+                                                        listen: false)
+                                                    .add(ResetTaskEvent());
                                                 Navigator.of(context).pop();
                                               },
                                             )),

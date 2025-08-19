@@ -17,13 +17,21 @@ class TaskBloc extends Bloc<TaskEvent, TaskState> {
     });
 
     on<ResetTaskEvent>((event, emit) {
-      assert(state is TaskFinished);
+      assert(state is TaskFinished ||
+          state is TaskError ||
+          state is TaskDoesNotExist);
       emit(TaskDoesNotExist());
     });
 
     on<StartTaskEvent>(_startTask);
     on<ChangeTaskDisplayEvent>(_changeTaskDisplayData);
   }
+
+  // @override
+  // void onChange(Change<TaskState> change) {
+  //   super.onChange(change);
+  //   print(' onChange - $change');
+  // }
 
   void _startTask(StartTaskEvent event, emit) async {
     if (state is TaskInProgress) return;
@@ -42,11 +50,21 @@ class TaskBloc extends Bloc<TaskEvent, TaskState> {
       if (!(state is TaskInProgress)) {
         // just in case
         emit(TaskDoesNotExist());
+        print("state is not TaskInProgress while waiting on task");
         return;
       }
 
       taskInfo = await MosaicRS.getTaskProgress(taskID);
       emit(TaskInProgress(taskInfo.taskProgress, taskID));
+
+      if (taskInfo.taskProgress.error.isNotEmpty) {
+        emit(TaskError(
+            taskInfo.taskProgress.error,
+            taskInfo.taskProgress.errorStepIndex,
+            taskInfo.taskProgress.logs,
+            taskInfo.taskProgress.warnings));
+        return;
+      }
 
       if (taskInfo.hasFinished) {
         break;

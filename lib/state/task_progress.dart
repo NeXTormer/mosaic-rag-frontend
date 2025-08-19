@@ -105,7 +105,8 @@ class TaskProgress {
         stepPercentage = 0,
         logs = [],
         warnings = [],
-        error = '';
+        error = '',
+        errorStepIndex = 0;
 
   TaskProgress.fromJSON(dynamic json)
       : currentStep = '',
@@ -116,7 +117,8 @@ class TaskProgress {
         currentStepIndex = 0,
         logs = [],
         warnings = [],
-        error = '' {
+        error = '',
+        errorStepIndex = 0 {
     currentStep = json['current_step'];
     currentStepIndex = json['current_step_index'];
     pipelineProgress = json['pipeline_progress'];
@@ -124,6 +126,8 @@ class TaskProgress {
     stepProgress = json['step_progress'];
     stepPercentage = json['step_percentage'];
     error = json['pipeline_error'] ?? '';
+    errorStepIndex = json['pipeline_error_index'] ?? 0;
+
     logs = (json['log'] as List)
         .map((item) => item as String)
         .toList()
@@ -143,6 +147,7 @@ class TaskProgress {
   List<String> logs;
   List<String> warnings;
   String error;
+  int errorStepIndex;
 
   String currentStep;
   int currentStepIndex;

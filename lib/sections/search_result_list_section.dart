@@ -65,6 +65,20 @@ class _SearchResultListSectionState extends State<SearchResultListSection>
                   controller: scrollController,
                   slivers: [
                     SearchResultMetadataSection(),
+                    if (taskState is TaskError)
+                      SliverToBoxAdapter(
+                        child: Padding(
+                          padding: const EdgeInsets.only(top: 200),
+                          child: Center(
+                            child: Text(
+                              config['pipelineConfigAllowed']
+                                  ? 'An error occurred while running your pipeline. Please fix the pipeline.'
+                                  : 'An error occurred while running your pipeline.',
+                              style: TextStyle(color: theme.greyTextColor),
+                            ),
+                          ),
+                        ),
+                      ),
                     if (taskState is TaskDoesNotExist)
                       SliverToBoxAdapter(
                         child: Padding(

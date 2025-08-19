@@ -18,6 +18,7 @@ class MosaicPipelineStepCard extends StatelessWidget {
       {super.key,
       required this.step,
       required this.index,
+      required this.errorText,
       this.activeStepIndex = -1,
       this.showDescription = false,
       this.bottomPadding = 16});
@@ -27,19 +28,22 @@ class MosaicPipelineStepCard extends StatelessWidget {
   final int index;
   final int activeStepIndex;
   final double bottomPadding;
+  final String errorText;
 
   @override
   Widget build(BuildContext context) {
     final showProgressIndicator = index == activeStepIndex;
+    final showError = errorText.isNotEmpty;
 
     return ReorderableDragStartListener(
       index: index,
       child: Stack(
         children: [
           FredericCard(
-              // margin: EdgeInsets.only(bottom: 16),
-              color: theme.mainColorLight,
-              borderColor: theme.mainColor,
+              color: showError
+                  ? theme.negativeColor.withAlpha(30)
+                  : theme.mainColorLight,
+              borderColor: showError ? theme.negativeColor : theme.mainColor,
               borderWidth: showProgressIndicator ? 0 : 1.0,
               width: double.infinity,
               padding: EdgeInsets.all(12),
@@ -48,6 +52,17 @@ class MosaicPipelineStepCard extends StatelessWidget {
                 children: [
                   Row(
                     children: [
+                      if (showError)
+                        Padding(
+                          padding: const EdgeInsets.only(right: 8),
+                          child: Tooltip(
+                            message: errorText,
+                            child: Icon(
+                              Icons.warning_amber,
+                              color: theme.negativeColor,
+                            ),
+                          ),
+                        ),
                       Expanded(
                         child: Text(step.title,
                             maxLines: 1,
@@ -61,6 +76,8 @@ class MosaicPipelineStepCard extends StatelessWidget {
                         HoverIconButton(() {
                           BlocProvider.of<PipelineCubit>(context, listen: false)
                               .removeStep(step);
+                          BlocProvider.of<TaskBloc>(context, listen: false)
+                              .add(ResetTaskEvent());
                         }),
                     ],
                   ),

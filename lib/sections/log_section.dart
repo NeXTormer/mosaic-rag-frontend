@@ -15,6 +15,13 @@ class LogSection extends StatelessWidget {
       List<String> logs = [];
       List<String> warnings = [];
       String error = '';
+
+      if (taskState is TaskError) {
+        logs = taskState.log;
+        warnings = taskState.warnings;
+        error = taskState.errorText;
+      }
+
       if (taskState is TaskInProgress) {
         logs = taskState.taskProgress.logs;
         warnings = taskState.taskProgress.warnings;

@@ -2,7 +2,7 @@ name: mosaic_rag_frontend
 description: "Frontend application for the Mosaic RAG System."
 publish_to: 'none'
 
-version: 1.1.27+49
+version: 1.1.28+50
 
 environment:
   sdk: ^3.5.3
