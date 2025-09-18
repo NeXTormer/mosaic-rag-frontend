@@ -53,6 +53,7 @@ class MosaicRS {
       List<MosaicPipelineStep> steps, String query) {
     Map<String, dynamic> parameters = {};
 
+    print(steps.length);
     parameters['pipeline'] = <String, dynamic>{
       'query': query,
     };
@@ -73,7 +74,7 @@ class MosaicRS {
         'parameters': step.parameterData
       };
     }
-
+    print(parameters['pipeline'].length);
     return parameters;
   }
 
@@ -91,11 +92,6 @@ class MosaicRS {
     return response.data;
   }
 
-  static String generateJSONForPipeline(List<MosaicPipelineStep> steps) {
-    final parameters = getPipelineParameters(steps, '');
-    return jsonEncode(parameters);
-  }
-
   static String generateCurlCommandForPipeline(List<MosaicPipelineStep> steps) {
     final parameters = getPipelineParameters(steps, '');
     final jsonBody = jsonEncode(parameters);
@@ -104,18 +100,29 @@ class MosaicRS {
 
   static Future<String> getPipelineID(
       List<MosaicPipelineStep> steps, Map<String, dynamic> settings) {
-    final parameters = getPipelineParameters(steps, '');
-    parameters.addAll(settings);
+    final newSettings = Map<String, dynamic>.from(settings);
+    if (newSettings.containsKey('pipeline')) {
+      newSettings.remove('pipeline');
+    }
 
+    final parameters = getPipelineParameters(steps, '');
+
+    parameters.addAll(newSettings);
     final jsonBody = jsonEncode(parameters);
 
+    print(jsonBody);
     return _savePipeline(jsonBody);
   }
 
   static String getPipelineJSON(
       List<MosaicPipelineStep> steps, Map<String, dynamic> settings) {
+    final newSettings = Map<String, dynamic>.from(settings);
+    if (newSettings.containsKey('pipeline')) {
+      newSettings.remove('pipeline');
+    }
+
     final parameters = getPipelineParameters(steps, '');
-    parameters.addAll(settings);
+    parameters.addAll(newSettings);
 
     return jsonEncode(parameters);
   }
