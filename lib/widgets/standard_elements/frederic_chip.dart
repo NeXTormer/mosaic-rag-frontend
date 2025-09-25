@@ -22,7 +22,9 @@ class FredericChip extends StatelessWidget {
         text,
         maxLines: 1,
         style: TextStyle(
-            color: theme.textColorColorfulBackground,
+            color: (theme.isBright
+                ? theme.backgroundColor
+                : theme.textColorColorfulBackground),
             fontSize: fontSize,
             letterSpacing: 0.3),
       ),
