@@ -33,6 +33,20 @@ class MosaicSearchResult extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    var labels = <String>[];
+
+    for (final chip in chips) {
+      if (chip.contains('curlielabels_en')) {
+        final a = chip.split(':');
+        final b = a[1].replaceAll('[', '');
+        final c = b.replaceAll(']', '');
+        final d = c.replaceAll('\'', '');
+        labels = d.split('\n');
+      }
+    }
+
+    chips.removeWhere((element) => element.contains('curlielabels_en'));
+
     return Padding(
       padding: const EdgeInsets.only(bottom: 16),
       child: ConstrainedBox(
@@ -92,11 +106,25 @@ class MosaicSearchResult extends StatelessWidget {
                                   for (final chip in chips)
                                     Padding(
                                       padding: const EdgeInsets.only(left: 8),
-                                      child: FredericChip(chip),
+                                      child: ConstrainedBox(
+                                          constraints: BoxConstraints.tightFor(
+                                              width: 120),
+                                          child: FredericChip(chip)),
                                     ),
                                 ],
                               ),
                               SizedBox(height: 8),
+                              if (labels.isNotEmpty) ...[
+                                for (final label in labels)
+                                  Text(
+                                    label,
+                                    maxLines: 1,
+                                    style: GoogleFonts.montserrat(
+                                        color: theme.greyTextColor,
+                                        fontSize: 12),
+                                  ),
+                                SizedBox(height: 8),
+                              ],
                               Flexible(
                                 child: Text(
                                   title,
