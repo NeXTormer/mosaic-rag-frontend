@@ -87,18 +87,25 @@ class TaskBloc extends Bloc<TaskEvent, TaskState> {
         textPreviewColumn = taskInfo.textColumns.last;
       }
     }
-    if ((config['defaultRankColumn'] ?? '').isNotEmpty) {
-      print('restoring rank column');
-      rankColumn = config['defaultRankColumn'];
-      if (taskInfo.rankColumns.isNotEmpty) {
-        taskInfo.data.sort((a, b) => (a[rankColumn] - b[rankColumn]).round());
+    try {
+      if ((config['defaultRankColumn'] ?? '').isNotEmpty) {
+        print('restoring rank column');
+        rankColumn = config['defaultRankColumn'];
+        if (taskInfo.rankColumns.isNotEmpty) {
+          taskInfo.data.sort((a, b) => (a[rankColumn] - b[rankColumn]).round());
+        }
+      } else {
+        print('finding best rank column');
+        if (taskInfo.rankColumns.isNotEmpty) {
+          rankColumn = taskInfo.rankColumns.last;
+          taskInfo.data.sort((a, b) => (a[rankColumn] - b[rankColumn]).round());
+        }
       }
-    } else {
-      print('finding best rank column');
-      if (taskInfo.rankColumns.isNotEmpty) {
-        rankColumn = taskInfo.rankColumns.last;
-        taskInfo.data.sort((a, b) => (a[rankColumn] - b[rankColumn]).round());
-      }
+    } catch (e) {
+      emit(TaskError(
+          'You need to use a re-ranker after querying both mosaic and chroma in one pipeline',
+          0, [], []));
+      return;
     }
 
     if ((config['defaultChips'] ?? []).length > 0) {

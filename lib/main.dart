@@ -17,7 +17,7 @@ final bool kUseLocalMosaicRS = Uri.base.queryParameters['local'] == 'true';
 String serverURL = kUseLocalMosaicRS
     ? 'http://127.0.0.1:5000'
     : (Uri.base.origin.contains('localhost')
-        ? 'https://mosaicrag.felixholz.com'
+        ? 'https://mosaicrag.ows.eu'
         : Uri.base.origin);
 
 void main() async {

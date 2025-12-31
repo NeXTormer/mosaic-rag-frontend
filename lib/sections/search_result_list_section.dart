@@ -70,11 +70,31 @@ class _SearchResultListSectionState extends State<SearchResultListSection>
                         child: Padding(
                           padding: const EdgeInsets.only(top: 200),
                           child: Center(
-                            child: Text(
-                              config['pipelineConfigAllowed']
-                                  ? 'An error occurred while running your pipeline. Please fix the pipeline.'
-                                  : 'An error occurred while running your pipeline.',
-                              style: TextStyle(color: theme.greyTextColor),
+                            child: Padding(
+                              padding: const EdgeInsets.all(16),
+                              child: Column(
+                                children: [
+                                  Icon(Icons.report_gmailerrorred_outlined,
+                                      size: 52, color: theme.negativeColor),
+                                  const SizedBox(height: 16),
+                                  Text(
+                                    config['pipelineConfigAllowed']
+                                        ? 'An error occurred while running your pipeline. Please fix the pipeline:'
+                                        : 'An error occurred while running your pipeline.',
+                                    textAlign: TextAlign.center,
+                                    style: TextStyle(color: theme.textColor),
+                                  ),
+                                  const SizedBox(height: 16),
+                                  Text(
+                                    config['pipelineConfigAllowed']
+                                        ? taskState.errorText
+                                        : '',
+                                    textAlign: TextAlign.center,
+                                    style: TextStyle(
+                                        color: theme.textColor, fontSize: 18),
+                                  ),
+                                ],
+                              ),
                             ),
                           ),
                         ),
