@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:loading_indicator/loading_indicator.dart';
@@ -11,6 +13,8 @@ import 'package:mosaic_rag_frontend/widgets/standard_elements/frederic_button.da
 import 'package:mosaic_rag_frontend/widgets/standard_elements/frederic_card.dart';
 import 'package:mosaic_rag_frontend/widgets/standard_elements/frederic_drop_down_text_field.dart';
 import 'package:shimmer/shimmer.dart';
+
+import '../study_logger.dart';
 
 class ConversationalSearchSection extends StatefulWidget {
   ConversationalSearchSection({super.key});
@@ -57,6 +61,10 @@ class _ConversationalSearchSectionState
                             BlocProvider.of<ChatBloc>(context).add(
                                 StartChatEvent(taskState.currentTaskID,
                                     'gemma2', 'full-text'));
+                            StudyLogger().logStartChat(
+                                documents: jsonEncode(taskState.taskInfo.data),
+                                pipelineState:
+                                    StudyLogger().getPipelineState(context));
                           }
                         } else if (chatState is InitializingChat) {
                         } else {
@@ -182,6 +190,13 @@ class _ConversationalSearchSectionState
                             ),
                             onSubmitted: (query) {
                               if (chatState is FinishedChat) {
+                                if (taskState is TaskFinished)
+                                  StudyLogger().logSendChat(
+                                      message: query,
+                                      documents:
+                                          jsonEncode(taskState.taskInfo.data),
+                                      pipelineState: StudyLogger()
+                                          .getPipelineState(context));
                                 BlocProvider.of<ChatBloc>(context)
                                     .add(UserChatEvent(query));
                                 chatController.clear();

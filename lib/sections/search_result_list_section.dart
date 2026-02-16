@@ -6,6 +6,7 @@ import 'package:loading_indicator/loading_indicator.dart';
 import 'package:mosaic_rag_frontend/main.dart';
 import 'package:mosaic_rag_frontend/state/task_bloc.dart';
 import 'package:mosaic_rag_frontend/state/task_state.dart';
+import 'package:mosaic_rag_frontend/study_logger.dart';
 import 'package:mosaic_rag_frontend/widgets/chip_selector.dart';
 import 'package:mosaic_rag_frontend/widgets/curlie_selector.dart';
 import 'package:mosaic_rag_frontend/widgets/mosaic_search_result.dart';
@@ -134,10 +135,17 @@ class _SearchResultListSectionState extends State<SearchResultListSection>
                                     ),
                                     const SizedBox(height: 2),
                                     FredericDropDownTextField(
-                                        onSubmit: (s) =>
-                                            BlocProvider.of<TaskBloc>(context)
-                                                .add(ChangeTaskDisplayEvent(
-                                                    rankColumn: s)),
+                                        onSubmit: (s) {
+                                          StudyLogger().logChangeRankColumn(
+                                              previousColumn:
+                                                  taskState.rankColumn,
+                                              nextColumn: s,
+                                              pipelineState: StudyLogger()
+                                                  .getPipelineState(context));
+                                          BlocProvider.of<TaskBloc>(context)
+                                              .add(ChangeTaskDisplayEvent(
+                                                  rankColumn: s));
+                                        },
                                         defaultValue: taskState.rankColumn,
                                         controller:
                                             columnToRankTextFieldController,
@@ -160,10 +168,18 @@ class _SearchResultListSectionState extends State<SearchResultListSection>
                                     ),
                                     const SizedBox(height: 2),
                                     FredericDropDownTextField(
-                                        onSubmit: (s) =>
-                                            BlocProvider.of<TaskBloc>(context)
-                                                .add(ChangeTaskDisplayEvent(
-                                                    textPreviewColumn: s)),
+                                        onSubmit: (s) {
+                                          StudyLogger().logChangeTextColumn(
+                                              previousColumn:
+                                                  taskState.textPreviewColumn,
+                                              nextColumn: s,
+                                              pipelineState: StudyLogger()
+                                                  .getPipelineState(context));
+
+                                          BlocProvider.of<TaskBloc>(context)
+                                              .add(ChangeTaskDisplayEvent(
+                                                  textPreviewColumn: s));
+                                        },
                                         defaultValue:
                                             taskState.textPreviewColumn,
                                         controller:
@@ -259,6 +275,8 @@ class _SearchResultListSectionState extends State<SearchResultListSection>
                                   rawData: taskState.taskInfo.data[index],
                                   url: taskState.taskInfo.data[index]['url'] ??
                                       '<missing-url>',
+                                  id: taskState.taskInfo.data[index]['id'] ??
+                                      'missing',
                                   title: taskState.taskInfo.data[index]
                                           ['title'] ??
                                       '<missing-title>',

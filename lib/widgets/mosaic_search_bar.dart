@@ -6,6 +6,7 @@ import 'package:mosaic_rag_frontend/state/task_bloc.dart';
 import 'package:mosaic_rag_frontend/state/task_state.dart';
 
 import '../main.dart';
+import '../study_logger.dart';
 
 class MosaicSearchBar extends StatefulWidget {
   const MosaicSearchBar({super.key});
@@ -33,6 +34,9 @@ class _MosaicSearchBarState extends State<MosaicSearchBar> {
 
         BlocProvider.of<TaskBloc>(context, listen: false)
             .add(StartTaskEvent(controller.text, pipelineSteps));
+        StudyLogger().logMakeSearch(
+            query: query,
+            pipelineState: StudyLogger().getPipelineState(context));
       },
       decoration: InputDecoration(
         fillColor: Colors.transparent,

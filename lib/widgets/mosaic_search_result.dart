@@ -5,6 +5,7 @@ import 'package:flutter_linkify/flutter_linkify.dart';
 import 'package:flutter_markdown/flutter_markdown.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:mosaic_rag_frontend/main.dart';
+import 'package:mosaic_rag_frontend/study_logger.dart';
 import 'package:mosaic_rag_frontend/widgets/mosaic_search_result_large.dart';
 import 'package:mosaic_rag_frontend/widgets/standard_elements/calendar_time_line.dart';
 import 'package:mosaic_rag_frontend/widgets/standard_elements/frederic_card.dart';
@@ -19,6 +20,7 @@ class MosaicSearchResult extends StatelessWidget {
       required this.url,
       required this.title,
       required this.text,
+      this.id,
       this.rawData,
       this.textHeader = 'Excerpt',
       this.chips = const <String>[]});
@@ -29,6 +31,7 @@ class MosaicSearchResult extends StatelessWidget {
   final List<String> chips;
   final String title;
   final String text;
+  final String? id;
   final String textHeader;
 
   @override
@@ -68,15 +71,22 @@ class MosaicSearchResult extends StatelessWidget {
                   borderRadius: BorderRadius.circular(14),
                   child: InkWell(
                     borderRadius: BorderRadius.circular(14),
-                    onTap: () => showDialog<void>(
-                      context: context,
-                      barrierDismissible: true,
-                      builder: (BuildContext context) {
-                        return Center(
-                            child:
-                                MosaicSearchResultLarge(data: rawData ?? {}));
-                      },
-                    ),
+                    onTap: () {
+                      StudyLogger().logClickDocument(
+                          documentUrl: url,
+                          documentId: id ?? '',
+                          pipelineState:
+                              StudyLogger().getPipelineState(context));
+                      showDialog<void>(
+                        context: context,
+                        barrierDismissible: true,
+                        builder: (BuildContext context) {
+                          return Center(
+                              child:
+                                  MosaicSearchResultLarge(data: rawData ?? {}));
+                        },
+                      );
+                    },
                     child: IntrinsicHeight(
                       child: FredericCard(
                         color: Colors.transparent,
@@ -99,8 +109,14 @@ class MosaicSearchResult extends StatelessWidget {
                                       style:
                                           TextStyle(fontFamily: 'Montserrat'),
                                       text: url,
-                                      onOpen: (e) =>
-                                          js.context.callMethod('open', [url]),
+                                      onOpen: (e) {
+                                        StudyLogger().logClickLink(
+                                            linkUrl: url,
+                                            documentId: id ?? '',
+                                            pipelineState: StudyLogger()
+                                                .getPipelineState(context));
+                                        js.context.callMethod('open', [url]);
+                                      },
                                     ),
                                   ),
                                   for (final chip in chips)
