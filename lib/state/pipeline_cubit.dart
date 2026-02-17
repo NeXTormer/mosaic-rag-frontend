@@ -5,6 +5,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:mosaic_rag_frontend/main.dart';
 import 'package:mosaic_rag_frontend/state/mosaic_pipeline_state.dart';
+import 'package:mosaic_rag_frontend/study_logger.dart';
 
 import 'mosaic_pipeline_step.dart';
 import '../api/mosaic_rs.dart';
@@ -113,11 +114,17 @@ class PipelineCubit extends Cubit<PipelineState> {
   }
 
   void addStep(MosaicPipelineStep step) {
+    StudyLogger().logAddPipelineStep(
+        stepName: step.id,
+        pipelineState: MosaicRS.getPipelineJSON(state.currentSteps, {}));
     emit(state.copyWith(
         currentSteps: state.currentSteps..add(MosaicPipelineStep.clone(step))));
   }
 
   void removeStep(MosaicPipelineStep step) {
+    StudyLogger().logRemovePipelineStep(
+        stepName: step.id,
+        pipelineState: MosaicRS.getPipelineJSON(state.currentSteps, {}));
     emit(state.copyWith(currentSteps: state.currentSteps..remove(step)));
   }
 }

@@ -13,6 +13,7 @@ import 'package:mosaic_rag_frontend/sections/pipeline_section.dart';
 import 'package:mosaic_rag_frontend/sections/result_section.dart';
 import 'package:mosaic_rag_frontend/state/task_bloc.dart';
 import 'package:mosaic_rag_frontend/state/task_state.dart';
+import 'package:mosaic_rag_frontend/study_logger.dart';
 import 'package:mosaic_rag_frontend/theme/frederic_theme.dart';
 import 'package:mosaic_rag_frontend/widgets/mosaic_search_bar.dart';
 import 'package:mosaic_rag_frontend/widgets/settings_dialog.dart';
@@ -142,6 +143,18 @@ class _MosaicApplicationState extends State<MosaicApplication> {
                       mainAxisAlignment: MainAxisAlignment.start,
                       children: [
                         if (constraints.maxWidth > 450) ...[
+                          MouseRegion(
+                            cursor: SystemMouseCursors.click,
+                            child: GestureDetector(
+                              onTap: () => js.context.callMethod(
+                                  'open', ['https://mosaic.ows.eu']),
+                              child: SizedBox(
+                                  height: 42,
+                                  child: Image(
+                                      image: AssetImage('mosaic-logo.png'))),
+                            ),
+                          ),
+                          const SizedBox(width: 16),
                           Stack(
                             children: [
                               Text(
@@ -174,13 +187,16 @@ class _MosaicApplicationState extends State<MosaicApplication> {
                           Expanded(child: Container()),
                         if (constraints.maxWidth > 766 &&
                             config['aboutLinkURL'].isNotEmpty) ...[
-                          GestureDetector(
-                            onTap: () => js.context
-                                .callMethod('open', [config['aboutLinkURL']]),
-                            child: Text(
-                              config['aboutLinkText'],
-                              style: GoogleFonts.montserrat(
-                                  color: theme.textColor, fontSize: 16),
+                          MouseRegion(
+                            cursor: SystemMouseCursors.click,
+                            child: GestureDetector(
+                              onTap: () => js.context
+                                  .callMethod('open', [config['aboutLinkURL']]),
+                              child: Text(
+                                config['aboutLinkText'],
+                                style: GoogleFonts.montserrat(
+                                    color: theme.textColor, fontSize: 16),
+                              ),
                             ),
                           ),
                           Padding(

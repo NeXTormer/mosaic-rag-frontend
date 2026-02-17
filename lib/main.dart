@@ -8,6 +8,8 @@ import 'package:mosaic_rag_frontend/theme/frederic_theme.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 
+import 'study_logger.dart';
+
 var theme;
 final config = Map<String, dynamic>();
 
@@ -55,6 +57,7 @@ void main() async {
     _ => FredericColorTheme.owsblue()
   };
 
+  StudyLogger().logOpenSite();
   runApp(MosaicApplication());
 }
 

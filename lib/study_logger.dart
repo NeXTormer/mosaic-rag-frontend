@@ -17,20 +17,10 @@ class StudyLogger {
 
   // 2. Configuration State
   String _serverUrl = "https://data-logger.felixholz.com/api/logs";
-  String? _userId = Uri.base.queryParameters['user_id'] ?? 'no-user-id';
-  String? _pipelineId = Uri.base.queryParameters['id'] ?? 'no-pipeline-id';
-
-  /// Call this once in your main.dart or standard init logic
-  void init({
-    required String serverUrl,
-    required String userId,
-    required String pipelineId,
-  }) {
-    _serverUrl = serverUrl;
-    _userId = userId;
-    _pipelineId = pipelineId;
-    print("StudyLogger initialized for user: $_userId");
-  }
+  String? _userId = Uri.base.queryParameters['user_id'] ??
+      Uri.base.queryParameters['userid'] ??
+      Uri.base.queryParameters['userID'];
+  String? _pipelineId = Uri.base.queryParameters['id'];
 
   /// The internal helper that actually sends the HTTP request
   Future<void> _send(
@@ -38,12 +28,6 @@ class StudyLogger {
     String pipelineState,
     Map<String, dynamic> eventSpecificData,
   ) async {
-    if (_userId == null || _pipelineId == null) {
-      print(
-          "⚠️ StudyLogger Error: You must call init() before logging events.");
-      return;
-    }
-
     // Combine common fields with event-specific fields
     final body = {
       // Common Fields
@@ -88,6 +72,28 @@ class StudyLogger {
       'document_url': documentUrl,
       'document_id': documentId,
     });
+  }
+
+  void logAddPipelineStep({
+    required String stepName,
+    required String pipelineState,
+  }) {
+    _send('add_pipeline_step', pipelineState, {
+      'step_name': stepName,
+    });
+  }
+
+  void logRemovePipelineStep({
+    required String stepName,
+    required String pipelineState,
+  }) {
+    _send('remove_pipeline_step', pipelineState, {
+      'step_name': stepName,
+    });
+  }
+
+  void logOpenSite() {
+    _send('open_site', '', {});
   }
 
   void logMakeSearch({
