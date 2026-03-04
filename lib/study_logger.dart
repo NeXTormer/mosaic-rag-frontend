@@ -32,6 +32,7 @@ class StudyLogger {
     final body = {
       // Common Fields
       'timestamp': DateTime.now().toIso8601String(),
+      'url': Uri.base.origin,
       'user_id': _userId,
       'pipeline_id': _pipelineId,
       'pipeline_state': pipelineState, // Expecting a JSON string here
