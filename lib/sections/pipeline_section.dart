@@ -277,7 +277,7 @@ class PipelineSection extends StatelessWidget {
 
     String pipelineID = await MosaicRS.getPipelineID(pipeline, data);
 
-    Clipboard.setData(ClipboardData(text: pipelineID));
+    Clipboard.setData(ClipboardData(text: '${Uri.base.origin}?id=$pipelineID'));
     toastification.show(
       context: context,
       type: ToastificationType.success,
